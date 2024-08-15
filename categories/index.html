@@ -27,6 +27,8 @@
 <meta name="twitter:card" content="summary_large_image">
   
   
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
   
   <title>分类 - Neutrin1&#39;s Blog</title>
 
@@ -285,7 +287,7 @@
     <script>
     var now = new Date();
     function createtime(){
-        var grt= new Date("08/17/2020 00:00:00");
+        var grt= new Date("2023/03/07 20:00:00");
         now.setTime(now.getTime()+250);
         days = (now - grt ) / 1000 / 60 / 60 / 24;
         dnum = Math.floor(days);
@@ -304,7 +306,7 @@
         if(String(snum).length ==1 ){
                   snum = "0" + snum;
         }
-        document.getElementById("timeDate").innerHTML = "🚀已持续航行&nbsp"+dnum+"&nbsp天";  
+        document.getElementById("timeDate").innerHTML = "🎶🐈本站已运行&nbsp"+dnum+"&nbsp天";  
         document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
     }
     setInterval("createtime()",250);
@@ -315,6 +317,30 @@
        <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
     </div>
   
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
   
   
   
@@ -368,6 +394,8 @@
 
 
   <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
 
 
 
