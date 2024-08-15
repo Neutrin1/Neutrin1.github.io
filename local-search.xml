@@ -4,36 +4,17 @@
   
   
   <entry>
-    <title>DL</title>
-    <link href="/2024/08/11/DL/"/>
-    <url>/2024/08/11/DL/</url>
+    <title>Lineargression</title>
+    <link href="/2024/08/16/Lineargression/"/>
+    <url>/2024/08/16/Lineargression/</url>
     
-    <content type="html"><![CDATA[]]></content>
+    <content type="html"><![CDATA[<h1 id="1-基本形式"><a href="#1-基本形式" class="headerlink" title="1 基本形式"></a>1 基本形式</h1><p>线性模型尝试用一个多个属性的线性组合来进行预测：<br>$f(\boldsymbol{x})&#x3D;w_1x_1+w_2x_2+\ldots+w_dx_d+b$<br>写成：<br>$f(\boldsymbol{x})&#x3D;\boldsymbol{w}^\mathrm{T}\boldsymbol{x}+b$<br>模型的确定取决于$w,b$是否被确定.</p><h1 id="2-线性回归"><a href="#2-线性回归" class="headerlink" title="2 线性回归"></a>2 线性回归</h1><h2 id="2-1单输入"><a href="#2-1单输入" class="headerlink" title="2.1单输入"></a>2.1单输入</h2><p>线性回归要求预测值尽可能的接近真实值.<br>对于离散属性，若输入在时域具有先后关系，可以将其进行编码，转化为连续值：<br>将$n$个属性使用$n$维向量进行热编码，例：“高，中，低”可编码为“(100),(010),(001)”<br>线性回归期望获得如下：<br>$f(x_i)&#x3D;wx_i+b,  f(x_i)\simeq y_i$<br>正如第1节所说，确定$w,b$就能得到预测值；确定它们的关键在于度量预测值与真实值之间的差距.<br>在这里，我们尝试用均方误差(MSE)来对其进行度量，即：<br>$(w^*,b^*)&#x3D;\arg\min_{(w,b)}\sum_{i&#x3D;1}^m\left(f\left(x_i\right)-y_i\right)^2$<br>基于均方误差来进行模型求解的方法称为“最小二乘法”，它意味着找到一条直线，使样本到直线上的欧式距离之和最小.<br>求解出最小值的过程称为模型的最小二乘“参数估计”.对上式求偏导：<br>$\frac{\partial E_{(w,b)}}{\partial w}&#x3D;2\left(w\sum_{i&#x3D;1}^mx_i^2-\sum_{i&#x3D;1}^m\left(y_i-b\right)x_i\right)$<br>$\frac{\partial E_{(w,b)}}{\partial b}&#x3D;2\left(mb-\sum_{i&#x3D;1}^m\left(y_i-wx_i\right)\right)$<br>令偏导为0可得$w,b$最优解的闭式解：<br>$w&#x3D;\frac{\sum_{i&#x3D;1}^my_i(x_i-\bar{x})}{\sum_{i&#x3D;1}^mx_i^2-\frac1m\left(\sum_{i&#x3D;1}^mx_i\right)^2}$<br>$b&#x3D;\frac1m\sum_{i&#x3D;1}^m(y_i-wx_i)$</p><h2 id="2-2多输入"><a href="#2-2多输入" class="headerlink" title="2.2多输入"></a>2.2多输入</h2><p>更一般的情形是，输入样本由多个属性.<br>此时期望获得：<br>$f(x_i)&#x3D;w^{T}x_i+b,  f(x_i)\simeq y_i$<br>称多元线性回归.<br>同样的，利用最小二乘法对参数进行估计.<br>将x扩充为</p><p>$\mathbf{X}&#x3D;\begin{pmatrix}x_{11}&amp;x_{12}&amp;\ldots&amp;x_{1d}&amp;1\x_{21}&amp;x_{22}&amp;\ldots&amp;x_{2d}&amp;1\\vdots&amp;\vdots&amp;\ddots&amp;\vdots&amp;\vdots\x_{m1}&amp;x_{m2}&amp;\ldots&amp;x_{md}&amp;1\end{pmatrix}&#x3D;\begin{pmatrix}\boldsymbol{x}_1^\mathrm{T}&amp;1\\boldsymbol{x}_2^\mathrm{T}&amp;1\\vdots&amp;\vdots\\boldsymbol{x}_m^\mathrm{T}&amp;1\end{pmatrix}$</p><p>将输入写成向量形式，则对于$w$,有：<br>$\hat{\boldsymbol{w}}^{*}&#x3D;\arg\min_{\hat{\boldsymbol{w}}}\left(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{w}}\right)^{\mathrm{T}}\left(\boldsymbol{y}-\mathbf{X}\hat{\boldsymbol{w}}\right)$<br>求偏导得：<br>$\frac{\partial E_{\hat{\boldsymbol{w}}}}{\partial\hat{\boldsymbol{w}}}&#x3D;2 \mathbf{X}^{\mathrm{T}}\left(\mathbf{X}\hat{\boldsymbol{w}}-\boldsymbol{y}\right)$<br>令上式为0即可得到.</p><p>线性函数虽然简单，但变化丰富，我们可以让预测函数与一个可微调函数$g(·)$相乘，使其可以拟合更多类型的数值：<br>$y&#x3D;g^{-1}(w^Tx+b)$<br>上述模型称广义线性模型，</p><h1 id="3-对数几率回归"><a href="#3-对数几率回归" class="headerlink" title="3 对数几率回归"></a>3 对数几率回归</h1><p>对于二分类任务，将得到的预测值转为0&#x2F;1值，最理想的是“单位阶跃函数”，但是它不连续，不能作为可微调函数.作为替代，使用：<br>$y&#x3D;\frac{1}{1+e^{-z}}$<br>若令z等于$(w^Tx+b)$,再进行变化，得：<br>$ln\frac{y}{1-y}&#x3D;(w^Tx+b)$<br>y和1-y分别是正例和反例的可能性.<br>实际上是使用线性回归模型去逼近真实标记的对数几率.</p><h1 id="4-代码"><a href="#4-代码" class="headerlink" title="4 代码"></a>4 代码</h1><p>(基于sklearn库)</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><br><span class="hljs-comment"># -*- encoding: utf-8 -*-</span><br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string"></span><br><span class="hljs-string">@File    :   linear regression.ipynb</span><br><span class="hljs-string"></span><br><span class="hljs-string">@Time    :   2024/08/15 15:59:55</span><br><span class="hljs-string"></span><br><span class="hljs-string">@Author  :   Neutrin</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-comment">#this is a simple of linear regression models</span><br><span class="hljs-comment"># here put the import lib</span><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> pandas <span class="hljs-keyword">as</span> pd<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LogisticRegression<br><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split<br><span class="hljs-keyword">from</span> sklearn.metrics <span class="hljs-keyword">import</span> confusion_matrix, ConfusionMatrixDisplay<br><br><span class="hljs-comment">#读取数据</span><br>data = pd.read_csv(<span class="hljs-string">&#x27;watermelon3_0_Ch.csv&#x27;</span>)<br><br><span class="hljs-comment">#热编码</span><br>data = pd.get_dummies(data)<br><span class="hljs-built_in">print</span>(data.shape)<br><br><span class="hljs-comment">#划分数据集</span><br><br>x_train, x_test, y_train, y_test = train_test_split(data.iloc[:,<span class="hljs-number">0</span>:<span class="hljs-number">20</span>],data.iloc[:,<span class="hljs-number">21</span>],test_size=<span class="hljs-number">0.2</span>, random_state=<span class="hljs-number">0</span>)<br><br><span class="hljs-comment">#建立模型</span><br>model = LogisticRegression(max_iter=<span class="hljs-number">1000</span>)<br>model.fit(x_train, y_train)<br><br><span class="hljs-comment">#预测</span><br>y_pred = model.predict(x_test)<br><br><span class="hljs-comment">#评估</span><br>score = model.score(x_test, y_test)<br><span class="hljs-built_in">print</span>(score)<br>cm = confusion_matrix(y_test, y_pred)<br><br><span class="hljs-comment"># 归一化混淆矩阵</span><br><br>cm_normalized = cm.astype(<span class="hljs-string">&#x27;float&#x27;</span>) / cm.<span class="hljs-built_in">sum</span>(axis=<span class="hljs-number">1</span>)[:, np.newaxis]<br><br><span class="hljs-comment"># 绘制归一化混淆矩阵</span><br><br>disp = ConfusionMatrixDisplay(confusion_matrix=cm_normalized, display_labels=model.classes_)<br><br>disp.plot(cmap=plt.cm.Blues)<br><span class="hljs-comment"># 显示图像</span><br>plt.title(<span class="hljs-string">&#x27;Normalized Confusion Matrix&#x27;</span>)<br>plt.show()<br></code></pre></td></tr></table></figure><p>结果如图所示：</p><img src="/2024/08/16/Lineargression/LR.png" class="">]]></content>
     
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>RL</title>
-    <link href="/2024/08/10/RL/"/>
-    <url>/2024/08/10/RL/</url>
-    
-    <content type="html"><![CDATA[<h1 id="0-强化学习概述"><a href="#0-强化学习概述" class="headerlink" title="0 强化学习概述"></a>0 强化学习概述</h1>]]></content>
-    
-    
-    <categories>
-      
-      <category>Markdown</category>
-      
-    </categories>
     
     
     <tags>
       
-      <tag>My direction</tag>
+      <tag>机器学习</tag>
       
     </tags>
     
@@ -42,24 +23,11 @@
   
   
   <entry>
-    <title>Hello World</title>
-    <link href="/2024/07/21/hello-world/"/>
-    <url>/2024/07/21/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>测试文章</title>
-    <link href="/2021/06/10/testpaper/"/>
-    <url>/2021/06/10/testpaper/</url>
+    <link href="/2024/08/10/testpaper/"/>
+    <url>/2024/08/10/testpaper/</url>
     
-    <content type="html"><![CDATA[<p>这是一篇测试文章</p><img src="/2021/06/10/testpaper/Trump.jpg" class="" title="图片引用方法一">]]></content>
+    <content type="html"><![CDATA[<p>这是一篇测试文章</p><img src="/2024/08/10/testpaper/Trump.jpg" class="" title="图片引用方法一">]]></content>
     
     
     <categories>
