@@ -1,0 +1,778 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Neutrin1">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1 简介我们在第 1 章中了解到，强化学习关注智能体和环境交互过程中的学习，这是一种试错型学习（trial-and-error learning）范式。在正式学习强化学习之前，我们需要先了解多臂老虎机问题，它可以被看作简化版的强化学习问题。与强化学习不同，多臂老虎机不存在状态信息，只有动作和奖励，算是最简单的“和环境交互中的学习”的一种形式。多臂老虎机中的探索与利用（exploration vs.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RL-1">
+<meta property="og:url" content="http://example.com/2024/08/16/RL-1/index.html">
+<meta property="og:site_name" content="Neutrin1&#39;s Blog">
+<meta property="og:description" content="1 简介我们在第 1 章中了解到，强化学习关注智能体和环境交互过程中的学习，这是一种试错型学习（trial-and-error learning）范式。在正式学习强化学习之前，我们需要先了解多臂老虎机问题，它可以被看作简化版的强化学习问题。与强化学习不同，多臂老虎机不存在状态信息，只有动作和奖励，算是最简单的“和环境交互中的学习”的一种形式。多臂老虎机中的探索与利用（exploration vs.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/RL-1/RL-11.png">
+<meta property="og:image" content="http://example.com/RL-1/RL-12.png">
+<meta property="og:image" content="http://example.com/RL-1/RL-13.png">
+<meta property="og:image" content="http://example.com/RL-1/RL-14.png">
+<meta property="og:image" content="http://example.com/RL-1/RL-15.png">
+<meta property="og:image" content="http://example.com/RL-1/RL-16.png">
+<meta property="og:image" content="http://example.com/RL-1/RL-17.png">
+<meta property="article:published_time" content="2024-08-16T15:31:10.000Z">
+<meta property="article:modified_time" content="2024-08-16T15:38:49.178Z">
+<meta property="article:author" content="Neutrin1">
+<meta property="article:tag" content="强化学习">
+<meta property="article:tag" content="仿真">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/RL-1/RL-11.png">
+  
+  
+  
+  <title>RL-1 - Neutrin1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">Neutrin1的小世界</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/%E4%B8%93%E6%A0%8F/" target="_self">
+                <i class="iconfont icon-friends"></i>
+                <span>专栏</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/%E6%96%87%E7%AB%A0%E9%A1%B5%E8%83%8C%E6%99%AF.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RL-1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-16 23:31" pubdate>
+          2024年8月16日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RL-1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h1><p>我们在第 1 章中了解到，强化学习关注智能体和环境交互过程中的学习，这是一种<strong>试错型学习</strong>（trial-and-error learning）范式。在正式学习强化学习之前，我们需要先了解多臂老虎机问题，它可以被看作简化版的强化学习问题。与强化学习不同，多臂老虎机不存在状态信息，只有动作和奖励，算是最简单的“和环境交互中的学习”的一种形式。多臂老虎机中的<strong>探索与利用</strong>（exploration vs. exploitation）问题一直以来都是一个特别经典的问题，理解它能够帮助我们学习强化学习。</p>
+<h1 id="2-问题介绍"><a href="#2-问题介绍" class="headerlink" title="2 问题介绍"></a>2 问题介绍</h1><h2 id="2-1定义"><a href="#2-1定义" class="headerlink" title="2.1定义"></a>2.1定义</h2><p>在多臂老虎机（multi-armed bandit，MAB）问题（见图 2-1）中，有一个拥有  根拉杆的老虎机，拉动每一根拉杆都对应一个关于奖励的概率分布 。我们每次拉动其中一根拉杆，就可以从该拉杆对应的奖励概率分布中获得一个奖励 。我们在各根拉杆的奖励概率分布未知的情况下，从头开始尝试，目标是在操作  次拉杆后获得尽可能高的累积奖励。由于奖励的概率分布是未知的，因此我们需要在“探索拉杆的获奖概率”和“根据经验选择获奖最多的拉杆”中进行权衡。“采用怎样的操作策略才能使获得的累积奖励最高”便是多臂老虎机问题。如果是你，会怎么做呢？<br><img src="/./RL-1/RL-11.png"></p>
+<h2 id="2-2形式化描述"><a href="#2-2形式化描述" class="headerlink" title="2.2形式化描述"></a>2.2形式化描述</h2><p>躲避老虎机可以表示为一个元组$&lt;A,R&gt;$,其中：</p>
+<ul>
+<li>A为动作集合，其中一个动作表示拉动一个拉杆。若多臂老虎机一共有K根拉杆，那动作空间就是集合${a_1,\dots,a_k}$，我们用$a_t\in\mathcal{A}$表示任意一个动作；</li>
+<li>R为奖励概率分布，拉动每一根拉杆的动作a都对应一个奖励概率分布$\mathcal{R}(r|a)$，不同拉杆的奖励分布通常是不同的。<br>假设每个时间步只能拉动一个拉杆，多臂老虎机的目标为最大化一段时间步T内累积的奖励:<br>$\max\sum_{t&#x3D;1}^{T}r_{t}, r_{t}\sim\mathcal{R}\left(\cdot|a_{t}\right)$<br>其中$a_t$表示在第时间步拉动某一拉杆的动作，$r_t$表示动作$a_t$获得的奖励。</li>
+</ul>
+<h2 id="2-3累积懊悔"><a href="#2-3累积懊悔" class="headerlink" title="2.3累积懊悔"></a>2.3累积懊悔</h2><p>对于每一个动作a，我们定义其期望奖励为$Q(a)&#x3D;\mathbb{E}<em>{r\sim\mathcal{R}(\cdot|a)} [r]$<br>于是，至少存在一根拉杆，它的期望奖励不小于拉动其他任意一根拉杆，我们将该最优期望奖励表示为$Q^*&#x3D;\max</em>{a\in\mathcal{A}}Q(a)$<br>为了更加直观、方便地观察任意一根拉杆的期望奖励离最优拉杆期望奖励的差距，我们引入<strong>懊悔</strong>（regret）概念。懊悔定义为拉动当前拉杆的动作a与最优拉杆的期望奖励差，即$R(a)&#x3D;Q^*-Q(a)$<br>累积懊悔即操作T次拉杆后累积的懊悔总量，对于一次完整的T步决策${a_1,a_2,\dots,a_T}$,积累懊悔为$\sigma_R&#x3D;\sum_{t&#x3D;1}^TR(a_t)$<br>MAB 问题的目标为最大化累积奖励，等价于最小化累积懊悔。</p>
+<h2 id="2-4估计期望奖励"><a href="#2-4估计期望奖励" class="headerlink" title="2.4估计期望奖励"></a>2.4估计期望奖励</h2><p>为了知道拉动哪一根拉杆能获得更高的奖励，我们需要估计拉动这根拉杆的期望奖励。由于只拉动一次拉杆获得的奖励存在随机性，所以需要多次拉动一根拉杆，然后计算得到的多次奖励的期望，其算法流程如下所示。</p>
+<ul>
+<li>对于$\forall a\in\mathcal{A}$，初始化计数器$N(a)&#x3D;0$和期望奖励估值$\hat{Q}(a)&#x3D;0$</li>
+<li><strong>for</strong> t &#x3D; 1-&gt;T do<ul>
+<li>选取某根拉杆，该动作记为$a_t$</li>
+<li>得到奖励$r_t$ </li>
+<li>更新计数器$N(a_t)&#x3D;N(a_t)+1$: </li>
+<li>更新期望奖励估值：$\hat{Q}(a_t)&#x3D;\hat{Q}(a_t)+\frac{1}{N(a_t)}\Big[r_t-\hat{Q}(a_t)\Big]$</li>
+</ul>
+</li>
+<li><strong>end for</strong><br>以上 for 循环中的第四步如此更新估值，是因为这样可以进行增量式的期望更新，公式如下。<br>$$\begin{aligned}<br>Q_{k}&amp; &#x3D;\frac1k\sum_{i&#x3D;1}^kr_i \<br>&amp;&#x3D;\frac{1}{k}\left(r_k+\sum_{i&#x3D;1}^{k-1}r_i\right) \<br>&amp;&#x3D;\frac1k(r_k+(k-1)Q_{k-1}) \<br>&amp;&#x3D;\frac1k(r_k+kQ_{k-1}-Q_{k-1}) \<br>&amp;&#x3D;Q_{k-1}+\frac1k[r_k-Q_{k-1}]<br>\end{aligned}$$<br>式中，$Q_{k-1}$为k-1个奖励的期望值。<br>以下用python部署一个简单的多臂老虎机。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><br><span class="hljs-comment"># -*- encoding: utf-8 -*-</span><br><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string"></span><br><span class="hljs-string">@File    :   多臂老虎机.ipynb</span><br><span class="hljs-string"></span><br><span class="hljs-string">@Time    :   2024/08/16 21:30:45</span><br><span class="hljs-string"></span><br><span class="hljs-string">@Author  :   Neutrin</span><br><span class="hljs-string"></span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-comment"># here put the import lib</span><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br><span class="hljs-keyword">import</span> matplotlib.pyplot <span class="hljs-keyword">as</span> plt<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">BernoulliBandit</span>:<br><br>    <span class="hljs-string">&quot;&quot;&quot; 伯努利多臂老虎机,输入K表示拉杆个数 &quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, K</span>):<br><br>        <span class="hljs-variable language_">self</span>.probs = np.random.uniform(size=K)  <span class="hljs-comment"># 随机生成K个0～1的数,作为拉动每根拉杆的获奖</span><br>        <span class="hljs-comment"># 概率</span><br>        <span class="hljs-variable language_">self</span>.best_idx = np.argmax(<span class="hljs-variable language_">self</span>.probs)  <span class="hljs-comment"># 获奖概率最大的拉杆</span><br>        <span class="hljs-variable language_">self</span>.best_prob = <span class="hljs-variable language_">self</span>.probs[<span class="hljs-variable language_">self</span>.best_idx]  <span class="hljs-comment"># 最大的获奖概率</span><br>        <span class="hljs-variable language_">self</span>.K = K<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">step</span>(<span class="hljs-params">self, k</span>):<br><br>        <span class="hljs-comment"># 当玩家选择了k号拉杆后,根据拉动该老虎机的k号拉杆获得奖励的概率返回1（获奖）或0（未</span><br>        <span class="hljs-comment"># 获奖）</span><br>        <span class="hljs-keyword">if</span> np.random.rand() &lt; <span class="hljs-variable language_">self</span>.probs[k]:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">1</span><br>        <span class="hljs-keyword">else</span>:<br>            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span><br><br>np.random.seed(<span class="hljs-number">1</span>)  <span class="hljs-comment"># 设定随机种子,使实验具有可重复性</span><br>K = <span class="hljs-number">10</span><br>bandit_10_arm = BernoulliBandit(K)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;随机生成了一个%d臂伯努利老虎机&quot;</span> % K)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;获奖概率最大的拉杆为%d号,其获奖概率为%.4f&quot;</span> %<br>      (bandit_10_arm.best_idx, bandit_10_arm.best_prob))<br></code></pre></td></tr></table></figure>
+接下来我们用一个 Solver 基础类来实现上述的多臂老虎机的求解方案。根据前文的算法流程，我们需要实现下列函数功能：根据策略选择动作、根据动作获取奖励、更新期望奖励估值、更新累积懊悔和计数。在下面的 MAB 算法基本框架中，我们将<strong>根据策略选择动作</strong>、<strong>根据动作获取奖励</strong>和<strong>更新期望奖励估值</strong>放在 <code>run_one_step()</code> 函数中，由每个继承 Solver 类的策略具体实现。而<strong>更新累积懊悔和计数</strong>则直接放在主循环 <code>run()</code> 中。</li>
+</ul>
+<h1 id="3-探索与利用的平衡"><a href="#3-探索与利用的平衡" class="headerlink" title="3 探索与利用的平衡"></a>3 探索与利用的平衡</h1><p>在第2节的算法框架中，还没有一个策略告诉我们应该采取哪个动作，即拉动哪根拉杆，所以接下来我们将学习如何设计一个策略。例如，一个最简单的策略就是一直采取第一个动作，但这就非常依赖运气的好坏。如果运气绝佳，可能拉动的刚好是能获得最大期望奖励的拉杆，即最优拉杆；但如果运气很糟糕，获得的就有可能是最小的期望奖励。在多臂老虎机问题中，一个经典的问题就是探索与利用的平衡问题。<strong>探索</strong>（exploration）是指尝试拉动更多可能的拉杆，这根拉杆不一定会获得最大的奖励，但这种方案能够摸清楚所有拉杆的获奖情况。例如，对于一个 10 臂老虎机，我们要把所有的拉杆都拉动一下才知道哪根拉杆可能获得最大的奖励。<strong>利用</strong>（exploitation）是指拉动已知期望奖励最大的那根拉杆，由于已知的信息仅仅来自有限次的交互观测，所以当前的最优拉杆不一定是全局最优的。例如，对于一个 10 臂老虎机，我们只拉动过其中 3 根拉杆，接下来就一直拉动这 3 根拉杆中期望奖励最大的那根拉杆，但很有可能期望奖励最大的拉杆在剩下的 7 根当中，即使我们对 10 根拉杆各自都尝试了 20 次，发现 5 号拉杆的经验期望奖励是最高的，但仍然存在着微小的概率—另一根 6 号拉杆的真实期望奖励是比 5 号拉杆更高的。<br>于是在多臂老虎机问题中，设计策略时就需要平衡探索和利用的次数，使得累积奖励最大化。一个比较常用的思路是在开始时做比较多的探索，在对每根拉杆都有比较准确的估计后，再进行利用。目前已有一些比较经典的算法来解决这个问题，例如$\epsilon-$贪婪算法、上置信界算法和汤普森采样算法等，我们接下来将分别介绍这几种算法。</p>
+<h1 id="4-epsilon-贪婪算法"><a href="#4-epsilon-贪婪算法" class="headerlink" title="4 $\epsilon-$贪婪算法"></a>4 $\epsilon-$贪婪算法</h1><p>完全贪婪算法即在每一时刻采取期望奖励估值最大的动作（拉动拉杆），这就是纯粹的利用，而没有探索，所以我们通常需要对完全贪婪算法进行一些修改，其中比较经典的一种方法为$\epsilon-$贪婪算法。$\epsilon-$贪婪在完全贪婪算法的基础上加上了噪声，每次以概率$1-\epsilon$选择以往经验中期望奖励估值最大的那根杆(利用),以概率$\epsilon$随机选择一根拉杆(探索)，公式如下：<br>$a_t&#x3D;\begin{cases}\arg\max_{a\in A}\hat{Q}(a),&amp;\text{采样概率:1-}\epsilon\\text{从 }\mathcal{A}\text{中随机选择},&amp;\text{采样概率:}\epsilon\end{cases}$<br>随着探索次数的不断增加，我们对各个动作的奖励估计得越来越准，此时我们就没必要继续花大力气进行探索。 所以$\epsilon-$贪婪算法在具体的实现中，我们可以令$\epsilon$随时间衰减，即探索的概率将会不断降低，但是不会在有限的步数内衰减至0，因为基于有限步数观测的完全贪婪算法仍然是一个局部信息的贪婪算法，永远距离最优解有一个固定的差距。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">EpsilonGreedy</span>(<span class="hljs-title class_ inherited__">Solver</span>):<br>    <span class="hljs-string">&quot;&quot;&quot; epsilon贪婪算法,继承Solver类 &quot;&quot;&quot;</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, bandit, epsilon=<span class="hljs-number">0.01</span>, init_prob=<span class="hljs-number">1.0</span></span>):<br>        <span class="hljs-built_in">super</span>(EpsilonGreedy, <span class="hljs-variable language_">self</span>).__init__(bandit)<br>        <span class="hljs-variable language_">self</span>.epsilon = epsilon<br>        <span class="hljs-comment">#初始化拉动所有拉杆的期望奖励估值</span><br>        <span class="hljs-variable language_">self</span>.estimates = np.array([init_prob] * <span class="hljs-variable language_">self</span>.bandit.K)<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run_one_step</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-keyword">if</span> np.random.random() &lt; <span class="hljs-variable language_">self</span>.epsilon:<br>            k = np.random.randint(<span class="hljs-number">0</span>, <span class="hljs-variable language_">self</span>.bandit.K)  <span class="hljs-comment"># 随机选择一根拉杆</span><br>        <span class="hljs-keyword">else</span>:<br>            k = np.argmax(<span class="hljs-variable language_">self</span>.estimates)  <span class="hljs-comment"># 选择期望奖励估值最大的拉杆</span><br>        r = <span class="hljs-variable language_">self</span>.bandit.step(k)  <span class="hljs-comment"># 得到本次动作的奖励</span><br>        <span class="hljs-variable language_">self</span>.estimates[k] += <span class="hljs-number">1.</span> / (<span class="hljs-variable language_">self</span>.counts[k] + <span class="hljs-number">1</span>) * (r - <span class="hljs-variable language_">self</span>.estimates[k])<br>        <span class="hljs-keyword">return</span> k<br>        <br><span class="hljs-keyword">def</span> <span class="hljs-title function_">plot_results</span>(<span class="hljs-params">solvers, solver_names</span>):<br>    <span class="hljs-string">&quot;&quot;&quot;生成累积懊悔随时间变化的图像。输入solvers是一个列表,列表中的每个元素是一种特定的策略。</span><br><span class="hljs-string">    而solver_names也是一个列表,存储每个策略的名称&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">for</span> idx, solver <span class="hljs-keyword">in</span> <span class="hljs-built_in">enumerate</span>(solvers):<br>        time_list = <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(solver.regrets))<br>        plt.plot(time_list, solver.regrets, label=solver_names[idx])<br>    plt.xlabel(<span class="hljs-string">&#x27;Time steps&#x27;</span>)<br>    plt.ylabel(<span class="hljs-string">&#x27;Cumulative regrets&#x27;</span>)<br>    plt.title(<span class="hljs-string">&#x27;%d-armed bandit&#x27;</span> % solvers[<span class="hljs-number">0</span>].bandit.K)<br>    plt.legend()<br>    plt.show()<br><br>np.random.seed(<span class="hljs-number">1</span>)<br>epsilon_greedy_solver = EpsilonGreedy(bandit_10_arm, epsilon=<span class="hljs-number">0.01</span>)<br>epsilon_greedy_solver.run(<span class="hljs-number">5000</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;epsilon-贪婪算法的累积懊悔为：&#x27;</span>, epsilon_greedy_solver.regret)<br>plot_results([epsilon_greedy_solver], [<span class="hljs-string">&quot;EpsilonGreedy&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p>结果<br><img src="/./RL-1/RL-12.png"><br>在经历一段时间后，$\epsilon-$贪婪算法的累积懊悔几乎是线性增长的，接下来使用不同的参数值进行部署，</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">np</span>.random.seed(<span class="hljs-number">0</span>)<br><span class="hljs-attribute">epsilons</span> =<span class="hljs-meta"> [1e-4, 0.01, 0.1, 0.25, 0.5]</span><br><span class="hljs-attribute">epsilon_greedy_solver_list</span> =<span class="hljs-meta"> [</span><br><span class="hljs-meta">    EpsilonGreedy(bandit_10_arm, epsilon=e) for e in epsilons</span><br><span class="hljs-meta">]</span><br><span class="hljs-attribute">epsilon_greedy_solver_names</span> =<span class="hljs-meta"> [&quot;epsilon=&#123;&#125;&quot;.format(e) for e in epsilons]</span><br><span class="hljs-attribute">for</span> solver in epsilon_greedy_solver_list:<br>    <span class="hljs-attribute">solver</span>.run(<span class="hljs-number">5000</span>)<br><br><span class="hljs-attribute">plot_results</span>(epsilon_greedy_solver_list, epsilon_greedy_solver_names)<br></code></pre></td></tr></table></figure>
+<p><img src="/./RL-1/RL-13.png"><br>无论取值多少，累积懊悔都是线性增长的，接下来部署随时间衰减的$\epsilon-$贪婪算法，采取具体的形式是反比例，<br>$\epsilon_t&#x3D;\frac{1}{t}$</p>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">DecayingEpsilonGreedy</span>(<span class="hljs-title class_ inherited__">Solver</span>):<br>    <span class="hljs-string">&quot;&quot;&quot; epsilon值随时间衰减的epsilon-贪婪算法,继承Solver类 &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, bandit, init_prob=<span class="hljs-number">1.0</span></span>):<br>        <span class="hljs-built_in">super</span>(DecayingEpsilonGreedy, <span class="hljs-variable language_">self</span>).__init__(bandit)<br>        <span class="hljs-variable language_">self</span>.estimates = np.array([init_prob] * <span class="hljs-variable language_">self</span>.bandit.K)<br>        <span class="hljs-variable language_">self</span>.total_count = <span class="hljs-number">0</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run_one_step</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.total_count += <span class="hljs-number">1</span><br>        <span class="hljs-keyword">if</span> np.random.random() &lt; <span class="hljs-number">1</span> / <span class="hljs-variable language_">self</span>.total_count:  <span class="hljs-comment"># epsilon值随时间衰减</span><br>            k = np.random.randint(<span class="hljs-number">0</span>, <span class="hljs-variable language_">self</span>.bandit.K)<br>        <span class="hljs-keyword">else</span>:<br>            k = np.argmax(<span class="hljs-variable language_">self</span>.estimates)<br><br>        r = <span class="hljs-variable language_">self</span>.bandit.step(k)<br>        <span class="hljs-variable language_">self</span>.estimates[k] += <span class="hljs-number">1.</span> / (<span class="hljs-variable language_">self</span>.counts[k] + <span class="hljs-number">1</span>) * (r - <span class="hljs-variable language_">self</span>.estimates[k])<br><br>        <span class="hljs-keyword">return</span> k<br><br><br>np.random.seed(<span class="hljs-number">1</span>)<br>decaying_epsilon_greedy_solver = DecayingEpsilonGreedy(bandit_10_arm)<br>decaying_epsilon_greedy_solver.run(<span class="hljs-number">5000</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;epsilon值衰减的贪婪算法的累积懊悔为：&#x27;</span>, decaying_epsilon_greedy_solver.regret)<br>plot_results([decaying_epsilon_greedy_solver], [<span class="hljs-string">&quot;DecayingEpsilonGreedy&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p><img src="/./RL-1/RL-14.png"><br>随时间做反比例衰减的$\epsilon-$贪婪算法明显优于固定值的$\epsilon-$贪婪算法</p>
+<h1 id="5-上置信界算法"><a href="#5-上置信界算法" class="headerlink" title="5 上置信界算法"></a>5 上置信界算法</h1><p>设想这样一种情况：对于一台双臂老虎机，其中第一根拉杆只被拉动过一次，得到的奖励为0；第二根拉杆被拉动过很多次，我们对它的奖励分布已经有了大致的把握。这时你会怎么做？或许你会进一步尝试拉动第一根拉杆，从而更加确定其奖励分布。这种思路主要是基于不确定性，因为此时第一根拉杆只被拉动过一次，它的不确定性很高。一根拉杆的不确定性越大，它就越具有探索的价值，因为探索之后我们可能发现它的期望奖励很大。我们在此引入不确定性度量U(a)，它会随着一个动作被尝试次数的增加而减小。我们可以使用一种基于不确定性的策略来综合考虑现有的期望奖励估值和不确定性，其核心问题是如何估计不确定性。<br><strong>上置信界</strong>（upper confidence bound，UCB）算法是一种经典的基于不确定性的策略算法，它的思想用到了一个非常著名的数学原理：<strong>霍夫丁不等式</strong>（Hoeffding’s inequality）。在霍夫丁不等式中，令$X_1,\ldots,X_n$为n个独立同分布的随机变量，取值范围为[0，1]其经验期望为$\bar{x}<em>{n}&#x3D;\frac{1}{n}\sum</em>{j&#x3D;1}^{n}X_{j}$，则有：<br>$\mathbb{P}\left{\mathbb{E}\left[X\right]\geq\bar{x}_n+u\right}\leq e^{-2nu^2}$<br>现在我们将霍夫丁不等式运用于多臂老虎机问题中。<br>过于复杂，原理不做赘述，感兴趣的请自行搜索。</p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">UCB</span>(<span class="hljs-title class_ inherited__">Solver</span>):<br>    <span class="hljs-string">&quot;&quot;&quot; UCB算法,继承Solver类 &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, bandit, coef, init_prob=<span class="hljs-number">1.0</span></span>):<br>        <span class="hljs-built_in">super</span>(UCB, <span class="hljs-variable language_">self</span>).__init__(bandit)<br>        <span class="hljs-variable language_">self</span>.total_count = <span class="hljs-number">0</span><br>        <span class="hljs-variable language_">self</span>.estimates = np.array([init_prob] * <span class="hljs-variable language_">self</span>.bandit.K)<br>        <span class="hljs-variable language_">self</span>.coef = coef<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run_one_step</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-variable language_">self</span>.total_count += <span class="hljs-number">1</span><br>        ucb = <span class="hljs-variable language_">self</span>.estimates + <span class="hljs-variable language_">self</span>.coef * np.sqrt(<br>            np.log(<span class="hljs-variable language_">self</span>.total_count) / (<span class="hljs-number">2</span> * (<span class="hljs-variable language_">self</span>.counts + <span class="hljs-number">1</span>)))  <span class="hljs-comment"># 计算上置信界</span><br>        k = np.argmax(ucb)  <span class="hljs-comment"># 选出上置信界最大的拉杆</span><br>        r = <span class="hljs-variable language_">self</span>.bandit.step(k)<br>        <span class="hljs-variable language_">self</span>.estimates[k] += <span class="hljs-number">1.</span> / (<span class="hljs-variable language_">self</span>.counts[k] + <span class="hljs-number">1</span>) * (r - <span class="hljs-variable language_">self</span>.estimates[k])<br>        <span class="hljs-keyword">return</span> k<br><br><br>np.random.seed(<span class="hljs-number">1</span>)<br>coef = <span class="hljs-number">1</span>  <span class="hljs-comment"># 控制不确定性比重的系数</span><br>UCB_solver = UCB(bandit_10_arm, coef)<br>UCB_solver.run(<span class="hljs-number">5000</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;上置信界算法的累积懊悔为：&#x27;</span>, UCB_solver.regret)<br>plot_results([UCB_solver], [<span class="hljs-string">&quot;UCB&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p><img src="/./RL-1/RL-15.png"></p>
+<h1 id="6-汤普森采样法"><a href="#6-汤普森采样法" class="headerlink" title="6 汤普森采样法"></a>6 汤普森采样法</h1><p>MAB 中还有一种经典算法——<strong>汤普森采样</strong>（Thompson sampling），先假设拉动每根拉杆的奖励服从一个特定的概率分布，然后根据拉动每根拉杆的期望奖励来进行选择。但是由于计算所有拉杆的期望奖励的代价比较高，汤普森采样算法使用采样的方式，即根据当前每个动作a的奖励概率分布进行一轮采样，得到一组各根拉杆的奖励样本，再选择样本中奖励最大的动作。可以看出，汤普森采样是一种计算所有拉杆的最高奖励概率的蒙特卡洛采样方法。<br>了解了汤普森采样算法的基本思路后，我们需要解决另一个问题：怎样得到当前每个动作a的奖励概率分布并且在过程中进行更新？在实际情况中，我们通常用 Beta 分布对当前每个动作的奖励概率分布进行建模。具体来说，若某拉杆被选择了k次，其中$m_1$次奖励为1， $m_2$次奖励为0，则该拉杆的奖励服从参数为 的 Beta分布。下图是汤普森采样的一个示例。<br><img src="/./RL-1/RL-16.png"></p>
+<h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ThompsonSampling</span>(<span class="hljs-title class_ inherited__">Solver</span>):<br>    <span class="hljs-string">&quot;&quot;&quot; 汤普森采样算法,继承Solver类 &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, bandit</span>):<br>        <span class="hljs-built_in">super</span>(ThompsonSampling, <span class="hljs-variable language_">self</span>).__init__(bandit)<br>        <span class="hljs-variable language_">self</span>._a = np.ones(<span class="hljs-variable language_">self</span>.bandit.K)  <span class="hljs-comment"># 列表,表示每根拉杆奖励为1的次数</span><br>        <span class="hljs-variable language_">self</span>._b = np.ones(<span class="hljs-variable language_">self</span>.bandit.K)  <span class="hljs-comment"># 列表,表示每根拉杆奖励为0的次数</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">run_one_step</span>(<span class="hljs-params">self</span>):<br>        samples = np.random.beta(<span class="hljs-variable language_">self</span>._a, <span class="hljs-variable language_">self</span>._b)  <span class="hljs-comment"># 按照Beta分布采样一组奖励样本</span><br>        k = np.argmax(samples)  <span class="hljs-comment"># 选出采样奖励最大的拉杆</span><br>        r = <span class="hljs-variable language_">self</span>.bandit.step(k)<br><br>        <span class="hljs-variable language_">self</span>._a[k] += r  <span class="hljs-comment"># 更新Beta分布的第一个参数</span><br>        <span class="hljs-variable language_">self</span>._b[k] += (<span class="hljs-number">1</span> - r)  <span class="hljs-comment"># 更新Beta分布的第二个参数</span><br>        <span class="hljs-keyword">return</span> k<br><br><br>np.random.seed(<span class="hljs-number">1</span>)<br>thompson_sampling_solver = ThompsonSampling(bandit_10_arm)<br>thompson_sampling_solver.run(<span class="hljs-number">5000</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;汤普森采样算法的累积懊悔为：&#x27;</span>, thompson_sampling_solver.regret)<br>plot_results([thompson_sampling_solver], [<span class="hljs-string">&quot;ThompsonSampling&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p><img src="/./RL-1/RL-17.png"><br>$\epsilon-$贪婪算法是线性增长的，其余都是次线性增长。</p>
+<h1 id="7-总结与心得"><a href="#7-总结与心得" class="headerlink" title="7 总结与心得"></a>7 总结与心得</h1><p>本文着重与探索与利用两个环节，与环境进行交互，获得累积奖励与懊悔，这是强化学习是错法中的必备技术，多臂老虎机问题正是研究探索与利用的最佳环境。<br>$\epsilon-$贪婪算法等几种方法在多臂老虎机中非常常见，上置信界算法和汤普森采样方法均能保证对数的渐进最优累积懊悔。<br>多臂老虎机问题与强化学习的一大区别在于其与环境的交互并不会改变环境，即多臂老虎机的每次交互的结果和以往的动作无关，所以可看作<strong>无状态的强化学习</strong>（stateless reinforcement learning）。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
+      
+        <a href="/tags/%E4%BB%BF%E7%9C%9F/" class="print-no-link">#仿真</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RL-1</div>
+      <div>http://example.com/2024/08/16/RL-1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Neutrin1</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月16日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/16/RL-0/" title="RL-0">
+                        <span class="hidden-mobile">RL-0</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  <div>
+    <span id="timeDate">正在载入天数...</span>
+    <span id="times">载入时分秒...</span>
+    <script>
+    var now = new Date();
+    function createtime(){
+        var grt= new Date("2023/03/07 20:00:00");
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if(String(mnum).length ==1 ){
+                  mnum = "0" + mnum;
+        }
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if(String(snum).length ==1 ){
+                  snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = "🎶🐈本站已运行&nbsp"+dnum+"&nbsp天";  
+        document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+    }
+    setInterval("createtime()",250);
+    </script>
+  </div>
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
