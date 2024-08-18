@@ -1,0 +1,827 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Neutrin1">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1 简介马尔可夫决策过程（Markov decision process，MDP）是强化学习的重要概念。要学好强化学习，我们首先要掌握马尔可夫决策过程的基础知识。前两章所说的强化学习中的环境一般就是一个马尔可夫决策过程。与多臂老虎机问题不同，马尔可夫决策过程包含状态信息以及状态之间的转移机制。如果要用强化学习去解决一个实际问题，第一步要做的事情就是把这个实际问题抽象为一个马尔可夫决策过程，也就是明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RL-2">
+<meta property="og:url" content="http://example.com/2024/08/18/RL-2/index.html">
+<meta property="og:site_name" content="Neutrin1&#39;s Blog">
+<meta property="og:description" content="1 简介马尔可夫决策过程（Markov decision process，MDP）是强化学习的重要概念。要学好强化学习，我们首先要掌握马尔可夫决策过程的基础知识。前两章所说的强化学习中的环境一般就是一个马尔可夫决策过程。与多臂老虎机问题不同，马尔可夫决策过程包含状态信息以及状态之间的转移机制。如果要用强化学习去解决一个实际问题，第一步要做的事情就是把这个实际问题抽象为一个马尔可夫决策过程，也就是明">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/RL-21.png">
+<meta property="og:image" content="http://example.com/image/RL-22.png">
+<meta property="og:image" content="http://example.com/image/RL-23.png">
+<meta property="og:image" content="http://example.com/image/RL-24.png">
+<meta property="og:image" content="http://example.com/image/RL-25.png">
+<meta property="og:image" content="http://example.com/image/RL-26.png">
+<meta property="og:image" content="http://example.com/image/RL-27.png">
+<meta property="article:published_time" content="2024-08-18T13:34:41.000Z">
+<meta property="article:modified_time" content="2024-08-18T13:42:30.524Z">
+<meta property="article:author" content="Neutrin1">
+<meta property="article:tag" content="仿真">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/image/RL-21.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>RL-2 - Neutrin1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">Neutrin1的小世界</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/column/" target="_self">
+                <i class="iconfont icon-friends"></i>
+                <span>专栏</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/%E6%96%87%E7%AB%A0%E9%A1%B5%E8%83%8C%E6%99%AF.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RL-2"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-18 21:34" pubdate>
+          2024年8月18日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          71 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RL-2</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h1><p><strong>马尔可夫决策过程</strong>（Markov decision process，MDP）是强化学习的重要概念。要学好强化学习，我们首先要掌握马尔可夫决策过程的基础知识。前两章所说的强化学习中的环境一般就是一个马尔可夫决策过程。与多臂老虎机问题不同，马尔可夫决策过程包含状态信息以及状态之间的转移机制。如果要用强化学习去解决一个实际问题，第一步要做的事情就是把这个实际问题抽象为一个马尔可夫决策过程，也就是明确马尔可夫决策过程的各个组成要素。本章将从马尔可夫过程出发，一步一步地进行介绍，最后引出马尔可夫决策过程。</p>
+<h1 id="2-马尔可夫过程"><a href="#2-马尔可夫过程" class="headerlink" title="2 马尔可夫过程"></a>2 马尔可夫过程</h1><h2 id="2-1随机过程"><a href="#2-1随机过程" class="headerlink" title="2.1随机过程"></a>2.1随机过程</h2><p><strong>随机过程</strong>（stochastic process）是概率论的“动力学”部分。概率论的研究对象是静态的随机现象，而随机过程的研究对象是随时间演变的随机现象（例如天气随时间的变化、城市交通随时间的变化）。在随机过程中，随机现象在某时刻的取值是一个向量随机变量，用$S_t$表示，所有可能的状态组成状态集合S。随机现象便是状态的变化过程。在某时刻t的状态$S_t$通常取决于t时刻之前的状态。我们将已知历史信息$(S_1,\dots,S_t)$时下一个时刻的状态为$S_{t+1}$的概率表示成$P(S_{t+1}|S_1,\ldots,S_t)$</p>
+<h2 id="2-2马尔可夫性质"><a href="#2-2马尔可夫性质" class="headerlink" title="2.2马尔可夫性质"></a>2.2马尔可夫性质</h2><p>当且仅当某时刻的状态只取决于上一时刻的状态时，一个随机过程被称为具有<strong>马尔可夫性质</strong>（Markov property），用公式表示为$P(S_{t+1}|S_t)&#x3D;P(S_{t+1}|S_1,\ldots,S_t)$<br>也就是说，当前状态是未来的充分统计量，即下一个状态只取决于当前状态，而不会受到过去状态的影响。需要明确的是，具有马尔可夫性并不代表这个随机过程就和历史完全没有关系。因为虽然t+1时刻的状态只与t时刻的状态有关，但是t时刻的状态其实包含了t-1时刻的状态的信息，通过这种链式的关系，历史的信息被传递到了现在。马尔可夫性可以大大简化运算，因为只要当前状态可知，所有的历史信息都不再需要了，利用当前状态信息就可以决定未来。</p>
+<h2 id="2-3马尔可夫过程"><a href="#2-3马尔可夫过程" class="headerlink" title="2.3马尔可夫过程"></a>2.3马尔可夫过程</h2><p><strong>马尔可夫过程</strong>（Markov process）指具有马尔可夫性质的随机过程，也被称为<strong>马尔可夫链</strong>（Markov chain）。我们通常用元组$\langle\mathcal{S},\mathcal{P}\rangle$描述一个马尔可夫过程，其中S是有限数量的状态集合，P是<strong>状态转移矩阵</strong>（state transition matrix）。假设一共n个状态，此时$\mathcal{S}&#x3D;{s_1,s_2,\ldots,s_n}$<br>状态转移矩阵P定义了所有状态对之间的状态转移概率，即：<br>$\mathcal{P}&#x3D;\begin{bmatrix}P(s_1|s_1)&amp;\cdots&amp;P(s_n|s_1)\\vdots&amp;\ddots&amp;\vdots\P(s_1|s_n)&amp;\cdots&amp;P(s_n|s_n)\end{bmatrix}$<br>矩阵P中第行第j列元素$P(s_j|s_i)&#x3D;P(S_{t+1}&#x3D;s_j|S_t&#x3D;s_i)$表示从状态$s_i$转移到状态$s_j$的概率，我们称为$P(s^{\prime}|s)$状态转移函数。从某个状态出发，到达其他状态的概率和必须为 1，即状态转移矩阵P的每一行的和为 1。<br>下图是一个具有是一个具有 6 个状态的马尔可夫过程的简单例子。其中每个绿色圆圈表示一个状态，每个状态都有一定概率（包括概率为 0）转移到其他状态，其中$s_6$通常被称为<strong>终止状态</strong>（terminal state），因为它不会再转移到其他状态，可以理解为它永远以概率 1 转移到自己。状态之间的虚线箭头表示状态的转移，箭头旁的数字表示该状态转移发生的概率。从每个状态出发转移到其他状态的概率总和为 1。例如，$s_1$有90%概率保持不变，有10%概率转移到$s_2$，而在$s_2$又有50%概率回到$s_3$，有50%概率转移到$s_3$。</p>
+<p><img src="/image/RL-21.png"></p>
+<p>转移矩阵如下：<br>$$\begin{gathered}\mathcal{P}&#x3D;\begin{bmatrix}0.9&amp;0.1&amp;0&amp;0&amp;0&amp;0\0.5&amp;0&amp;0.5&amp;0&amp;0&amp;0\0&amp;0&amp;0&amp;0.6&amp;0&amp;0.4\0&amp;0&amp;0&amp;0&amp;0.3&amp;0.7\0&amp;0.2&amp;0.3&amp;0.5&amp;0&amp;0\0&amp;0&amp;0&amp;0&amp;0&amp;1\end{bmatrix}\end{gathered}$$<br>其中第i行j列的值则代表从状态$s_i$转移到$s_j$的概率。<br>给定一个马尔可夫过程，我们就可以从某个状态出发，根据它的状态转移矩阵生成一个状态<strong>序列</strong>（episode），这个步骤也被叫做<strong>采样</strong>（sampling）。例如，从$s_1$出发，可以生成序列<br>$s_1\to s_2\to s_3\to s_6$或<br>$s_1\to s_1\to s_2\to s_3\to s_4\to s_5\to s_3\to s_6$等</p>
+<h1 id="3-马尔可夫奖励过程"><a href="#3-马尔可夫奖励过程" class="headerlink" title="3 马尔可夫奖励过程"></a>3 马尔可夫奖励过程</h1><p>在马尔可夫过程的基础上加入奖励函数r和折扣因子$\gamma$,就可以得到<strong>马尔可夫奖励过程</strong>（Markov reward process）。一个马尔可夫奖励过程由$\langle\mathcal{S},\mathcal{P},r,\gamma\rangle$构成，各个组成元素的含义如下所示。</p>
+<ul>
+<li>S是有限状态的集合。</li>
+<li>P是状态转移矩阵。</li>
+<li>r是奖励函数，某个状态的奖励 指转移到该状态时可以获得奖励的期望。</li>
+<li>$\gamma$是折扣因子（discount factor），$\gamma$的取值范围为[0,1]。引入折扣因子的理由为远期利益具有一定不确定性，有时我们更希望能够尽快获得一些奖励，所以我们需要对远期利益打一些折扣。接近 1 的$\gamma$更关注长期的累计奖励，接近0的$\gamma$更考虑短期奖励。</li>
+</ul>
+<h2 id="3-1回报"><a href="#3-1回报" class="headerlink" title="3.1回报"></a>3.1回报</h2><p>在一个马尔可夫奖励过程中，从第t时刻状态$S_t$开始，直到终止状态时，所有奖励的衰减之和称为<strong>回报</strong>$G_t$（Return），公式如下：<br>$G_t&#x3D;R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\cdots&#x3D;\sum_{k&#x3D;0}^\infty\gamma^kR_{t+k}$<br>其中，表示在时刻获得的奖励。<br>如下图，构建一个马尔可夫奖励过程。<br><img src="/image/RL-22.png"><br>比如选取$s_1$为起始状态，设置$\gamma&#x3D;0.5$，采样到一条状态序列为$s_1\to s_2\to s_3\to s_6$，就可以计算$s_1$的回报$G_1$，得到$G_1&#x3D;-1+0.5\times(-2)+0.5^2\times(-2)&#x3D;-2.5$</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python</span><br><span class="hljs-comment"># -*- encoding: utf-8 -*-</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><span class="hljs-string">@File    :   马尔科夫链.ipynb</span><br><span class="hljs-string">@Time    :   2024/08/17 01:54:00</span><br><span class="hljs-string">@Author  :   Neutrin</span><br><span class="hljs-string">&#x27;&#x27;&#x27;</span><br><br><span class="hljs-comment"># here put the import lib</span><br><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np<br>np.random.seed(<span class="hljs-number">0</span>)<br><span class="hljs-comment"># 定义状态转移概率矩阵P</span><br>P = [<br>    [<span class="hljs-number">0.9</span>, <span class="hljs-number">0.1</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>],<br>    [<span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>],<br>    [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.6</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.4</span>],<br>    [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.3</span>, <span class="hljs-number">0.7</span>],<br>    [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.3</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>],<br>    [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>],<br>]<br>P = np.array(P)<br><br>rewards = [-<span class="hljs-number">1</span>, -<span class="hljs-number">2</span>, -<span class="hljs-number">2</span>, <span class="hljs-number">10</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]  <span class="hljs-comment"># 定义奖励函数</span><br>gamma = <span class="hljs-number">0.5</span>  <span class="hljs-comment"># 定义折扣因子</span><br><br><br><span class="hljs-comment"># 给定一条序列,计算从某个索引（起始状态）开始到序列最后（终止状态）得到的回报</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">compute_return</span>(<span class="hljs-params">start_index, chain, gamma</span>):<br>    G = <span class="hljs-number">0</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">reversed</span>(<span class="hljs-built_in">range</span>(start_index, <span class="hljs-built_in">len</span>(chain))):<br>        G = gamma * G + rewards[chain[i] - <span class="hljs-number">1</span>]<br>    <span class="hljs-keyword">return</span> G<br><br><br><span class="hljs-comment"># 一个状态序列,s1-s2-s3-s6</span><br>chain = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>]<br>start_index = <span class="hljs-number">0</span><br>G = compute_return(start_index, chain, gamma)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;根据本序列计算得到回报为：%s。&quot;</span> % G)<br></code></pre></td></tr></table></figure>
+<h2 id="3-2价值函数"><a href="#3-2价值函数" class="headerlink" title="3.2价值函数"></a>3.2价值函数</h2><p>在马尔可夫奖励过程中，一个状态的期望回报（即从这个状态出发的未来累积奖励的期望）被称为这个状态的<strong>价值</strong>（value）。所有状态的价值就组成了<strong>价值函数</strong>（value function），价值函数的输入为某个状态，输出为这个状态的价值。我们将价值函数写成<br>$V(s)&#x3D;\mathbb{E}[G_t|S_t&#x3D;s]$展开：<br>$$\begin{aligned}<br>V(s)&amp; &#x3D;\mathbb{E}[G_t|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\ldots|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma(R_{t+1}+\gamma R_{t+2}+\ldots)|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma G_{t+1}|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma V(S_{t+1})|S_t&#x3D;s]<br>\end{aligned}$$<br>在上式的最后一个等号中，一方面，即时奖励的期望正是奖励函数的输出，即$\mathbb{E}[R_t|S_t&#x3D;s]&#x3D;r(s)$;另一方面，等式中剩余部分$\mathbb{E}[\gamma V(S_{t+1})|S_t&#x3D;s]$可以根据从状态s出发的转移概率得到，即：<br>$V(s)&#x3D;r(s)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s)V(s^{\prime})$<br>这就是贝尔曼方程，对每一个状态都成立。若一个马尔可夫奖励过程一共有n个状态，即$S&#x3D;{s_1,s_2,\dots,s_n}$,我们将所有状态的价值表示额成一个列向量$\mathcal{V}&#x3D;[V(s_1),V(s_2),\ldots,V(s_n)]^T$<br>同理，将奖励函数写成一个列向量$\mathcal{R}&#x3D;[r(s_1),r(s_2),\ldots,r(s_n)]^T$<br>于是我们可以将贝尔曼方程写成矩阵的形式：<br>$$\begin{gathered}\mathcal{V}&#x3D;\mathcal{R}+\gamma\mathcal{PV}\\begin{bmatrix}V(s_1)\V(s_2)\\cdots\V(s_n)\end{bmatrix}&#x3D;\begin{bmatrix}r(s_1)\r(s_2)\\cdots\r(s_n)\end{bmatrix}+\gamma\begin{bmatrix}P(s_1|s_1)&amp;p(s_2|s_1)&amp;\ldots&amp;P(s_n|s_1)\P(s_1|s_2)&amp;P(s_2|s_2)&amp;\ldots&amp;P(s_n|s_2)\\cdots\P(s_1|s_n)&amp;P(s_2|s_n)&amp;\ldots&amp;P(s_n|s_n)\end{bmatrix}\end{gathered}$$<br>求解矩阵运算得：<br>$$\begin{aligned}<br>\text{V}&amp; &#x3D;\mathcal{R}+\gamma\mathcal{PV} \<br>(I-\gamma\mathcal{P})\mathcal{V}&amp; &#x3D;\mathcal{R} \<br>\text{V}&amp; &#x3D;(I-\gamma\mathcal{P})^{-1}\mathcal{R}<br>\end{aligned}$$<br>以上解析解的计算复杂度是$O(n^3)$，其中是状态个数，因此这种方法只适用很小的马尔可夫奖励过程。求解较大规模的马尔可夫奖励过程中的价值函数时，可以使用<strong>动态规划</strong>（dynamic programming）算法、<strong>蒙特卡洛方法</strong>（Monte-Carlo method）和<strong>时序差分</strong>（temporal difference）.</p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">compute</span>(<span class="hljs-params">P, rewards, gamma, states_num</span>):<br><br>    <span class="hljs-string">&#x27;&#x27;&#x27; 利用贝尔曼方程的矩阵形式计算解析解,states_num是MRP的状态数 &#x27;&#x27;&#x27;</span><br>    rewards = np.array(rewards).reshape((-<span class="hljs-number">1</span>, <span class="hljs-number">1</span>))  <span class="hljs-comment">#将rewards写成列向量形式</span><br>    value = np.dot(np.linalg.inv(np.eye(states_num, states_num) - gamma * P),<br><br>                   rewards)<br><br>    <span class="hljs-keyword">return</span> value<br><br>V = compute(P, rewards, gamma, <span class="hljs-number">6</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;MRP中每个状态价值分别为\n&quot;</span>, V)<br></code></pre></td></tr></table></figure>
+<p>根据上述代码求解得到各个状态的价值V(s),具体如下：<br><img src="/image/RL-23.png"><br>我们现在用贝尔曼方程来进行简单的验证。例如，对于状态来说，当$\gamma$&#x3D;0.5时：<br>$\begin{aligned}&amp;V(s_4)&#x3D;r(s_4)+\gamma\sum_{s^{\prime}\in\mathcal{S}}P(s^{\prime}|s_4)V(s^{\prime})\&amp;10.54&#x3D;10+0.5\times(0.7\times0+0.3\times3.59)\end{aligned}$<br>可以发现左右两边的值几乎是相等的，说明我们求解得到的价值函数是满足状态为$s_4$时的贝尔曼方程。读者可以自行验证在其他状态时贝尔曼方程是否也成立。若贝尔曼方程对于所有状态都成立，就可以说明我们求解得到的价值函数是正确的。除了使用动态规划算法，马尔可夫奖励过程中的价值函数也可以通过蒙特卡洛方法估计得到，我们将在第5节中介绍该方法。</p>
+<h1 id="4-马尔可夫决策过程"><a href="#4-马尔可夫决策过程" class="headerlink" title="4 马尔可夫决策过程"></a>4 马尔可夫决策过程</h1><p>前两节提到的马尔可夫过程和马尔可夫奖励过程都是自发改变的随机过程；而如果有一个外界的“刺激”来共同改变这个随机过程，就有了<strong>马尔可夫决策过程</strong>（Markov decision process，MDP）。我们将这个来自外界的刺激称为<strong>智能体</strong>（agent）的动作，在马尔可夫奖励过程（MRP）的基础上加入动作，就得到了马尔可夫决策过程（MDP）。马尔可夫决策过程由元组$\langle\mathcal{S},\mathcal{A},P,r,\gamma\rangle$构成，其中：</p>
+<ul>
+<li>$\mathcal{S}$是状态的集合；</li>
+<li>$\mathcal{A}$是动作的集合；</li>
+<li>$\mathcal{\gamma}$是折扣因子；</li>
+<li>$\mathcal{r(s,a)}$是奖励函数，此时奖励可以同时取决于状态和动作，在奖励函数只取决于状态时，则退化为；</li>
+<li>$P(s^{\prime}|s,a)$是状态转移函数，表示在状态s执行动作a之后到达状态$s^{\prime}$的概率。<br>我们发现 MDP 与 MRP 非常相像，主要区别为 MDP 中的状态转移函数和奖励函数都比 MRP 多了动作a作为自变量。注意，在上面 MDP 的定义中，我们不再使用类似 MRP 定义中的状态转移矩阵方式，而是直接表示成了状态转移函数。这样做一是因为此时状态转移与动作也有关，变成了一个三维数组，而不再是一个矩阵（二维数组）；二是因为状态转移函数更具有一般意义，例如，如果状态集合不是有限的，就无法用数组表示，但仍然可以用状态转移函数表示。我们在之后的课程学习中会遇到连续状态的 MDP 环境，那时状态集合都不是有限的。现在我们主要关注于离散状态的 MDP 环境，此时状态集合是有限的。<br>不同于马尔可夫奖励过程，在马尔可夫决策过程中，通常存在一个智能体来执行动作。例如，一艘小船在大海中随着水流自由飘荡的过程就是一个马尔可夫奖励过程，它如果凭借运气漂到了一个目的地，就能获得比较大的奖励；如果有个水手在控制着这条船往哪个方向前进，就可以主动选择前往目的地获得比较大的奖励。马尔可夫决策过程是一个与时间相关的不断进行的过程，在智能体和环境 MDP 之间存在一个不断交互的过程。<br>一般而言，它们之间的交互是如下图循环过程：智能体根据当前状态$S_t$选择动作$A_t$；对于状态$S_t$和动作$A_t$，MDP 根据奖励函数和状态转移函数得到$S_{t+1}$和$R_t$并反馈给智能体。智能体的目标是最大化得到的累计奖励。智能体根据当前状态从动作的集合A中选择一个动作的函数，被称为策略。<br><img src="/image/RL-24.png"></li>
+</ul>
+<h2 id="4-1策略"><a href="#4-1策略" class="headerlink" title="4.1策略"></a>4.1策略</h2><p>智能体的<strong>策略</strong>（Policy）通常用字母$\pi$表示。策略$\pi(a|s)&#x3D;P(A_t&#x3D;a|S_t&#x3D;s)$是一个函数，表示在输入状态情况下采取动作的概率。当一个策略是<strong>确定性策略</strong>（deterministic policy）时，它在每个状态时只输出一个确定性的动作，即只有该动作的概率为 1，其他动作的概率为 0；当一个策略是<strong>随机性策略</strong>（stochastic policy）时，它在每个状态时输出的是关于动作的概率分布，然后根据该分布进行采样就可以得到一个动作。在 MDP 中，由于马尔可夫性质的存在，策略只需要与当前状态有关，不需要考虑历史状态。回顾一下在 MRP 中的价值函数，在 MDP 中也同样可以定义类似的价值函数。但此时的价值函数与策略有关，这意为着对于两个不同的策略来说，它们在同一个状态下的价值也很可能是不同的。这很好理解，因为不同的策略会采取不同的动作，从而之后会遇到不同的状态，以及获得不同的奖励，所以它们的累积奖励的期望也就不同，即状态价值不同。</p>
+<h2 id="4-2状态价值函数"><a href="#4-2状态价值函数" class="headerlink" title="4.2状态价值函数"></a>4.2状态价值函数</h2><p>我们用$V^{\pi}(s)$表示在 MDP 中基于策略$\pi$的状态价值函数（state-value function），定义为从状态s出发遵循策略$\pi$能获得的期望回报，数学表达为：<br>$V^\pi(s)&#x3D;\mathbb{E}_\pi[G_t|S_t&#x3D;s]$</p>
+<h2 id="4-3动作价值函数"><a href="#4-3动作价值函数" class="headerlink" title="4.3动作价值函数"></a>4.3动作价值函数</h2><p>不同于 MRP，在 MDP 中，由于动作的存在，我们额外定义一个<strong>动作价值函数</strong>（action-value function）。我们用$Q^\pi(s,a)$表示在 MDP 遵循策略$\pi$时，对当前状态s执行动作得到的期望回报：<br>$Q^\pi(s,a)&#x3D;\mathbb{E}<em>\pi[G_t|S_t&#x3D;s,A_t&#x3D;a]$<br>状态价值函数和动作价值函数之间的关系：在使用策略$\pi$中，状态s的价值等于在该状态下基于策略$\pi$采取所有动作的概率与相应的价值相乘再求和的结果：<br>$V^\pi(s)&#x3D;\sum</em>{a\in A}\pi(a|s)Q^\pi(s,a)$<br>使用策略$\pi$时，状态s下采取动作a的价值等于即时奖励加上经过衰减后的所有可能的下一个状态的状态转移概率与相应的价值的乘积：<br>$Q^\pi(s,a)&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in S}P(s^{\prime}|s,a)V^\pi(s^{\prime})$</p>
+<h2 id="4-4贝尔曼期望方程"><a href="#4-4贝尔曼期望方程" class="headerlink" title="4.4贝尔曼期望方程"></a>4.4贝尔曼期望方程</h2><p>在贝尔曼方程中加上“期望”二字是为了与接下来的贝尔曼最优方程进行区分。我们通过简单推导就可以分别得到两个价值函数的<strong>贝尔曼期望方程</strong>（Bellman Expectation Equation）：<br>$$\begin{aligned}<br>V^{\pi}(s)&amp; &#x3D;\mathbb{E}<em>\pi[R_t+\gamma V^\pi(S</em>{t+1})|S_t&#x3D;s] \<br>&amp;&#x3D;\sum_{a\in A}\pi(a|s)\left(r(s,a)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s,a)V^\pi(s^{\prime})\right) \<br>Q^{\pi}(s,a)&amp; &#x3D;\mathbb{E}<em>\pi[R_t+\gamma Q^\pi(S</em>{t+1},A_{t+1})|S_t&#x3D;s,A_t&#x3D;a] \<br>&amp;&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s,a)\sum_{a^{\prime}\in A}\pi(a^{\prime}|s^{\prime})Q^\pi(s^{\prime},a^{\prime})<br>\end{aligned}$$<br>价值函数和贝尔曼方程是强化学习非常重要的组成部分，之后的一些强化学习算法都是据此推导出来的，读者需要明确掌握！<br>下图是一个马尔可夫决策过程的简单例子，其中每个深色圆圈代表一个状态，一共有5个状态。黑色实线箭头代表可以采取的动作，浅色小圆圈代表动作，需要注意，并非在每个状态都能采取所有动作。<br><img src="/image/RL-25.png"></p>
+<p>接下来我们编写代码来表示图 3-4 中的马尔可夫决策过程，并定义两个策略。第一个策略是一个完全随机策略，即在每个状态下，智能体会以同样的概率选取它可能采取的动作。</p>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs makefile">S = [<span class="hljs-string">&quot;s1&quot;</span>, <span class="hljs-string">&quot;s2&quot;</span>, <span class="hljs-string">&quot;s3&quot;</span>, <span class="hljs-string">&quot;s4&quot;</span>, <span class="hljs-string">&quot;s5&quot;</span>]  <span class="hljs-comment"># 状态集合</span><br>A = [<span class="hljs-string">&quot;保持s1&quot;</span>, <span class="hljs-string">&quot;前往s1&quot;</span>, <span class="hljs-string">&quot;前往s2&quot;</span>, <span class="hljs-string">&quot;前往s3&quot;</span>, <span class="hljs-string">&quot;前往s4&quot;</span>, <span class="hljs-string">&quot;前往s5&quot;</span>, <span class="hljs-string">&quot;概率前往&quot;</span>]  <span class="hljs-comment"># 动作集合</span><br><span class="hljs-comment"># 状态转移函数</span><br>P = &#123;<br>    <span class="hljs-string">&quot;s1-保持s1-s1&quot;</span>: 1.0,<br>    <span class="hljs-string">&quot;s1-前往s2-s2&quot;</span>: 1.0,<br>    <span class="hljs-string">&quot;s2-前往s1-s1&quot;</span>: 1.0,<br>    <span class="hljs-string">&quot;s2-前往s3-s3&quot;</span>: 1.0,<br>    <span class="hljs-string">&quot;s3-前往s4-s4&quot;</span>: 1.0,<br>    <span class="hljs-string">&quot;s3-前往s5-s5&quot;</span>: 1.0,<br>    <span class="hljs-string">&quot;s4-前往s5-s5&quot;</span>: 1.0,<br>    <span class="hljs-string">&quot;s4-概率前往-s2&quot;</span>: 0.2,<br>    <span class="hljs-string">&quot;s4-概率前往-s3&quot;</span>: 0.4,<br>    <span class="hljs-string">&quot;s4-概率前往-s4&quot;</span>: 0.4,<br>&#125;<br><span class="hljs-comment"># 奖励函数</span><br>R = &#123;<br>    <span class="hljs-string">&quot;s1-保持s1&quot;</span>: -1,<br>    <span class="hljs-string">&quot;s1-前往s2&quot;</span>: 0,<br>    <span class="hljs-string">&quot;s2-前往s1&quot;</span>: -1,<br>    <span class="hljs-string">&quot;s2-前往s3&quot;</span>: -2,<br>    <span class="hljs-string">&quot;s3-前往s4&quot;</span>: -2,<br>    <span class="hljs-string">&quot;s3-前往s5&quot;</span>: 0,<br>    <span class="hljs-string">&quot;s4-前往s5&quot;</span>: 10,<br>    <span class="hljs-string">&quot;s4-概率前往&quot;</span>: 1,<br>&#125;<br>gamma = 0.5  <span class="hljs-comment"># 折扣因子</span><br>MDP = (S, A, P, R, gamma)<br><br><span class="hljs-comment"># 策略1,随机策略</span><br>Pi_1 = &#123;<br>    <span class="hljs-string">&quot;s1-保持s1&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s1-前往s2&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s2-前往s1&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s2-前往s3&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s3-前往s4&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s3-前往s5&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s4-前往s5&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s4-概率前往&quot;</span>: 0.5,<br>&#125;<br><span class="hljs-comment"># 策略2</span><br>Pi_2 = &#123;<br>    <span class="hljs-string">&quot;s1-保持s1&quot;</span>: 0.6,<br>    <span class="hljs-string">&quot;s1-前往s2&quot;</span>: 0.4,<br>    <span class="hljs-string">&quot;s2-前往s1&quot;</span>: 0.3,<br>    <span class="hljs-string">&quot;s2-前往s3&quot;</span>: 0.7,<br>    <span class="hljs-string">&quot;s3-前往s4&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s3-前往s5&quot;</span>: 0.5,<br>    <span class="hljs-string">&quot;s4-前往s5&quot;</span>: 0.1,<br>    <span class="hljs-string">&quot;s4-概率前往&quot;</span>: 0.9,<br>&#125;<br><br><br><span class="hljs-comment"># 把输入的两个字符串通过“-”连接,便于使用上述定义的P、R变量</span><br>def join(str1, str2):<br>    return str1 + &#x27;-&#x27; + str2<br></code></pre></td></tr></table></figure>
+<p>接下来我们想要计算该 MDP 下，一个策略$\pi$的状态价值函数。我们现在有的工具是 MRP 的解析解方法。于是，一个很自然的想法是：给定一个 MDP 和一个策略$\pi$，我们是否可以将其转化为一个 MRP？答案是肯定的。我们可以将策略的动作选择进行<strong>边缘化</strong>（marginalization)，就可以得到没有动作的 MRP 了。具体来说，对于某一个状态，我们根据策略所有动作的概率进行加权，得到的奖励和就可以认为是一个 MRP 在该状态下的奖励，即：<br>$r’(s)&#x3D;\sum_{a\in\mathcal{A}}\pi(a|s)r(s,a)$<br>同理，我们计算采取动作的概率与使s转移到的概率$s^{\prime}$的乘积，再将这些乘积相加，其和就是一个 MRP 的状态从s转移$s^{\prime}$至的概率：<br>$P’(s’|s)&#x3D;\sum_{a\in\mathcal{A}}\pi(a|s)P(s’|s,a)$<br>于是，我们构建得到了一个 MRP:$\langle\mathcal{S},P^{\prime},r^{\prime},\gamma\rangle$。根据价值函数的定义可以发现，转化前的 MDP 的状态价值函数和转化后的 MRP 的价值函数是一样的。于是我们可以用 MRP 中计算价值函数的解析解来计算这个 MDP 中该策略的状态价值函数。<br>我们接下来就编写代码来实现该方法，计算用随机策略（也就是代码中的<code>Pi_1</code>）时的状态价值函数。为了简单起见，我们直接给出转化后的 MRP 的状态转移矩阵和奖励函数，感兴趣的读者可以自行验证。</p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs prolog">gamma = <span class="hljs-number">0.5</span><br># 转化后的<span class="hljs-symbol">MRP</span>的状态转移矩阵<br><span class="hljs-symbol">P_from_mdp_to_mrp</span> = [<br>    [<span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>],<br>    [<span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>],<br>    [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0.5</span>],<br>    [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.1</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.2</span>, <span class="hljs-number">0.5</span>],<br>    [<span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">0.0</span>, <span class="hljs-number">1.0</span>],<br>]<br><span class="hljs-symbol">P_from_mdp_to_mrp</span> = np.array(<span class="hljs-symbol">P_from_mdp_to_mrp</span>)<br><span class="hljs-symbol">R_from_mdp_to_mrp</span> = [<span class="hljs-number">-0.5</span>, <span class="hljs-number">-1.5</span>, <span class="hljs-number">-1.0</span>, <span class="hljs-number">5.5</span>, <span class="hljs-number">0</span>]<br><br><span class="hljs-symbol">V</span> = compute(<span class="hljs-symbol">P_from_mdp_to_mrp</span>, <span class="hljs-symbol">R_from_mdp_to_mrp</span>, gamma, <span class="hljs-number">5</span>)<br>print(<span class="hljs-string">&quot;MDP中每个状态价值分别为\n&quot;</span>, <span class="hljs-symbol">V</span>)<br></code></pre></td></tr></table></figure>
+<p><img src="/image/RL-26.png"></p>
+<p>知道了状态价值函数$V^{\pi}(S)$后，我们可以计算动作价值函数$Q^{\pi}(s,a)$。<br>这个 MRP 解析解的方法在状态动作集合比较大的时候不是很适用，那有没有其他的方法呢？下一节将介绍用蒙特卡洛方法来近似估计这个价值函数，用蒙特卡洛方法的好处在于我们不需要知道 MDP 的状态转移函数和奖励函数，它可以得到一个近似值，并且采样数越多越准确。</p>
+<h1 id="5-蒙特卡洛方法"><a href="#5-蒙特卡洛方法" class="headerlink" title="5 蒙特卡洛方法"></a>5 蒙特卡洛方法</h1><p><strong>蒙特卡洛方法</strong>（Monte-Carlo methods）也被称为统计模拟方法，是一种基于概率统计的数值计算方法。运用蒙特卡洛方法时，我们通常使用重复随机抽样，然后运用概率统计方法来从抽样结果中归纳出我们想求的目标的数值估计。一个简单的例子是用蒙特卡洛方法来计算圆的面积。例如，在图 3-5 所示的正方形内部随机产生若干个点，细数落在圆中点的个数，圆的面积与正方形面积之比就等于圆中点的个数与正方形中点的个数之比。如果我们随机产生的点的个数越多，计算得到圆的面积就越接近于真实的圆的面积。<br><img src="/image/RL-27.png"><br>我们现在介绍如何用蒙特卡洛方法来估计一个策略在一个马尔可夫决策过程中的状态价值函数。回忆一下，一个状态的价值是它的期望回报，那么一个很直观的想法就是用策略在 MDP 上采样很多条序列，计算从这个状态出发的回报再求其期望就可以了，公式如下：<br>$V^\pi(s)&#x3D;\mathbb{E}<em>\pi[G_t|S_t&#x3D;s]\approx\frac{1}{N}\sum</em>{i&#x3D;1}^NG_i^{(i)}$<br>在一条序列中，可能没有出现过这个状态，可能只出现过一次这个状态，也可能出现过很多次这个状态。我们介绍的蒙特卡洛价值估计方法会在该状态每一次出现时计算它的回报。还有一种选择是一条序列只计算一次回报，也就是这条序列第一次出现该状态时计算后面的累积奖励，而后面再次出现该状态时，该状态就被忽略了。假设我们现在用策略$\pi$从状态s开始采样序列，据此来计算状态价值。我们为每一个状态维护一个计数器和总回报，计算状态价值的具体过程如下所示。<br>(1) 使用策略采样若干条序列：<br>$s_0^{(i)}\xrightarrow{a_0^{(i)}}r_0^{(i)},s_1^{(i)}\xrightarrow{a_1^{(i)}}r_1^{(i)},s_2^{(i)}\xrightarrow{a_2^{(i)}}\cdots\xrightarrow{a_{T-1}^{(i)}}r_{T-1}^{(i)},s_T^{(i)}$<br>(2) 对每一条序列中的每一时间步的状态进行以下操作：</p>
+<ul>
+<li>更新状态s的计数器$N(s)\leftarrow N(s)+1$</li>
+<li>更新状态s的总回报$N(s)\leftarrow N(s)+G_t$<br>(3) 每一个状态的价值被估计为回报的平均值$V(s)&#x3D;M(s)&#x2F;N(s)$<br>根据大数定律，当$N(s)\to\infty$,有$V(s)\to V^\pi(s)$<br>计算回报的期望时，除了可以把所有的回报加起来除以次数，还有一种增量更新的方法。对于每个状态s和对应回报G，进行如下计算：<br>$$\begin{aligned}<br>&amp;N(s)\leftarrow N(s)+1 \<br>&amp;V(s)\leftarrow V(s)+\frac{1}{N(s)}(G-V(S))<br>\end{aligned}$$<br>接下来我们用代码定义一个采样函数。采样函数需要遵守状态转移矩阵和相应的策略，每次将<code>(s,a,r,s_next)</code>元组放入序列中，直到到达终止序列。然后我们通过该函数，用随机策略在下图的 MDP 中随机采样几条序列。</li>
+</ul>
+<h3 id="代码-4"><a href="#代码-4" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">sample</span>(<span class="hljs-params">MDP, Pi, timestep_max, number</span>):<br>    <span class="hljs-string">&#x27;&#x27;&#x27; 采样函数,策略Pi,限制最长时间步timestep_max,总共采样序列数number &#x27;&#x27;&#x27;</span><br>    S, A, P, R, gamma = MDP<br>    episodes = []<br>    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(number):<br>        episode = []<br>        timestep = <span class="hljs-number">0</span><br>        s = S[np.random.randint(<span class="hljs-number">4</span>)]  <span class="hljs-comment"># 随机选择一个除s5以外的状态s作为起点</span><br>        <span class="hljs-comment"># 当前状态为终止状态或者时间步太长时,一次采样结束</span><br>        <span class="hljs-keyword">while</span> s != <span class="hljs-string">&quot;s5&quot;</span> <span class="hljs-keyword">and</span> timestep &lt;= timestep_max:<br>            timestep += <span class="hljs-number">1</span><br>            rand, temp = np.random.rand(), <span class="hljs-number">0</span><br>            <span class="hljs-comment"># 在状态s下根据策略选择动作</span><br>            <span class="hljs-keyword">for</span> a_opt <span class="hljs-keyword">in</span> A:<br>                temp += Pi.get(join(s, a_opt), <span class="hljs-number">0</span>)<br>                <span class="hljs-keyword">if</span> temp &gt; rand:<br>                    a = a_opt<br>                    r = R.get(join(s, a), <span class="hljs-number">0</span>)<br>                    <span class="hljs-keyword">break</span><br>            rand, temp = np.random.rand(), <span class="hljs-number">0</span><br>            <span class="hljs-comment"># 根据状态转移概率得到下一个状态s_next</span><br>            <span class="hljs-keyword">for</span> s_opt <span class="hljs-keyword">in</span> S:<br>                temp += P.get(join(join(s, a), s_opt), <span class="hljs-number">0</span>)<br>                <span class="hljs-keyword">if</span> temp &gt; rand:<br>                    s_next = s_opt<br>                    <span class="hljs-keyword">break</span><br>            episode.append((s, a, r, s_next))  <span class="hljs-comment"># 把（s,a,r,s_next）元组放入序列中</span><br>            s = s_next  <span class="hljs-comment"># s_next变成当前状态,开始接下来的循环</span><br>        episodes.append(episode)<br>    <span class="hljs-keyword">return</span> episodes<br><br><br><span class="hljs-comment"># 采样5次,每个序列最长不超过20步</span><br>episodes = sample(MDP, Pi_1, <span class="hljs-number">20</span>, <span class="hljs-number">5</span>)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;第一条序列\n&#x27;</span>, episodes[<span class="hljs-number">0</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;第二条序列\n&#x27;</span>, episodes[<span class="hljs-number">1</span>])<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;第五条序列\n&#x27;</span>, episodes[<span class="hljs-number">4</span>])<br><span class="hljs-comment"># 对所有采样序列计算所有状态的价值</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">MC</span>(<span class="hljs-params">episodes, V, N, gamma</span>):<br>    <span class="hljs-keyword">for</span> episode <span class="hljs-keyword">in</span> episodes:<br>        G = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(episode) - <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>):  <span class="hljs-comment">#一个序列从后往前计算</span><br>            (s, a, r, s_next) = episode[i]<br>            G = r + gamma * G<br>            N[s] = N[s] + <span class="hljs-number">1</span><br>            V[s] = V[s] + (G - V[s]) / N[s]<br><br><br>timestep_max = <span class="hljs-number">20</span><br><span class="hljs-comment"># 采样1000次,可以自行修改</span><br>episodes = sample(MDP, Pi_1, timestep_max, <span class="hljs-number">1000</span>)<br>gamma = <span class="hljs-number">0.5</span><br>V = &#123;<span class="hljs-string">&quot;s1&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s2&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s3&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s4&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s5&quot;</span>: <span class="hljs-number">0</span>&#125;<br>N = &#123;<span class="hljs-string">&quot;s1&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s2&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s3&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s4&quot;</span>: <span class="hljs-number">0</span>, <span class="hljs-string">&quot;s5&quot;</span>: <span class="hljs-number">0</span>&#125;<br>MC(episodes, V, N, gamma)<br><span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;使用蒙特卡洛方法计算MDP的状态价值为\n&quot;</span>, V)<br></code></pre></td></tr></table></figure>
+<p>可以看到用蒙特卡洛方法估计得到的状态价值和我们用 MRP 解析解得到的状态价值是很接近的。这得益于我们采样了比较多的序列，感兴趣的读者可以尝试修改采样次数，然后观察蒙特卡洛方法的结果。</p>
+<h1 id="6-占用度量"><a href="#6-占用度量" class="headerlink" title="6 占用度量"></a>6 占用度量</h1><p>第四节提到，不同策略的价值函数是不一样的。这是因为对于同一个 MDP，不同策略会访问到的状态的概率分布是不同的。<br>我们需要理解不同策略会使智能体访问到不同概率分布的状态这个事实，这会影响到策略的价值函数。<br>首先我们定义 MDP 的初始状态分布为$\nu_0(s)$，在有些资料中，初始状态分布会被定义进 MDP 的组成元素中。我们用$P_t^{\pi}(s)$表示采取策略使得智能体在时刻状态为的概率，所以我们有$P_0^\pi(s)&#x3D;\nu_0(s)$，然后就可以定义一个策略的<strong>状态访问分布</strong>（state visitation distribution）：<br>$\nu^\pi(s)&#x3D;(1-\gamma)\sum_{t&#x3D;0}^\infty\gamma^tP_t^\pi(s)$<br>其中，$1-\gamma$是用来使得概率加和为 1 的归一化因子。状态访问概率表示一个策略和 MDP 交互会访问到的状态的分布。需要注意的是，理论上在计算该分布时需要交互到无穷步之后，但实际上智能体和 MDP 的交互在一个序列中是有限的。不过我们仍然可以用以上公式来表达状态访问概率的思想，状态访问概率有如下性质：<br>$\nu^\pi(s’)&#x3D;(1-\gamma)\nu_0(s’)+\gamma\int P(s’|s,a)\pi(a|s)\nu^\pi(s)dsda$<br>此外，我们还可以定义策略的<strong>占用度量</strong>（occupancy measure）：<br>$\rho^\pi(s,a)&#x3D;(1-\gamma)\sum_{t&#x3D;0}^\infty\gamma^tP_t^\pi(s)\pi(a|s)$<br>它表示动作状态(s,a)对被访问到的概率。二者之间存在如下关系：<br>$\rho^\pi(s,a)&#x3D;\nu^\pi(s)\pi(a|s)$<br>进一步得出如下两个定理。<strong>定理 1</strong>：智能体分别以策略$\pi_1$和$\pi_2$和同一个 MDP 交互得到的占用度量$\rho^{\pi_1}$和$\rho^{\pi_2}$满足<br>$\rho^{\pi_1}&#x3D;\rho^{\pi_2}\iff\pi_1&#x3D;\pi_2$<br><strong>定理 2</strong>：给定一合法占用度量$\rho$，可生成该占用度量的唯一策略是<br>$\pi_\rho&#x3D;\frac{\rho(s,a)}{\sum_{a’}\rho(s,a’)}$<br>注意：以上提到的“合法”占用度量是指存在一个策略使智能体与 MDP 交互产生的状态动作对被访问到的概率。</p>
+<p>接下来我们编写代码来近似估计占用度量。这里我们采用近似估计，即设置一个较大的采样轨迹长度的最大值，然后采样很多次，用状态动作对出现的频率估计实际概率。</p>
+<h3 id="代码-5"><a href="#代码-5" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">occupancy</span>(<span class="hljs-params">episodes, s, a, timestep_max, gamma</span>):<br>    <span class="hljs-string">&#x27;&#x27;&#x27; 计算状态动作对（s,a）出现的频率,以此来估算策略的占用度量 &#x27;&#x27;&#x27;</span><br>    rho = <span class="hljs-number">0</span><br>    total_times = np.zeros(timestep_max)  <span class="hljs-comment"># 记录每个时间步t各被经历过几次</span><br>    occur_times = np.zeros(timestep_max)  <span class="hljs-comment"># 记录(s_t,a_t)=(s,a)的次数</span><br>    <span class="hljs-keyword">for</span> episode <span class="hljs-keyword">in</span> episodes:<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(episode)):<br>            (s_opt, a_opt, r, s_next) = episode[i]<br>            total_times[i] += <span class="hljs-number">1</span><br>            <span class="hljs-keyword">if</span> s == s_opt <span class="hljs-keyword">and</span> a == a_opt:<br>                occur_times[i] += <span class="hljs-number">1</span><br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">reversed</span>(<span class="hljs-built_in">range</span>(timestep_max)):<br>        <span class="hljs-keyword">if</span> total_times[i]:<br>            rho += gamma**i * occur_times[i] / total_times[i]<br>    <span class="hljs-keyword">return</span> (<span class="hljs-number">1</span> - gamma) * rho<br><br><br>gamma = <span class="hljs-number">0.5</span><br>timestep_max = <span class="hljs-number">1000</span><br><br>episodes_1 = sample(MDP, Pi_1, timestep_max, <span class="hljs-number">1000</span>)<br>episodes_2 = sample(MDP, Pi_2, timestep_max, <span class="hljs-number">1000</span>)<br>rho_1 = occupancy(episodes_1, <span class="hljs-string">&quot;s4&quot;</span>, <span class="hljs-string">&quot;概率前往&quot;</span>, timestep_max, gamma)<br>rho_2 = occupancy(episodes_2, <span class="hljs-string">&quot;s4&quot;</span>, <span class="hljs-string">&quot;概率前往&quot;</span>, timestep_max, gamma)<br><span class="hljs-built_in">print</span>(rho_1, rho_2)<br></code></pre></td></tr></table></figure>
+<h1 id="7-最优策略"><a href="#7-最优策略" class="headerlink" title="7 最优策略"></a>7 最优策略</h1><p>强化学习的目标通常是找到一个策略，使得智能体从初始状态出发能获得最多的期望回报。我们首先定义策略之间的偏序关系：当且仅当对于任意的状态s都有$V^\pi(s)\geq V^{\pi^{\prime}}(s)$,记$\pi&gt;\pi^{\prime}$，于是在有限状态和动作集合的 MDP 中，至少存在一个策略比其他所有策略都好或者至少存在一个策略不差于其他所有策略，这个策略就是<strong>最优策略</strong>（optimal policy）。最优策略可能有很多个，我们都将其表示为$\pi^{<em>}(s)$。<br>最优策略都有相同的状态价值函数，我们称之为<strong>最优状态价值函数</strong>，表示为：<br>$V^</em>(s)&#x3D;\max_\pi V^\pi(s),\quad\forall s\in\mathcal{S}$<br>同理，我们定义<strong>最优动作价值函数</strong>:<br>$Q^*(s,a)&#x3D;\max_\pi Q^\pi(s,a),\quad\forall s\in\mathcal{S},a\in\mathcal{A}$<br>为了使$Q^\pi(s,a)$最大，我们需要在当前的状态动作对(s,a)之后都执行最优策略。于是我们得到了最优状态价值函数和最优动作价值函数之间的关系：<br>$Q^*(s,a)&#x3D;r(s,a)+\gamma\sum_{s^\prime\in S}P(s^\prime|s,a)V^*(s^\prime)$<br>这与在普通策略下的状态价值函数和动作价值函数之间的关系是一样的。另一方面，最优状态价值是选择此时使最优动作价值最大的那一个动作时的状态价值：<br>$V^*(s)&#x3D;\max_{a\in\mathcal{A}}Q^*(s,a)$</p>
+<h2 id="7-1贝尔曼最优方程"><a href="#7-1贝尔曼最优方程" class="headerlink" title="7.1贝尔曼最优方程"></a>7.1贝尔曼最优方程</h2><p>$$V^*(s)&#x3D;\max_{a\in\mathcal{A}}{r(s,a)+\gamma\sum_{s^{\prime}\in\mathcal{S}}p(s^{\prime}|s,a)V^*(s^{\prime})}\Q^*(s,a)&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in\mathcal{S}}p(s^{\prime}|s,a)\max_{a^{\prime}\in\mathcal{A}}Q^*(s^{\prime},a^{\prime})$$</p>
+<h1 id="8总结"><a href="#8总结" class="headerlink" title="8总结"></a>8总结</h1><p>本章从零开始介绍了马尔可夫决策过程的基础概念知识，并讲解了如何通过求解贝尔曼方程得到状态价值的解析解以及如何用蒙特卡洛方法估计各个状态的价值。马尔可夫决策过程是强化学习中的基础概念，强化学习中的环境就是一个马尔可夫决策过程。我们接下来将要介绍的强化学习算法通常都是在求解马尔可夫决策过程中的最优策略。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BB%BF%E7%9C%9F/" class="print-no-link">#仿真</a>
+      
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RL-2</div>
+      <div>http://example.com/2024/08/18/RL-2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Neutrin1</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月18日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/16/RL-1/" title="RL-1">
+                        <span class="hidden-mobile">RL-1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  <div>
+    <span id="timeDate">正在载入天数...</span>
+    <span id="times">载入时分秒...</span>
+    <script>
+    var now = new Date();
+    function createtime(){
+        var grt= new Date("2024/07/21 20:00:00");
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if(String(mnum).length ==1 ){
+                  mnum = "0" + mnum;
+        }
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if(String(snum).length ==1 ){
+                  snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = "🎶🐈本站已运行&nbsp"+dnum+"&nbsp天";  
+        document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+    }
+    setInterval("createtime()",250);
+    </script>
+  </div>
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
