@@ -16,25 +16,26 @@
   <meta name="author" content="Neutrin1">
   <meta name="keywords" content="">
   
-    <meta name="description" content="最近有点迷茫，不知道在干啥。好在背单词、学日语、学英语口语、健身坚持了下来；小论文状态进去了些，点子也有了，还在落实；技术好久没学了，下周要部署新技术；明天起还是正常早起吧，晚上学是安静、就是有点废身体。祝我好运~  🐈">
+    <meta name="description" content="#强化学习  1 前情提要本章是强化学习过程的重要概念，马尔可夫决策过程包含了状态信息以及状态之间的转移机制，强化学习解决问题的本质就是把问题抽象为一个马尔可夫决策过程。 2 重点内容2.1马尔可夫性质指当且仅当某时刻的状态只取决于上一时刻的状态。看似是下一个状态只取决于当前状态；事实上，具有马尔可夫性并不代表这个随机过程就和历史完全没有关系。t+1时刻只与t有关，由于马尔可夫性的链式关系，t时刻">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jottings-0">
-<meta property="og:url" content="http://example.com/2024/08/18/jottings-0/index.html">
+<meta property="og:title" content="RL-2.1">
+<meta property="og:url" content="http://example.com/2024/08/19/RL-2-1/index.html">
 <meta property="og:site_name" content="Neutrin1&#39;s Blog">
-<meta property="og:description" content="最近有点迷茫，不知道在干啥。好在背单词、学日语、学英语口语、健身坚持了下来；小论文状态进去了些，点子也有了，还在落实；技术好久没学了，下周要部署新技术；明天起还是正常早起吧，晚上学是安静、就是有点废身体。祝我好运~  🐈">
+<meta property="og:description" content="#强化学习  1 前情提要本章是强化学习过程的重要概念，马尔可夫决策过程包含了状态信息以及状态之间的转移机制，强化学习解决问题的本质就是把问题抽象为一个马尔可夫决策过程。 2 重点内容2.1马尔可夫性质指当且仅当某时刻的状态只取决于上一时刻的状态。看似是下一个状态只取决于当前状态；事实上，具有马尔可夫性并不代表这个随机过程就和历史完全没有关系。t+1时刻只与t有关，由于马尔可夫性的链式关系，t时刻">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-08-18T13:52:13.000Z">
-<meta property="article:modified_time" content="2024-08-18T13:56:13.431Z">
+<meta property="article:published_time" content="2024-08-19T02:07:12.000Z">
+<meta property="article:modified_time" content="2024-08-19T02:08:09.042Z">
 <meta property="article:author" content="Neutrin1">
-<meta property="article:tag" content="生活">
-<meta property="article:tag" content="随笔">
+<meta property="article:tag" content="仿真">
+<meta property="article:tag" content="强化学习">
+<meta property="article:tag" content="补充说明">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>jottings-0 - Neutrin1&#39;s Blog</title>
+  <title>RL-2.1 - Neutrin1&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="jottings-0"></span>
+            <span id="subtitle" data-typed-text="RL-2.1"></span>
           
         </div>
 
@@ -223,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-18 21:52" pubdate>
-          2024年8月18日 晚上
+        <time datetime="2024-08-19 10:07" pubdate>
+          2024年8月19日 上午
         </time>
       </span>
     
@@ -235,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          92 字
+          1.3k 字
         
       </span>
     
@@ -246,7 +247,7 @@
         
         
         
-          1 分钟
+          11 分钟
         
       </span>
     
@@ -291,12 +292,18 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">jottings-0</h1>
+            <h1 id="seo-header">RL-2.1</h1>
             
             
               <div class="markdown-body">
                 
-                <p>最近有点迷茫，不知道在干啥。<br>好在背单词、学日语、学英语口语、健身坚持了下来；<br>小论文状态进去了些，点子也有了，还在落实；<br>技术好久没学了，下周要部署新技术；<br>明天起还是正常早起吧，晚上学是安静、就是有点废身体。<br>祝我好运~  🐈</p>
+                <p>#强化学习 </p>
+<h1 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1 前情提要"></a>1 前情提要</h1><p>本章是强化学习过程的重要概念，马尔可夫决策过程包含了状态信息以及状态之间的转移机制，强化学习解决问题的本质就是把问题抽象为一个马尔可夫决策过程。</p>
+<h1 id="2-重点内容"><a href="#2-重点内容" class="headerlink" title="2 重点内容"></a>2 重点内容</h1><h2 id="2-1马尔可夫性质"><a href="#2-1马尔可夫性质" class="headerlink" title="2.1马尔可夫性质"></a>2.1马尔可夫性质</h2><p>指当且仅当某时刻的状态只取决于上一时刻的状态。<br>看似是下一个状态只取决于当前状态；<br>事实上，具有马尔可夫性并不代表这个随机过程就和历史完全没有关系。<br>t+1时刻只与t有关，由于马尔可夫性的链式关系，t时刻包含了t-1时刻状态的信息，以此类推。</p>
+<h2 id="2-2马尔可夫过程"><a href="#2-2马尔可夫过程" class="headerlink" title="2.2马尔可夫过程"></a>2.2马尔可夫过程</h2><p>元组&lt;S,P&gt;可以描述一个马尔可夫过程，S是有限数量的状态集合，P是状态转移矩阵。<br>P包含所有状态，$n*n$的矩阵，$P_{i,j}$表示了从状态$s_i$转移到状态$s_j$的概率，$P(s^{\prime}|s)$称状态转移函数，转出概率和必须为1。<br>根据状态转移矩阵生成一个状态序列的过程叫做采样。</p>
+<h2 id="2-3马尔可夫奖励过程"><a href="#2-3马尔可夫奖励过程" class="headerlink" title="2.3马尔可夫奖励过程"></a>2.3马尔可夫奖励过程</h2><p>在马尔可夫过程的元组上，加入$r,\gamma$;构成$&lt;S,P,r,\gamma&gt;$<br>新加入的分别是奖励函数和折扣因子。<br>r是指转移到状态s可以获得奖励的期望r(s)。<br>$\gamma$是折扣因子，远期利益具有不确定性，因此对远期利益打折扣。<br>在一个马尔可夫奖励过程中，从第t时刻的状态$S_t$开始，所有奖励的衰减之和称为$G_t$:<br>$G_t&#x3D;R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\cdots&#x3D;\sum_{k&#x3D;0}^\infty\gamma^kR_{t+k}$<br>回报是基于未来时间步的回报,所以要先算未来步数的回报。<br>价值函数：一个状态的期望回报称为这个状态的价值，所有状态的价值组成了价值函数。<br>$$\begin{aligned}<br>V(s)&amp; &#x3D;\mathbb{E}[G_t|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\ldots|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma(R_{t+1}+\gamma R_{t+2}+\ldots)|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma G_{t+1}|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma V(S_{t+1})|S_t&#x3D;s]<br>\end{aligned}$$<br>价值函数包含：当前的奖励+折扣因子与下一时刻价值函数的积。<br>$V(s)&#x3D;r(s)+\gamma\sum_{s’\in S}p(s’|s)V(s’)$<br>其中，$s^{\prime}$是下一时刻的状态，上面就是所谓贝尔曼方程。<br>写成矩阵形式：<br>$$\begin{bmatrix}V(s_1)\V(s_2)\\cdots\V(s_n)\end{bmatrix}&#x3D;\begin{bmatrix}r(s_1)\r(s_2)\\cdots\r(s_n)\end{bmatrix}+\gamma\begin{bmatrix}P(s_1|s_1)&amp;p(s_2|s_1)&amp;\ldots&amp;P(s_n|s_1)\P(s_1|s_2)&amp;P(s_2|s_2)&amp;\ldots&amp;P(s_n|s_2)\\cdots\P(s_1|s_n)&amp;P(s_2|s_n)&amp;\ldots&amp;P(s_n|s_n)\end{bmatrix}\begin{bmatrix}V(s_1)\V(s_2)\\ldots\V(s_n)\end{bmatrix}$$<br>求解：<br>$$\begin{aligned}<br>\mathcal{V}&amp; &#x3D;\mathcal{R}+\gamma\mathcal{PV} \<br>(I-\gamma\mathcal{P})\mathcal{V}&amp; &#x3D;\mathcal{R} \<br>\mathcal{V}&amp; &#x3D;(I-\gamma\mathcal{P})^{-1}\mathcal{R}<br>\end{aligned}$$<br>价值函数的解析解。</p>
+<h1 id="3-马尔可夫决策过程"><a href="#3-马尔可夫决策过程" class="headerlink" title="3 马尔可夫决策过程"></a>3 马尔可夫决策过程</h1><p>将马尔可夫奖励(MRP)过程+A,即智能体的动作。<br>区别在于：非自发，有外界刺激改变。<br>状态转移矩阵变成三维。<br>策略：通常用$\pi$表示。<br>状态价值函数：$V^{\pi}(s)$表示：从s + $\pi$ –&gt; v<br>动作价值函数：$Q^{\pi}(s,a)$表示：从s + $\pi$ + a –&gt; v<br>他们的对应关系：<br>$V^\pi(s)&#x3D;\sum_{a\in A}\pi(a|s)Q^\pi(s,a)$<br>使用策略$\pi$时：<br>$Q^\pi(s,a)&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in S}P(s^{\prime}|s,a)V^\pi(s^{\prime})$<br>贝尔曼期望方程<br>$$\begin{aligned}<br>V^{\pi}(s)&amp; &#x3D;\mathbb{E}<em>\pi[R_t+\gamma V^\pi(S</em>{t+1})|S_t&#x3D;s] \<br>&amp;&#x3D;\sum_{a\in A}\pi(a|s)\left(r(s,a)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s,a)V^\pi(s^{\prime})\right) \<br>Q^\pi(s,a)&amp; &#x3D;\mathbb{E}<em>\pi[R_t+\gamma Q^\pi(S</em>{t+1},A_{t+1})|S_t&#x3D;s,A_t&#x3D;a] \<br>&amp;&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s,a)\sum_{a^{\prime}\in A}\pi(a^{\prime}|s^{\prime})Q^\pi(s^{\prime},a^{\prime})<br>\end{aligned}$$<br>计算MDP下策略$\pi$的状态价值函数——&gt;MDP+$\pi$&#x3D;MRP<br>把策略的动作选择进行边缘化，得到的是没有动作的MRP。<br>某一个状态：根据策略将所有动作的概率进行加权，得到的奖励就可看作MRP在该状态下的奖励：<br>$r’(s)&#x3D;\sum_{a\in\mathcal{A}}\pi(a|s)r(s,a)$<br>状态转移概率：<br>$P’(s’|s)&#x3D;\sum_{a\in\mathcal{A}}\pi(a|s)P(s’|s,a)$</p>
+<h1 id="4-最优策略"><a href="#4-最优策略" class="headerlink" title="4 最优策略"></a>4 最优策略</h1><p>于是在有限状态和动作集合的 MDP 中，至少存在一个策略比其他所有策略都好或者至少存在一个策略不差于其他所有策略，这个策略就是<strong>最优策略</strong>（optimal policy）。<br>最优贝尔曼方程：<br>$$V^*(s)&#x3D;\max_{a\in\mathcal{A}}{r(s,a)+\gamma\sum_{s^{\prime}\in\mathcal{S}}p(s^{\prime}|s,a)V^*(s^{\prime})}\Q^*(s,a)&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in\mathcal{S}}p(s^{\prime}|s,a)\max_{a^{\prime}\in\mathcal{A}}Q^*(s^{\prime},a^{\prime})$$</p>
 
                 
               </div>
@@ -315,7 +322,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E9%9A%8F%E7%AC%94/" class="category-chain-item">随笔</a>
+  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
   
   
 
@@ -330,9 +337,11 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E7%94%9F%E6%B4%BB/" class="print-no-link">#生活</a>
+        <a href="/tags/%E4%BB%BF%E7%9C%9F/" class="print-no-link">#仿真</a>
       
-        <a href="/tags/%E9%9A%8F%E7%AC%94/" class="print-no-link">#随笔</a>
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
+      
+        <a href="/tags/%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E/" class="print-no-link">#补充说明</a>
       
     </div>
   
@@ -344,8 +353,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>jottings-0</div>
-      <div>http://example.com/2024/08/18/jottings-0/</div>
+      <div>RL-2.1</div>
+      <div>http://example.com/2024/08/19/RL-2-1/</div>
     </div>
     <div class="license-meta">
       
@@ -357,7 +366,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年8月18日</div>
+          <div>2024年8月19日</div>
         </div>
       
       
@@ -389,18 +398,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/19/RL-2-1/" title="RL-2.1">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">RL-2.1</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/18/RL-2/" title="RL-2">
-                        <span class="hidden-mobile">RL-2</span>
+                      <a href="/2024/08/18/jottings-0/" title="jottings-0">
+                        <span class="hidden-mobile">jottings-0</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

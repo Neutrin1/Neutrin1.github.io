@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>RL-2.1</title>
+    <link href="/2024/08/19/RL-2-1/"/>
+    <url>/2024/08/19/RL-2-1/</url>
+    
+    <content type="html"><![CDATA[<p>#强化学习 </p><h1 id="1-前情提要"><a href="#1-前情提要" class="headerlink" title="1 前情提要"></a>1 前情提要</h1><p>本章是强化学习过程的重要概念，马尔可夫决策过程包含了状态信息以及状态之间的转移机制，强化学习解决问题的本质就是把问题抽象为一个马尔可夫决策过程。</p><h1 id="2-重点内容"><a href="#2-重点内容" class="headerlink" title="2 重点内容"></a>2 重点内容</h1><h2 id="2-1马尔可夫性质"><a href="#2-1马尔可夫性质" class="headerlink" title="2.1马尔可夫性质"></a>2.1马尔可夫性质</h2><p>指当且仅当某时刻的状态只取决于上一时刻的状态。<br>看似是下一个状态只取决于当前状态；<br>事实上，具有马尔可夫性并不代表这个随机过程就和历史完全没有关系。<br>t+1时刻只与t有关，由于马尔可夫性的链式关系，t时刻包含了t-1时刻状态的信息，以此类推。</p><h2 id="2-2马尔可夫过程"><a href="#2-2马尔可夫过程" class="headerlink" title="2.2马尔可夫过程"></a>2.2马尔可夫过程</h2><p>元组&lt;S,P&gt;可以描述一个马尔可夫过程，S是有限数量的状态集合，P是状态转移矩阵。<br>P包含所有状态，$n*n$的矩阵，$P_{i,j}$表示了从状态$s_i$转移到状态$s_j$的概率，$P(s^{\prime}|s)$称状态转移函数，转出概率和必须为1。<br>根据状态转移矩阵生成一个状态序列的过程叫做采样。</p><h2 id="2-3马尔可夫奖励过程"><a href="#2-3马尔可夫奖励过程" class="headerlink" title="2.3马尔可夫奖励过程"></a>2.3马尔可夫奖励过程</h2><p>在马尔可夫过程的元组上，加入$r,\gamma$;构成$&lt;S,P,r,\gamma&gt;$<br>新加入的分别是奖励函数和折扣因子。<br>r是指转移到状态s可以获得奖励的期望r(s)。<br>$\gamma$是折扣因子，远期利益具有不确定性，因此对远期利益打折扣。<br>在一个马尔可夫奖励过程中，从第t时刻的状态$S_t$开始，所有奖励的衰减之和称为$G_t$:<br>$G_t&#x3D;R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\cdots&#x3D;\sum_{k&#x3D;0}^\infty\gamma^kR_{t+k}$<br>回报是基于未来时间步的回报,所以要先算未来步数的回报。<br>价值函数：一个状态的期望回报称为这个状态的价值，所有状态的价值组成了价值函数。<br>$$\begin{aligned}<br>V(s)&amp; &#x3D;\mathbb{E}[G_t|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma R_{t+1}+\gamma^2R_{t+2}+\ldots|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma(R_{t+1}+\gamma R_{t+2}+\ldots)|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma G_{t+1}|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}[R_t+\gamma V(S_{t+1})|S_t&#x3D;s]<br>\end{aligned}$$<br>价值函数包含：当前的奖励+折扣因子与下一时刻价值函数的积。<br>$V(s)&#x3D;r(s)+\gamma\sum_{s’\in S}p(s’|s)V(s’)$<br>其中，$s^{\prime}$是下一时刻的状态，上面就是所谓贝尔曼方程。<br>写成矩阵形式：<br>$$\begin{bmatrix}V(s_1)\V(s_2)\\cdots\V(s_n)\end{bmatrix}&#x3D;\begin{bmatrix}r(s_1)\r(s_2)\\cdots\r(s_n)\end{bmatrix}+\gamma\begin{bmatrix}P(s_1|s_1)&amp;p(s_2|s_1)&amp;\ldots&amp;P(s_n|s_1)\P(s_1|s_2)&amp;P(s_2|s_2)&amp;\ldots&amp;P(s_n|s_2)\\cdots\P(s_1|s_n)&amp;P(s_2|s_n)&amp;\ldots&amp;P(s_n|s_n)\end{bmatrix}\begin{bmatrix}V(s_1)\V(s_2)\\ldots\V(s_n)\end{bmatrix}$$<br>求解：<br>$$\begin{aligned}<br>\mathcal{V}&amp; &#x3D;\mathcal{R}+\gamma\mathcal{PV} \<br>(I-\gamma\mathcal{P})\mathcal{V}&amp; &#x3D;\mathcal{R} \<br>\mathcal{V}&amp; &#x3D;(I-\gamma\mathcal{P})^{-1}\mathcal{R}<br>\end{aligned}$$<br>价值函数的解析解。</p><h1 id="3-马尔可夫决策过程"><a href="#3-马尔可夫决策过程" class="headerlink" title="3 马尔可夫决策过程"></a>3 马尔可夫决策过程</h1><p>将马尔可夫奖励(MRP)过程+A,即智能体的动作。<br>区别在于：非自发，有外界刺激改变。<br>状态转移矩阵变成三维。<br>策略：通常用$\pi$表示。<br>状态价值函数：$V^{\pi}(s)$表示：从s + $\pi$ –&gt; v<br>动作价值函数：$Q^{\pi}(s,a)$表示：从s + $\pi$ + a –&gt; v<br>他们的对应关系：<br>$V^\pi(s)&#x3D;\sum_{a\in A}\pi(a|s)Q^\pi(s,a)$<br>使用策略$\pi$时：<br>$Q^\pi(s,a)&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in S}P(s^{\prime}|s,a)V^\pi(s^{\prime})$<br>贝尔曼期望方程<br>$$\begin{aligned}<br>V^{\pi}(s)&amp; &#x3D;\mathbb{E}<em>\pi[R_t+\gamma V^\pi(S</em>{t+1})|S_t&#x3D;s] \<br>&amp;&#x3D;\sum_{a\in A}\pi(a|s)\left(r(s,a)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s,a)V^\pi(s^{\prime})\right) \<br>Q^\pi(s,a)&amp; &#x3D;\mathbb{E}<em>\pi[R_t+\gamma Q^\pi(S</em>{t+1},A_{t+1})|S_t&#x3D;s,A_t&#x3D;a] \<br>&amp;&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s,a)\sum_{a^{\prime}\in A}\pi(a^{\prime}|s^{\prime})Q^\pi(s^{\prime},a^{\prime})<br>\end{aligned}$$<br>计算MDP下策略$\pi$的状态价值函数——&gt;MDP+$\pi$&#x3D;MRP<br>把策略的动作选择进行边缘化，得到的是没有动作的MRP。<br>某一个状态：根据策略将所有动作的概率进行加权，得到的奖励就可看作MRP在该状态下的奖励：<br>$r’(s)&#x3D;\sum_{a\in\mathcal{A}}\pi(a|s)r(s,a)$<br>状态转移概率：<br>$P’(s’|s)&#x3D;\sum_{a\in\mathcal{A}}\pi(a|s)P(s’|s,a)$</p><h1 id="4-最优策略"><a href="#4-最优策略" class="headerlink" title="4 最优策略"></a>4 最优策略</h1><p>于是在有限状态和动作集合的 MDP 中，至少存在一个策略比其他所有策略都好或者至少存在一个策略不差于其他所有策略，这个策略就是<strong>最优策略</strong>（optimal policy）。<br>最优贝尔曼方程：<br>$$V^*(s)&#x3D;\max_{a\in\mathcal{A}}{r(s,a)+\gamma\sum_{s^{\prime}\in\mathcal{S}}p(s^{\prime}|s,a)V^*(s^{\prime})}\Q^*(s,a)&#x3D;r(s,a)+\gamma\sum_{s^{\prime}\in\mathcal{S}}p(s^{\prime}|s,a)\max_{a^{\prime}\in\mathcal{A}}Q^*(s^{\prime},a^{\prime})$$</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>强化学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>仿真</tag>
+      
+      <tag>强化学习</tag>
+      
+      <tag>补充说明</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>jottings-0</title>
     <link href="/2024/08/18/jottings-0/"/>
     <url>/2024/08/18/jottings-0/</url>
