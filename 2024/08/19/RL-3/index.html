@@ -1,0 +1,797 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Neutrin1">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="#强化学习   1 简介动态规划（dynamic programming）是程序设计算法中非常重要的内容，能够高效解决一些经典问题，例如背包问题和最短路径规划。动态规划的基本思想是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到目标问题的解。动态规划会保存已解决的子问题的答案，在求解目标问题的过程中，需要这些子问题答案时就可以直接利用，避免重复计算。本章介绍如何用动态规划的思">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RL-3">
+<meta property="og:url" content="http://example.com/2024/08/19/RL-3/index.html">
+<meta property="og:site_name" content="Neutrin1&#39;s Blog">
+<meta property="og:description" content="#强化学习   1 简介动态规划（dynamic programming）是程序设计算法中非常重要的内容，能够高效解决一些经典问题，例如背包问题和最短路径规划。动态规划的基本思想是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到目标问题的解。动态规划会保存已解决的子问题的答案，在求解目标问题的过程中，需要这些子问题答案时就可以直接利用，避免重复计算。本章介绍如何用动态规划的思">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/image/RL-31.png">
+<meta property="og:image" content="http://example.com/image/RL-32.png">
+<meta property="og:image" content="http://example.com/image/RL-33.png">
+<meta property="og:image" content="http://example.com/image/RL-34.png">
+<meta property="og:image" content="http://example.com/image/RL-35.png">
+<meta property="article:published_time" content="2024-08-19T06:34:42.000Z">
+<meta property="article:modified_time" content="2024-08-19T06:37:57.322Z">
+<meta property="article:author" content="Neutrin1">
+<meta property="article:tag" content="仿真">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/image/RL-31.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>RL-3 - Neutrin1&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">Neutrin1的小世界</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/column/" target="_self">
+                <i class="iconfont icon-friends"></i>
+                <span>专栏</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/%E6%96%87%E7%AB%A0%E9%A1%B5%E8%83%8C%E6%99%AF.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="RL-3"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-08-19 14:34" pubdate>
+          2024年8月19日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          35 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">RL-3</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>#强化学习  </p>
+<h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h1><p><strong>动态规划</strong>（dynamic programming）是程序设计算法中非常重要的内容，能够高效解决一些经典问题，例如背包问题和最短路径规划。动态规划的基本思想是将待求解问题分解成若干个子问题，先求解子问题，然后从这些子问题的解得到目标问题的解。动态规划会保存已解决的子问题的答案，在求解目标问题的过程中，需要这些子问题答案时就可以直接利用，避免重复计算。本章介绍如何用动态规划的思想来求解在马尔可夫决策过程中的最优策略。<br>基于动态规划的强化学习算法主要有两种：一是<strong>策略迭代</strong>（policy iteration），二是<strong>价值迭代</strong>（value iteration）。其中，策略迭代由两部分组成：<strong>策略评估</strong>（policy evaluation）和<strong>策略提升</strong>（policy improvement）。具体来说，策略迭代中的策略评估使用贝尔曼期望方程来得到一个策略的状态价值函数，这是一个动态规划的过程；而价值迭代直接使用贝尔曼最优方程来进行动态规划，得到最终的最优状态价值。</p>
+<p>不同于的蒙特卡洛方法和时序差分算法，基于动态规划的这两种强化学习算法要求事先知道环境的状态转移函数和奖励函数，也就是需要知道整个马尔可夫决策过程。在这样一个白盒环境中，不需要通过智能体和环境的大量交互来学习，可以直接用动态规划求解状态价值函数。但是，现实中的白盒环境很少，这也是动态规划算法的局限之处，我们无法将其运用到很多实际场景中。另外，策略迭代和价值迭代通常只适用于有限马尔可夫决策过程，即状态空间和动作空间是离散且有限的。</p>
+<h1 id="2-示例：悬崖漫步环境"><a href="#2-示例：悬崖漫步环境" class="headerlink" title="2 示例：悬崖漫步环境"></a>2 示例：悬崖漫步环境</h1><p>本节使用策略迭代和价值迭代来求解<strong>悬崖漫步</strong>（Cliff Walking）这个环境中的最优策略。接下来先简单介绍一下该环境。</p>
+<p>悬崖漫步是一个非常经典的强化学习环境，它要求一个智能体从起点出发，避开悬崖行走，最终到达目标位置。如图 4-1 所示，有一个 4×12 的网格世界，每一个网格表示一个状态。智能体的起点是左下角的状态，目标是右下角的状态，智能体在每一个状态都可以采取 4 种动作：上、下、左、右。如果智能体采取动作后触碰到边界墙壁则状态不发生改变，否则就会相应到达下一个状态。环境中有一段悬崖，智能体掉入悬崖或到达目标状态都会结束动作并回到起点，也就是说掉入悬崖或者达到目标状态是终止状态。智能体每走一步的奖励是 −1，掉入悬崖的奖励是 −100。<br><img src="/image/RL-31.png"></p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">CliffWalkingEnv</span>:<br>    <span class="hljs-string">&quot;&quot;&quot; 悬崖漫步环境&quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, ncol=<span class="hljs-number">12</span>, nrow=<span class="hljs-number">4</span></span>):<br>        <span class="hljs-variable language_">self</span>.ncol = ncol  <span class="hljs-comment"># 定义网格世界的列</span><br>        <span class="hljs-variable language_">self</span>.nrow = nrow  <span class="hljs-comment"># 定义网格世界的行</span><br>        <span class="hljs-comment"># 转移矩阵P[state][action] = [(p, next_state, reward, done)]包含下一个状态和奖励</span><br>        <span class="hljs-variable language_">self</span>.P = <span class="hljs-variable language_">self</span>.createP()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">createP</span>(<span class="hljs-params">self</span>):<br>        <span class="hljs-comment"># 初始化</span><br>        P = [[[] <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>)] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.nrow * <span class="hljs-variable language_">self</span>.ncol)]<br>        <span class="hljs-comment"># 4种动作, change[0]:上,change[1]:下, change[2]:左, change[3]:右。坐标系原点(0,0)</span><br>        <span class="hljs-comment"># 定义在左上角</span><br>        change = [[<span class="hljs-number">0</span>, -<span class="hljs-number">1</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [-<span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>]]<br>        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.nrow):<br>            <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.ncol):<br>                <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                    <span class="hljs-comment"># 位置在悬崖或者目标状态,因为无法继续交互,任何动作奖励都为0</span><br>                    <span class="hljs-keyword">if</span> i == <span class="hljs-variable language_">self</span>.nrow - <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> j &gt; <span class="hljs-number">0</span>:<br>                        P[i * <span class="hljs-variable language_">self</span>.ncol + j][a] = [(<span class="hljs-number">1</span>, i * <span class="hljs-variable language_">self</span>.ncol + j, <span class="hljs-number">0</span>,<br>                                                    <span class="hljs-literal">True</span>)]<br>                        <span class="hljs-keyword">continue</span><br>                    <span class="hljs-comment"># 其他位置</span><br>                    next_x = <span class="hljs-built_in">min</span>(<span class="hljs-variable language_">self</span>.ncol - <span class="hljs-number">1</span>, <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, j + change[a][<span class="hljs-number">0</span>]))<br>                    next_y = <span class="hljs-built_in">min</span>(<span class="hljs-variable language_">self</span>.nrow - <span class="hljs-number">1</span>, <span class="hljs-built_in">max</span>(<span class="hljs-number">0</span>, i + change[a][<span class="hljs-number">1</span>]))<br>                    next_state = next_y * <span class="hljs-variable language_">self</span>.ncol + next_x<br>                    reward = -<span class="hljs-number">1</span><br>                    done = <span class="hljs-literal">False</span><br>                    <span class="hljs-comment"># 下一个位置在悬崖或者终点</span><br>                    <span class="hljs-keyword">if</span> next_y == <span class="hljs-variable language_">self</span>.nrow - <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> next_x &gt; <span class="hljs-number">0</span>:<br>                        done = <span class="hljs-literal">True</span><br>                        <span class="hljs-keyword">if</span> next_x != <span class="hljs-variable language_">self</span>.ncol - <span class="hljs-number">1</span>:  <span class="hljs-comment"># 下一个位置在悬崖</span><br>                            reward = -<span class="hljs-number">100</span><br>                    P[i * <span class="hljs-variable language_">self</span>.ncol + j][a] = [(<span class="hljs-number">1</span>, next_state, reward, done)]<br>        <span class="hljs-keyword">return</span> P<br></code></pre></td></tr></table></figure>
+<h1 id="3-策略迭代算法"><a href="#3-策略迭代算法" class="headerlink" title="3 策略迭代算法"></a>3 策略迭代算法</h1><p>策略迭代是策略评估和策略提升不断循环交替，直至最后得到最优策略的过程。本节分别对这两个过程进行详细介绍。</p>
+<h2 id="3-1策略评估"><a href="#3-1策略评估" class="headerlink" title="3.1策略评估"></a>3.1策略评估</h2><p>策略评估这一过程用来计算一个策略的状态价值函数。回顾一下之前学习的贝尔曼期望方程：<br>$V^\pi(s)&#x3D;\sum_{a\in A}\pi(a|s)\left(r(s,a)+\gamma\sum_{s^{\prime}\in S}p(s^{\prime}|s,a)V^\pi(s^{\prime})\right)$<br>其中，$\pi(a|s)$是策略$\pi$在状态s下采取动作的概率。可以看到，当知道奖励函数和状态转移函数时，我们可以根据下一个状态的价值来计算当前状态的价值。因此，根据动态规划的思想，可以把计算下一个可能状态的价值当成一个子问题，把计算当前状态的价值看作当前问题。在得知子问题的解后，就可以求解当前问题。更一般的，考虑所有的状态，就变成了用上一轮的状态价值函数来计算当前这一轮的状态价值函数，即<br>$V^{k+1}(s)&#x3D;\sum_{a\in A}\pi(a|s)\left(r(s,a)+\gamma\sum_{s’\in S}P(s’|s,a)V^k(s’)\right)$</p>
+<h2 id="3-2策略提升"><a href="#3-2策略提升" class="headerlink" title="3.2策略提升"></a>3.2策略提升</h2><p>使用策略评估计算得到当前策略的状态价值函数之后，我们可以据此来改进该策略。假设此时对于策略$\pi$，我们已经知道其价值$V^{\pi}$，也就是知道了在策略$\pi$下从每一个状态s出发最终得到的期望回报。我们要如何改变策略来获得在状态s下更高的期望回报呢？假设智能体在状态s下采取动作a，之后的动作依旧遵循策略$\pi$，此时得到的期望回报其实就是动作价值$Q^{\pi}(s,a)$。如果我们有$Q^{\pi}(s,a)&gt;$V^\pi(s)，则说明在状态s下采取动作a会比原来的策略$\pi(a|s)$得到更高的期望回报。</p>
+<p>我们发现构造的贪心策略满足策略提升定理的条件，所以策略能够比策略更好或者至少与其一样好。这个根据贪心法选取动作从而得到新的策略的过程称为策略提升。当策略提升之后得到的策略和之前的策略一样时，说明策略迭代达到了收敛，此时$\pi^{\prime}$和$\pi$就是最优策略。<br>$$\begin{aligned}<br>V^{\pi}(s)&amp; \leq Q^\pi(s,\pi’(s)) \<br>&amp;&#x3D;\mathbb{E}<em>{\pi’}[R_t+\gamma V^{\pi}(S</em>{t+1})|S_t&#x3D;s] \<br>&amp;\leq\mathbb{E}<em>{\pi^{\prime}}[R_t+\gamma Q^\pi(S</em>{t+1},\pi^{\prime}(S_{t+1}))|S_t&#x3D;s] \<br>&amp;&#x3D;\mathbb{E}<em>{\pi^{\prime}}[R_t+\gamma R</em>{t+1}+\gamma^2V^\pi(S_{t+2})|S_t&#x3D;s] \<br>&amp;\leq\mathbb{E}<em>{\pi^{\prime}}[R_t+\gamma R</em>{t+1}+\gamma^2R_{t+2}+\gamma^3V^\pi(S_{t+3})|S_t&#x3D;s] \<br>&amp;: \<br>&amp;\leq\mathbb{E}<em>{\pi^{\prime}}[R_t+\gamma R</em>{t+1}+\gamma^2R_{t+2}+\gamma^3R_{t+3}+\cdots|S_t&#x3D;s] \<br>&amp;&#x3D;V^{\pi^{\prime}}(s)<br>\end{aligned}$$<br>可以看到，推导过程中的每一个时间步都用到局部动作价值优势</p>
+<h2 id="3-3策略迭代算法"><a href="#3-3策略迭代算法" class="headerlink" title="3.3策略迭代算法"></a>3.3策略迭代算法</h2><p>总体来说，策略迭代算法的过程如下：对当前的策略进行策略评估，得到其状态价值函数，然后根据该状态价值函数进行策略提升以得到一个更好的新策略，接着继续评估新策略、提升策略……直至最后收敛到最优策略<br>$$\pi^0\overset{\textit{策略评估}}{\operatorname*{\longrightarrow}}V^{\pi^0}\overset{\textit{策略提升}}{\operatorname*{\longrightarrow}}\pi^1\overset{\textit{策略评估}}{\operatorname*{\longrightarrow}}V^{\pi^1}\overset{\textit{策略提升}}{\operatorname*{\longrightarrow}}\pi^2\overset{\textit{策略评估}}{\operatorname*{\longrightarrow}}\ldots\overset{\textit{策略提升}}{\operatorname*{\longrightarrow}}\pi^*$$<br>结合策略评估和策略提升，我们得到以下策略迭代算法：<br><img src="/image/RL-32.png"></p>
+<h3 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">PolicyIteration</span>:<br>    <span class="hljs-string">&quot;&quot;&quot; 策略迭代算法 &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, env, theta, gamma</span>):<br>        <span class="hljs-variable language_">self</span>.env = env<br>        <span class="hljs-variable language_">self</span>.v = [<span class="hljs-number">0</span>] * <span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow  <span class="hljs-comment"># 初始化价值为0</span><br>        <span class="hljs-variable language_">self</span>.pi = [[<span class="hljs-number">0.25</span>, <span class="hljs-number">0.25</span>, <span class="hljs-number">0.25</span>, <span class="hljs-number">0.25</span>]<br>                   <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow)]  <span class="hljs-comment"># 初始化为均匀随机策略</span><br>        <span class="hljs-variable language_">self</span>.theta = theta  <span class="hljs-comment"># 策略评估收敛阈值</span><br>        <span class="hljs-variable language_">self</span>.gamma = gamma  <span class="hljs-comment"># 折扣因子</span><br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">policy_evaluation</span>(<span class="hljs-params">self</span>):  <span class="hljs-comment"># 策略评估</span><br>        cnt = <span class="hljs-number">1</span>  <span class="hljs-comment"># 计数器</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>            max_diff = <span class="hljs-number">0</span><br>            new_v = [<span class="hljs-number">0</span>] * <span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow<br>            <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow):<br>                qsa_list = []  <span class="hljs-comment"># 开始计算状态s下的所有Q(s,a)价值</span><br>                <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                    qsa = <span class="hljs-number">0</span><br>                    <span class="hljs-keyword">for</span> res <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.env.P[s][a]:<br>                        p, next_state, r, done = res<br>                        qsa += p * (r + <span class="hljs-variable language_">self</span>.gamma * <span class="hljs-variable language_">self</span>.v[next_state] * (<span class="hljs-number">1</span> - done))<br>                        <span class="hljs-comment"># 本章环境比较特殊,奖励和下一个状态有关,所以需要和状态转移概率相乘</span><br>                    qsa_list.append(<span class="hljs-variable language_">self</span>.pi[s][a] * qsa)<br>                new_v[s] = <span class="hljs-built_in">sum</span>(qsa_list)  <span class="hljs-comment"># 状态价值函数和动作价值函数之间的关系</span><br>                max_diff = <span class="hljs-built_in">max</span>(max_diff, <span class="hljs-built_in">abs</span>(new_v[s] - <span class="hljs-variable language_">self</span>.v[s]))<br>            <span class="hljs-variable language_">self</span>.v = new_v<br>            <span class="hljs-keyword">if</span> max_diff &lt; <span class="hljs-variable language_">self</span>.theta: <span class="hljs-keyword">break</span>  <span class="hljs-comment"># 满足收敛条件,退出评估迭代</span><br>            cnt += <span class="hljs-number">1</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;策略评估进行%d轮后完成&quot;</span> % cnt)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">policy_improvement</span>(<span class="hljs-params">self</span>):  <span class="hljs-comment"># 策略提升</span><br>        <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.env.nrow * <span class="hljs-variable language_">self</span>.env.ncol):<br>            qsa_list = []<br>            <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                qsa = <span class="hljs-number">0</span><br>                <span class="hljs-keyword">for</span> res <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.env.P[s][a]:<br>                    p, next_state, r, done = res<br>                    qsa += p * (r + <span class="hljs-variable language_">self</span>.gamma * <span class="hljs-variable language_">self</span>.v[next_state] * (<span class="hljs-number">1</span> - done))<br>                qsa_list.append(qsa)<br>            maxq = <span class="hljs-built_in">max</span>(qsa_list)<br>            cntq = qsa_list.count(maxq)  <span class="hljs-comment"># 计算有几个动作得到了最大的Q值</span><br>            <span class="hljs-comment"># 让这些动作均分概率</span><br>            <span class="hljs-variable language_">self</span>.pi[s] = [<span class="hljs-number">1</span> / cntq <span class="hljs-keyword">if</span> q == maxq <span class="hljs-keyword">else</span> <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> q <span class="hljs-keyword">in</span> qsa_list]<br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;策略提升完成&quot;</span>)<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.pi<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">policy_iteration</span>(<span class="hljs-params">self</span>):  <span class="hljs-comment"># 策略迭代</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>            <span class="hljs-variable language_">self</span>.policy_evaluation()<br>            old_pi = copy.deepcopy(<span class="hljs-variable language_">self</span>.pi)  <span class="hljs-comment"># 将列表进行深拷贝,方便接下来进行比较</span><br>            new_pi = <span class="hljs-variable language_">self</span>.policy_improvement()<br>            <span class="hljs-keyword">if</span> old_pi == new_pi: <span class="hljs-keyword">break</span><br></code></pre></td></tr></table></figure>
+<p>现在我们已经写好了环境代码和策略迭代代码。为了更好地展现最终的策略，接下来增加一个打印策略的函数，用于打印当前策略在每个状态下的价值以及智能体会采取的动作。对于打印出来的动作，我们用<code>^o&lt;o</code>表示等概率采取向左和向上两种动作，<code>ooo&gt;</code>表示在当前状态只采取向右动作。</p>
+<h3 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs routeros">def print_agent(agent, action_meaning, disaster=[], end=[]):<br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;状态价值：&quot;</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(agent.env.nrow):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(agent.env.ncol):<br>            # 为了输出美观,保持输出6个字符<br>            <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;%6.6s&#x27;</span> % (<span class="hljs-string">&#x27;%.3f&#x27;</span> % agent.v[i * agent.env.ncol + j]), <span class="hljs-attribute">end</span>=<span class="hljs-string">&#x27; &#x27;</span>)<br>        <span class="hljs-built_in">print</span>()<br><br>    <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;策略：&quot;</span>)<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(agent.env.nrow):<br>        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(agent.env.ncol):<br>            # 一些特殊的状态,例如悬崖漫步中的悬崖<br>            <span class="hljs-keyword">if</span> (i * agent.env.ncol + j) <span class="hljs-keyword">in</span> disaster:<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;****&#x27;</span>, <span class="hljs-attribute">end</span>=<span class="hljs-string">&#x27; &#x27;</span>)<br>            elif (i * agent.env.ncol + j) <span class="hljs-keyword">in</span> end:  # 目标状态<br>                <span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;EEEE&#x27;</span>, <span class="hljs-attribute">end</span>=<span class="hljs-string">&#x27; &#x27;</span>)<br>            <span class="hljs-keyword">else</span>:<br>                a = agent.pi[i * agent.env.ncol + j]<br>                pi_str = <span class="hljs-string">&#x27;&#x27;</span><br>                <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> range(len(action_meaning)):<br>                    pi_str += action_meaning[k] <span class="hljs-keyword">if</span> a[k] &gt; 0 <span class="hljs-keyword">else</span> <span class="hljs-string">&#x27;o&#x27;</span><br>                <span class="hljs-built_in">print</span>(pi_str, <span class="hljs-attribute">end</span>=<span class="hljs-string">&#x27; &#x27;</span>)<br>        <span class="hljs-built_in">print</span>()<br><br><br>env = CliffWalkingEnv()<br>action_meaning = [<span class="hljs-string">&#x27;^&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>, <span class="hljs-string">&#x27;&lt;&#x27;</span>, <span class="hljs-string">&#x27;&gt;&#x27;</span>]<br>theta = 0.001<br>gamma = 0.9<br>agent = PolicyIteration(env, theta, gamma)<br>agent.policy_iteration()<br>print_agent(agent, action_meaning, list(range(37, 47)), [47])<br></code></pre></td></tr></table></figure>
+<p><img src="/image/RL-33.png"><br>经过 5 次策略评估和策略提升的循环迭代，策略收敛了，此时将获得的策略打印出来。用贝尔曼最优方程去检验其中每一个状态的价值，可以发现最终输出的策略的确是最优策略。</p>
+<h2 id="3-4价值迭代算法"><a href="#3-4价值迭代算法" class="headerlink" title="3.4价值迭代算法"></a>3.4价值迭代算法</h2><p>从上面的代码运行结果中我们能发现，策略迭代中的策略评估需要进行很多轮才能收敛得到某一策略的状态函数，这需要很大的计算量，尤其是在状态和动作空间比较大的情况下。我们是否必须要完全等到策略评估完成后再进行策略提升呢？试想一下，可能出现这样的情况：虽然状态价值函数还没有收敛，但是不论接下来怎么更新状态价值，策略提升得到的都是同一个策略。如果只在策略评估中进行一轮价值更新，然后直接根据更新后的价值进行策略提升，这样是否可以呢？答案是肯定的，这其实就是本节将要讲解的价值迭代算法，它可以被认为是一种策略评估只进行了一轮更新的策略迭代算法。需要注意的是，价值迭代中不存在显式的策略，我们只维护一个状态价值函数。<br>确切来说，价值迭代可以看成一种动态规划过程，它利用的是贝尔曼最优方程：<br>$V^{k+1}(s)&#x3D;\max_{a\in\mathcal{A}}{r(s,a)+\gamma\sum_{s’\in\mathcal{S}}P(s’|s,a)V^k(s’)}$<br><img src="/image/RL-34.png"></p>
+<h3 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">ValueIteration</span>:<br>    <span class="hljs-string">&quot;&quot;&quot; 价值迭代算法 &quot;&quot;&quot;</span><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, env, theta, gamma</span>):<br>        <span class="hljs-variable language_">self</span>.env = env<br>        <span class="hljs-variable language_">self</span>.v = [<span class="hljs-number">0</span>] * <span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow  <span class="hljs-comment"># 初始化价值为0</span><br>        <span class="hljs-variable language_">self</span>.theta = theta  <span class="hljs-comment"># 价值收敛阈值</span><br>        <span class="hljs-variable language_">self</span>.gamma = gamma<br>        <span class="hljs-comment"># 价值迭代结束后得到的策略</span><br>        <span class="hljs-variable language_">self</span>.pi = [<span class="hljs-literal">None</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow)]<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">value_iteration</span>(<span class="hljs-params">self</span>):<br>        cnt = <span class="hljs-number">0</span><br>        <span class="hljs-keyword">while</span> <span class="hljs-number">1</span>:<br>            max_diff = <span class="hljs-number">0</span><br>            new_v = [<span class="hljs-number">0</span>] * <span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow<br>            <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.env.ncol * <span class="hljs-variable language_">self</span>.env.nrow):<br>                qsa_list = []  <span class="hljs-comment"># 开始计算状态s下的所有Q(s,a)价值</span><br>                <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                    qsa = <span class="hljs-number">0</span><br>                    <span class="hljs-keyword">for</span> res <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.env.P[s][a]:<br>                        p, next_state, r, done = res<br>                        qsa += p * (r + <span class="hljs-variable language_">self</span>.gamma * <span class="hljs-variable language_">self</span>.v[next_state] * (<span class="hljs-number">1</span> - done))<br>                    qsa_list.append(qsa)  <span class="hljs-comment"># 这一行和下一行代码是价值迭代和策略迭代的主要区别</span><br>                new_v[s] = <span class="hljs-built_in">max</span>(qsa_list)<br>                max_diff = <span class="hljs-built_in">max</span>(max_diff, <span class="hljs-built_in">abs</span>(new_v[s] - <span class="hljs-variable language_">self</span>.v[s]))<br>            <span class="hljs-variable language_">self</span>.v = new_v<br>            <span class="hljs-keyword">if</span> max_diff &lt; <span class="hljs-variable language_">self</span>.theta: <span class="hljs-keyword">break</span>  <span class="hljs-comment"># 满足收敛条件,退出评估迭代</span><br>            cnt += <span class="hljs-number">1</span><br>        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;价值迭代一共进行%d轮&quot;</span> % cnt)<br>        <span class="hljs-variable language_">self</span>.get_policy()<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">get_policy</span>(<span class="hljs-params">self</span>):  <span class="hljs-comment"># 根据价值函数导出一个贪婪策略</span><br>        <span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-variable language_">self</span>.env.nrow * <span class="hljs-variable language_">self</span>.env.ncol):<br>            qsa_list = []<br>            <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">4</span>):<br>                qsa = <span class="hljs-number">0</span><br>                <span class="hljs-keyword">for</span> res <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.env.P[s][a]:<br>                    p, next_state, r, done = res<br>                    qsa += p * (r + <span class="hljs-variable language_">self</span>.gamma * <span class="hljs-variable language_">self</span>.v[next_state] * (<span class="hljs-number">1</span> - done))<br>                qsa_list.append(qsa)<br>            maxq = <span class="hljs-built_in">max</span>(qsa_list)<br>            cntq = qsa_list.count(maxq)  <span class="hljs-comment"># 计算有几个动作得到了最大的Q值</span><br>            <span class="hljs-comment"># 让这些动作均分概率</span><br>            <span class="hljs-variable language_">self</span>.pi[s] = [<span class="hljs-number">1</span> / cntq <span class="hljs-keyword">if</span> q == maxq <span class="hljs-keyword">else</span> <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> q <span class="hljs-keyword">in</span> qsa_list]<br><br><br>env = CliffWalkingEnv()<br>action_meaning = [<span class="hljs-string">&#x27;^&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>, <span class="hljs-string">&#x27;&lt;&#x27;</span>, <span class="hljs-string">&#x27;&gt;&#x27;</span>]<br>theta = <span class="hljs-number">0.001</span><br>gamma = <span class="hljs-number">0.9</span><br>agent = ValueIteration(env, theta, gamma)<br>agent.value_iteration()<br>print_agent(agent, action_meaning, <span class="hljs-built_in">list</span>(<span class="hljs-built_in">range</span>(<span class="hljs-number">37</span>, <span class="hljs-number">47</span>)), [<span class="hljs-number">47</span>])<br></code></pre></td></tr></table></figure>
+<h1 id="4-冰湖环境"><a href="#4-冰湖环境" class="headerlink" title="4 冰湖环境"></a>4 冰湖环境</h1><p>除了悬崖漫步环境，本章还准备了另一个环境——<strong>冰湖</strong>（Frozen Lake）。冰湖环境的状态空间和动作空间是有限的，我们在该环境中也尝试一下策略迭代算法和价值迭代算法，以便更好地理解这两个算法。<br><img src="/image/RL-35.png"></p>
+<h3 id="代码-基于gymnasium"><a href="#代码-基于gymnasium" class="headerlink" title="代码(基于gymnasium)"></a>代码(基于gymnasium)</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs livecodeserver">import gymnasium <span class="hljs-keyword">as</span> gym<br><br>env = gym.make(<span class="hljs-string">&quot;FrozenLake-v1&quot;</span>)  <span class="hljs-comment"># 创建环境</span><br>env = env.unwrapped  <span class="hljs-comment"># 解封装才能访问状态转移矩阵P</span><br>env.render()  <span class="hljs-comment"># 环境渲染,通常是弹窗显示或打印出可视化的环境</span><br>holes = <span class="hljs-built_in">set</span>()<br><span class="hljs-keyword">ends</span> = <span class="hljs-built_in">set</span>()<br><span class="hljs-keyword">for</span> s <span class="hljs-keyword">in</span> env.P:<br>    <span class="hljs-keyword">for</span> <span class="hljs-keyword">a</span> <span class="hljs-keyword">in</span> env.P[s]:<br>        <span class="hljs-keyword">for</span> s_ <span class="hljs-keyword">in</span> env.P[s][<span class="hljs-keyword">a</span>]:<br>            <span class="hljs-keyword">if</span> s_[<span class="hljs-number">2</span>] == <span class="hljs-number">1.0</span>:  <span class="hljs-comment"># 获得奖励为1,代表是目标</span><br>                <span class="hljs-keyword">ends</span>.<span class="hljs-built_in">add</span>(s_[<span class="hljs-number">1</span>])<br>            <span class="hljs-keyword">if</span> s_[<span class="hljs-number">3</span>] == True:<br>                holes.<span class="hljs-built_in">add</span>(s_[<span class="hljs-number">1</span>])<br>holes = holes - <span class="hljs-keyword">ends</span><br>print(<span class="hljs-string">&quot;冰洞的索引:&quot;</span>, holes)<br>print(<span class="hljs-string">&quot;目标的索引:&quot;</span>, <span class="hljs-keyword">ends</span>)<br><br><span class="hljs-keyword">for</span> <span class="hljs-keyword">a</span> <span class="hljs-keyword">in</span> env.P[<span class="hljs-number">14</span>]:  <span class="hljs-comment"># 查看目标左边一格的状态转移信息</span><br>    print(env.P[<span class="hljs-number">14</span>][<span class="hljs-keyword">a</span>])<br><span class="hljs-comment"># 这个动作意义是Gym库针对冰湖环境事先规定好的</span><br>action_meaning = [<span class="hljs-string">&#x27;&lt;&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>, <span class="hljs-string">&#x27;&gt;&#x27;</span>, <span class="hljs-string">&#x27;^&#x27;</span>]<br>theta = <span class="hljs-number">1e-5</span><br>gamma = <span class="hljs-number">0.9</span><br>agent = PolicyIteration(env, theta, gamma)<br>agent.policy_iteration()<br>print_agent(agent, action_meaning, [<span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>], [<span class="hljs-number">15</span>])<br>action_meaning = [<span class="hljs-string">&#x27;&lt;&#x27;</span>, <span class="hljs-string">&#x27;v&#x27;</span>, <span class="hljs-string">&#x27;&gt;&#x27;</span>, <span class="hljs-string">&#x27;^&#x27;</span>]<br>theta = <span class="hljs-number">1e-5</span><br>gamma = <span class="hljs-number">0.9</span><br>agent = ValueIteration(env, theta, gamma)<br>agent.value_iteration()<br>print_agent(agent, action_meaning, [<span class="hljs-number">5</span>, <span class="hljs-number">7</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>], [<span class="hljs-number">15</span>])<br></code></pre></td></tr></table></figure>
+<p>这个最优策略很看上去比较反直觉，其原因是这是一个智能体会随机滑向其他状态的冰冻湖面。例如，在目标左边一格的状态，采取向右的动作时，它有可能会滑到目标左上角的位置，从该位置再次到达目标会更加困难，所以此时采取向下的动作是更为保险的，并且有一定概率能够滑到目标。我们再来尝试一下价值迭代算法。</p>
+<h1 id="6-总结"><a href="#6-总结" class="headerlink" title="6 总结"></a>6 总结</h1><p>本章讲解了强化学习中两个经典的动态规划算法：策略迭代算法和价值迭代算法，它们都能用于求解最优价值和最优策略。动态规划的主要思想是利用贝尔曼方程对所有状态进行更新。需要注意的是，在利用贝尔曼方程进行状态更新时，我们会用到马尔可夫决策过程中的奖励函数和状态转移函数。如果智能体无法事先得知奖励函数和状态转移函数，就只能通过和环境进行交互来采样（状态-动作-奖励-下一状态）这样的数据，我们将在之后的章节中讲解如何求解这种情况下的最优策略。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">强化学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E4%BB%BF%E7%9C%9F/" class="print-no-link">#仿真</a>
+      
+        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>RL-3</div>
+      <div>http://example.com/2024/08/19/RL-3/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Neutrin1</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年8月19日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/08/19/RL-2-1/" title="RL-2.1">
+                        <span class="hidden-mobile">RL-2.1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  <div>
+    <span id="timeDate">正在载入天数...</span>
+    <span id="times">载入时分秒...</span>
+    <script>
+    var now = new Date();
+    function createtime(){
+        var grt= new Date("2024/07/21 20:00:00");
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if(String(mnum).length ==1 ){
+                  mnum = "0" + mnum;
+        }
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if(String(snum).length ==1 ){
+                  snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = "🎶🐈本站已运行&nbsp"+dnum+"&nbsp天";  
+        document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+    }
+    setInterval("createtime()",250);
+    </script>
+  </div>
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
