@@ -19,24 +19,24 @@
     <meta name="description" content="1 简介马尔可夫决策过程（Markov decision process，MDP）是强化学习的重要概念。要学好强化学习，我们首先要掌握马尔可夫决策过程的基础知识。前两章所说的强化学习中的环境一般就是一个马尔可夫决策过程。与多臂老虎机问题不同，马尔可夫决策过程包含状态信息以及状态之间的转移机制。如果要用强化学习去解决一个实际问题，第一步要做的事情就是把这个实际问题抽象为一个马尔可夫决策过程，也就是明">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RL-2 马尔可夫决策过程">
-<meta property="og:url" content="http://example.com/2024/08/18/RL-2/index.html">
+<meta property="og:url" content="http://neutrino.top/2024/08/18/RL-2/index.html">
 <meta property="og:site_name" content="Neutrin1&#39;s Blog">
 <meta property="og:description" content="1 简介马尔可夫决策过程（Markov decision process，MDP）是强化学习的重要概念。要学好强化学习，我们首先要掌握马尔可夫决策过程的基础知识。前两章所说的强化学习中的环境一般就是一个马尔可夫决策过程。与多臂老虎机问题不同，马尔可夫决策过程包含状态信息以及状态之间的转移机制。如果要用强化学习去解决一个实际问题，第一步要做的事情就是把这个实际问题抽象为一个马尔可夫决策过程，也就是明">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/image/RL-21.png">
-<meta property="og:image" content="http://example.com/image/RL-22.png">
-<meta property="og:image" content="http://example.com/image/RL-23.png">
-<meta property="og:image" content="http://example.com/image/RL-24.png">
-<meta property="og:image" content="http://example.com/image/RL-25.png">
-<meta property="og:image" content="http://example.com/image/RL-26.png">
-<meta property="og:image" content="http://example.com/image/RL-27.png">
+<meta property="og:image" content="http://neutrino.top/image/RL-21.png">
+<meta property="og:image" content="http://neutrino.top/image/RL-22.png">
+<meta property="og:image" content="http://neutrino.top/image/RL-23.png">
+<meta property="og:image" content="http://neutrino.top/image/RL-24.png">
+<meta property="og:image" content="http://neutrino.top/image/RL-25.png">
+<meta property="og:image" content="http://neutrino.top/image/RL-26.png">
+<meta property="og:image" content="http://neutrino.top/image/RL-27.png">
 <meta property="article:published_time" content="2024-08-18T13:34:41.000Z">
 <meta property="article:modified_time" content="2024-08-20T02:33:20.847Z">
 <meta property="article:author" content="Neutrin1">
 <meta property="article:tag" content="仿真">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/image/RL-21.png">
+<meta name="twitter:image" content="http://neutrino.top/image/RL-21.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -80,7 +80,7 @@
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
     Fluid.ctx = Object.assign({}, Fluid.ctx)
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+    var CONFIG = {"hostname":"neutrino.top","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
 
     if (CONFIG.web_analytics.follow_dnt) {
       var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
@@ -401,7 +401,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div>RL-2 马尔可夫决策过程</div>
-      <div>http://example.com/2024/08/18/RL-2/</div>
+      <div>http://neutrino.top/2024/08/18/RL-2/</div>
     </div>
     <div class="license-meta">
       
