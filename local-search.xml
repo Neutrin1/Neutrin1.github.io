@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>RL-7.1 DQN系列总结</title>
+    <link href="/2024/08/22/RL-7-1/"/>
+    <url>/2024/08/22/RL-7-1/</url>
+    
+    <content type="html"><![CDATA[<h1 id="1-DQN"><a href="#1-DQN" class="headerlink" title="1 DQN"></a>1 DQN</h1><p>DQN用神经网络来近似Q-learning算法中的Q值。<br>两个关键技巧;<br><strong>经验回放</strong>:在传统 Q-learning 中，更新 Q 值是基于当前状态、动作、奖励和下一个状态的转移，这些转移可能是相关的。这种相关性可能导致 Q 网络训练过程不稳定。经验回放通过在训练时随机抽取存储在缓冲区中的过往经验样本来打破这种相关性，从而使训练过程更加稳定。<br><strong>目标网络</strong>：在 DQN 中，有两个神经网络，一个是用于估计当前 Q 值的主网络（Q 网络），另一个是用于计算目标 Q 值的目标网络。目标网络的参数与主网络相同，但它们每隔一定步数才更新一次，这样可以避免在更新过程中目标值发生剧烈变化，从而提升训练的稳定性。<br><strong>更新公式</strong><br>$Q(s,a)\leftarrow Q(s,a)+\alpha\left[r+\gamma\max_{a^{\prime}}Q_{\mathrm{target}}(s^{\prime},a^{\prime})-Q(s,a)\right]$<br>其中：</p><ul><li>$Q(s,a)$是当前 Q 网络的预测值。</li><li>$Q_{\text{target}}(s’, a’)$ 是目标网络的 Q 值。</li><li>$r$是即时奖励。</li><li>$\gamma$是折扣因子。</li></ul><h1 id="2-Double-DQN"><a href="#2-Double-DQN" class="headerlink" title="2 Double DQN"></a>2 Double DQN</h1><p>DQN 在估计目标 Q 值时，使用的是相同的 Q 网络来选择和评估动作，这样会导致 Q 值高估的问题。为了减轻这个问题，Double DQN 被提出。<br>Double DQN 通过将动作选择与动作评估分离来解决这个高估问题：</p><ul><li>动作选择仍然使用当前的 Q 网络。</li><li>动作评估则使用目标网络。<br>这样做的好处是，在估计目标 Q 值时不会因为动作选择与动作评估使用同一个网络而导致高估。<br><strong>算法流程</strong></li></ul><ol><li><strong>初始化：</strong> 与 DQN 类似，初始化 Q 网络、目标网络以及经验回放缓冲区。</li><li><strong>采集经验：</strong> 在环境中执行动作，并将经验存储到缓冲区中。</li><li><strong>经验回放：</strong> 从缓冲区中随机抽取一个小批量的经验样本。</li><li><strong>更新网络：</strong> 使用当前 Q 网络选择动作，用目标网络评估该动作的 Q 值，并计算损失更新 Q 网络的参数。</li><li><strong>更新目标网络：</strong> 每隔固定步数，将 Q 网络的参数复制到目标网络。</li><li><strong>重复以上步骤，直到训练完成。</strong></li></ol><p><strong>更新公式</strong><br>$Q(s,a)\leftarrow Q(s,a)+\alpha\left[r+\gamma Q_{\mathrm{target}}(s^{\prime},\arg\max_{a^{\prime}}Q(s^{\prime},a^{\prime}))-Q\right.$<br>其中：<br>$\arg\max_{a^\prime}Q(s^\prime,a^\prime)$是由当前网络Q选择的动作<br>$Q_{\mathrm{target}}(s^{\prime},\arg\max_{a^{\prime}}Q(s^{\prime},a^{\prime}))$是目标网络评估的Q值<br><strong>目标值的计算</strong><br>$\text{target}&#x3D;r+\gamma Q(s’,\arg\max_{a’}Q(s’,a’;\theta);\theta^-)$</p><h1 id="3-Dueling-DQN"><a href="#3-Dueling-DQN" class="headerlink" title="3 Dueling DQN"></a>3 Dueling DQN</h1><p>Dueling DQN 是对 DQN 的进一步改进，旨在更有效地学习每个状态的重要性。Dueling DQN 将 Q 值分解为两个部分：状态价值函数 V(s) 和优势函数 A(s,a)。这种分解方法使得在某些状态下，即使所有动作的 Q 值相近，也能够较好地评估该状态的价值。<br><strong>Q值</strong><br>$Q(s,a;\theta,\alpha,\beta)&#x3D;V(s;\theta,\beta)+\left(A(s,a;\theta,\alpha)-\frac1{|\mathcal{A}|}\sum_{a^{\prime}}A(s,a^{\prime};\theta,\alpha)\right)$<br>其中：</p><ul><li>V(s)是状态值函数，用于表示当前状态的价值。</li><li>A(s,a)是优势函数，用于表示在状态s下，采取动作a相对于平均水平的优势。</li></ul><p>Dueling DQN 的网络结构如下：</p><ul><li>第一部分是一个共享网络，用于提取状态特征。</li><li>第二部分分为两个分支，一个用于计算 V(s)，另一个用于计算 A(s,a)</li></ul><h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h1><ul><li><strong>DQN</strong>: 基本的 Q-learning 与神经网络结合，通过经验回放和目标网络稳定训练。</li><li><strong>Double DQN</strong>: 解决 DQN 中 Q 值过高估计的问题，分离动作选择和动作值估计。</li><li><strong>Dueling DQN</strong>: 分解 Q 值为状态价值和优势函数，更有效地评估状态价值。</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>深度强化学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>仿真</tag>
+      
+      <tag>强化学习</tag>
+      
+      <tag>深度强化学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>RL-7 DQN改型</title>
     <link href="/2024/08/22/RL-7/"/>
     <url>/2024/08/22/RL-7/</url>
