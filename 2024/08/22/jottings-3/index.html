@@ -16,26 +16,25 @@
   <meta name="author" content="Neutrin1">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1 DQNDQN用神经网络来近似Q-learning算法中的Q值。两个关键技巧;经验回放:在传统 Q-learning 中，更新 Q 值是基于当前状态、动作、奖励和下一个状态的转移，这些转移可能是相关的。这种相关性可能导致 Q 网络训练过程不稳定。经验回放通过在训练时随机抽取存储在缓冲区中的过往经验样本来打破这种相关性，从而使训练过程更加稳定。目标网络：在 DQN 中，有两个神经网络，一个是用于估">
+    <meta name="description" content="最近这两天感觉状态极好，效率很高，似很容易进入心流状态。早起早睡落实得很到位，每天的健身也没有中断。练了二十多天了，明显感觉脸部又瘦了点，腹部肌肉也呼之欲出，胸肌也练出来了点。深感欣慰，这是为数不多的能有即时反馈的事情了，庆幸坚持了下来。其实21年练过三个月，不过断断续续的，只打下了一点微弱的基础。。。 回忆碎片从19年刚进大学，似乎就有意的选择一条孤独的道路。刚开始在学校某个大社团人缘比较好、和">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RL-7.1 DQN系列总结">
-<meta property="og:url" content="http://neutrino.top/2024/08/22/RL-7-1/index.html">
+<meta property="og:title" content="jottings-3">
+<meta property="og:url" content="http://neutrino.top/2024/08/22/jottings-3/index.html">
 <meta property="og:site_name" content="Hello🐈">
-<meta property="og:description" content="1 DQNDQN用神经网络来近似Q-learning算法中的Q值。两个关键技巧;经验回放:在传统 Q-learning 中，更新 Q 值是基于当前状态、动作、奖励和下一个状态的转移，这些转移可能是相关的。这种相关性可能导致 Q 网络训练过程不稳定。经验回放通过在训练时随机抽取存储在缓冲区中的过往经验样本来打破这种相关性，从而使训练过程更加稳定。目标网络：在 DQN 中，有两个神经网络，一个是用于估">
+<meta property="og:description" content="最近这两天感觉状态极好，效率很高，似很容易进入心流状态。早起早睡落实得很到位，每天的健身也没有中断。练了二十多天了，明显感觉脸部又瘦了点，腹部肌肉也呼之欲出，胸肌也练出来了点。深感欣慰，这是为数不多的能有即时反馈的事情了，庆幸坚持了下来。其实21年练过三个月，不过断断续续的，只打下了一点微弱的基础。。。 回忆碎片从19年刚进大学，似乎就有意的选择一条孤独的道路。刚开始在学校某个大社团人缘比较好、和">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-08-22T08:10:25.000Z">
-<meta property="article:modified_time" content="2024-08-22T08:11:18.332Z">
+<meta property="article:published_time" content="2024-08-22T13:03:05.000Z">
+<meta property="article:modified_time" content="2024-08-22T13:43:27.209Z">
 <meta property="article:author" content="Neutrin1">
-<meta property="article:tag" content="仿真">
-<meta property="article:tag" content="强化学习">
-<meta property="article:tag" content="深度强化学习">
+<meta property="article:tag" content="生活">
+<meta property="article:tag" content="随笔">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>RL-7.1 DQN系列总结 - Hello🐈</title>
+  <title>jottings-3 - Hello🐈</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +212,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="RL-7.1 DQN系列总结"></span>
+            <span id="subtitle" data-typed-text="jottings-3"></span>
           
         </div>
 
@@ -224,8 +223,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-08-22 16:10" pubdate>
-          2024年8月22日 下午
+        <time datetime="2024-08-22 21:03" pubdate>
+          2024年8月22日 晚上
         </time>
       </span>
     
@@ -236,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          982 字
         
       </span>
     
@@ -292,47 +291,18 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">RL-7.1 DQN系列总结</h1>
+            <h1 id="seo-header">jottings-3</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="1-DQN"><a href="#1-DQN" class="headerlink" title="1 DQN"></a>1 DQN</h1><p>DQN用神经网络来近似Q-learning算法中的Q值。<br>两个关键技巧;<br><strong>经验回放</strong>:在传统 Q-learning 中，更新 Q 值是基于当前状态、动作、奖励和下一个状态的转移，这些转移可能是相关的。这种相关性可能导致 Q 网络训练过程不稳定。经验回放通过在训练时随机抽取存储在缓冲区中的过往经验样本来打破这种相关性，从而使训练过程更加稳定。<br><strong>目标网络</strong>：在 DQN 中，有两个神经网络，一个是用于估计当前 Q 值的主网络（Q 网络），另一个是用于计算目标 Q 值的目标网络。目标网络的参数与主网络相同，但它们每隔一定步数才更新一次，这样可以避免在更新过程中目标值发生剧烈变化，从而提升训练的稳定性。<br><strong>更新公式</strong><br>$Q(s,a)\leftarrow Q(s,a)+\alpha\left[r+\gamma\max_{a^{\prime}}Q_{\mathrm{target}}(s^{\prime},a^{\prime})-Q(s,a)\right]$<br>其中：</p>
-<ul>
-<li>$Q(s,a)$是当前 Q 网络的预测值。</li>
-<li>$Q_{\text{target}}(s’, a’)$ 是目标网络的 Q 值。</li>
-<li>$r$是即时奖励。</li>
-<li>$\gamma$是折扣因子。</li>
-</ul>
-<h1 id="2-Double-DQN"><a href="#2-Double-DQN" class="headerlink" title="2 Double DQN"></a>2 Double DQN</h1><p>DQN 在估计目标 Q 值时，使用的是相同的 Q 网络来选择和评估动作，这样会导致 Q 值高估的问题。为了减轻这个问题，Double DQN 被提出。<br>Double DQN 通过将动作选择与动作评估分离来解决这个高估问题：</p>
-<ul>
-<li>动作选择仍然使用当前的 Q 网络。</li>
-<li>动作评估则使用目标网络。<br>这样做的好处是，在估计目标 Q 值时不会因为动作选择与动作评估使用同一个网络而导致高估。<br><strong>算法流程</strong></li>
-</ul>
-<ol>
-<li><strong>初始化：</strong> 与 DQN 类似，初始化 Q 网络、目标网络以及经验回放缓冲区。</li>
-<li><strong>采集经验：</strong> 在环境中执行动作，并将经验存储到缓冲区中。</li>
-<li><strong>经验回放：</strong> 从缓冲区中随机抽取一个小批量的经验样本。</li>
-<li><strong>更新网络：</strong> 使用当前 Q 网络选择动作，用目标网络评估该动作的 Q 值，并计算损失更新 Q 网络的参数。</li>
-<li><strong>更新目标网络：</strong> 每隔固定步数，将 Q 网络的参数复制到目标网络。</li>
-<li><strong>重复以上步骤，直到训练完成。</strong></li>
-</ol>
-<p><strong>更新公式</strong><br>$Q(s,a)\leftarrow Q(s,a)+\alpha\left[r+\gamma Q_{\mathrm{target}}(s^{\prime},\arg\max_{a^{\prime}}Q(s^{\prime},a^{\prime}))-Q\right.$<br>其中：<br>$\arg\max_{a^\prime}Q(s^\prime,a^\prime)$是由当前网络Q选择的动作<br>$Q_{\mathrm{target}}(s^{\prime},\arg\max_{a^{\prime}}Q(s^{\prime},a^{\prime}))$是目标网络评估的Q值<br><strong>目标值的计算</strong><br>$\text{target}&#x3D;r+\gamma Q(s’,\arg\max_{a’}Q(s’,a’;\theta);\theta^-)$</p>
-<h1 id="3-Dueling-DQN"><a href="#3-Dueling-DQN" class="headerlink" title="3 Dueling DQN"></a>3 Dueling DQN</h1><p>Dueling DQN 是对 DQN 的进一步改进，旨在更有效地学习每个状态的重要性。Dueling DQN 将 Q 值分解为两个部分：状态价值函数 V(s) 和优势函数 A(s,a)。这种分解方法使得在某些状态下，即使所有动作的 Q 值相近，也能够较好地评估该状态的价值。<br><strong>Q值</strong><br>$Q(s,a;\theta,\alpha,\beta)&#x3D;V(s;\theta,\beta)+\left(A(s,a;\theta,\alpha)-\frac1{|\mathcal{A}|}\sum_{a^{\prime}}A(s,a^{\prime};\theta,\alpha)\right)$<br>其中：</p>
-<ul>
-<li>V(s)是状态值函数，用于表示当前状态的价值。</li>
-<li>A(s,a)是优势函数，用于表示在状态s下，采取动作a相对于平均水平的优势。</li>
-</ul>
-<p>Dueling DQN 的网络结构如下：</p>
-<ul>
-<li>第一部分是一个共享网络，用于提取状态特征。</li>
-<li>第二部分分为两个分支，一个用于计算 V(s)，另一个用于计算 A(s,a)</li>
-</ul>
-<h1 id="4-总结"><a href="#4-总结" class="headerlink" title="4 总结"></a>4 总结</h1><ul>
-<li><strong>DQN</strong>: 基本的 Q-learning 与神经网络结合，通过经验回放和目标网络稳定训练。</li>
-<li><strong>Double DQN</strong>: 解决 DQN 中 Q 值过高估计的问题，分离动作选择和动作值估计。</li>
-<li><strong>Dueling DQN</strong>: 分解 Q 值为状态价值和优势函数，更有效地评估状态价值。</li>
-</ul>
+                <h1 id=""><a href="#" class="headerlink" title=""></a></h1><h1 id="最近"><a href="#最近" class="headerlink" title="最近"></a>最近</h1><p>这两天感觉状态极好，效率很高，似很容易进入心流状态。<br>早起早睡落实得很到位，每天的健身也没有中断。<br>练了二十多天了，明显感觉脸部又瘦了点，腹部肌肉也呼之欲出，胸肌也练出来了点。<br>深感欣慰，这是为数不多的能有即时反馈的事情了，庆幸坚持了下来。<br>其实21年练过三个月，不过断断续续的，只打下了一点微弱的基础。。。</p>
+<h1 id="回忆碎片"><a href="#回忆碎片" class="headerlink" title="回忆碎片"></a>回忆碎片</h1><p>从19年刚进大学，似乎就有意的选择一条孤独的道路。<br>刚开始在学校某个大社团人缘比较好、和学长学姐关系也很不错；后来，刻意的在某一天晚上删除大部分人，走向独孤。。。 或许是所谓“物极必反”吧。<br>一瞬间就像变了个人，现在想来，也挺有意思。<br>后来也刻意地去回避一些热闹的场合，除了本专业同学们保持着良好的关系，也有几位关系很好的朋友，感觉够了，其余的也不折腾了。</p>
+<p>大二后，游戏打的也少了，热爱的英雄联盟打到钻三就没打了。<br>大三，基本都在图书馆度过，通信专业的东西又难，老师说的又听不懂；<br>只能下课去图书馆恶补，通常是网课看到晚上10点回去，喊关系好的室友打几把英雄联盟然后睡大觉。<br>最自在的时候就是在冬天的图书馆看窗外的雪了；静谧，又没有压力，好像只需要做题推公式。</p>
+<p>到了考研的时候，其实压力不大，因为之前就有学习的习惯。这段时光很美好，也是啥都不想就做题，到晚上就去练球了，也没啥负担。<br>一个人早出晚归，后来玩了一个暑假。开学了继续学，这会有个室友要考公，所以有了个搭子，大家不太喜欢他，我觉得其实还好，只是他年龄大点沟通方式有区别。好景不长，也就是一起学了一个多月，后来还是单打独斗，也挺好的。<br>入秋了就搬宿舍学了，改成中午起床，凌晨睡觉。效率出奇的高。<br>晚上干到三点，去隔壁看别人打会战地，扯会蛋就睡觉。<br>中途也劝过身边的好几个人朋友一起考，不过都没坚持下来；现在看来，或许他们的选择是好的。到考前，大家都阳了，难受得很，我一度以为我废了；没想到，分数高得惊人，英语更是奇高。不过还是留下了后遗症，之前一度注意力很难长时间集中，现在倒也好多了。经历这段时间后，也明白了“孤独”并不是一个贬义词，人家每天抱团，搞所谓学习方法的霸凌，组团宣传自己的学习方法，后来那群人只有一个分数比我搞点，他们的学习时间都比我长得多。</p>
+<p>后来一直保持着“孤独”的形象示人，不愿合群、不想合群；给自己自由，感觉也不错。<br>现在是，到一个新环境，就和新的人保持好的关系，出了这个环境就不联系；下次又到这个环境；又继续笑呵呵的。省去了其余时间尴尬的聊天，只专注于大家共同的领域与话题，感觉挺好的。</p>
+<p>我爱孤独，我爱掌握我全部时间的感觉，我爱不被别人干扰决策的感觉。不过有只猫陪着就更好了🐈</p>
+<p>就写这么多吧，这是今天晚上坐在位置上犯困，写一点记录提提神，可能有点凌乱，嘴下留情。</p>
 
                 
               </div>
@@ -351,7 +321,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="category-chain-item">深度强化学习</a>
+  <a href="/categories/%E9%9A%8F%E7%AC%94/" class="category-chain-item">随笔</a>
   
   
 
@@ -366,11 +336,9 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E4%BB%BF%E7%9C%9F/" class="print-no-link">#仿真</a>
+        <a href="/tags/%E7%94%9F%E6%B4%BB/" class="print-no-link">#生活</a>
       
-        <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#强化学习</a>
-      
-        <a href="/tags/%E6%B7%B1%E5%BA%A6%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" class="print-no-link">#深度强化学习</a>
+        <a href="/tags/%E9%9A%8F%E7%AC%94/" class="print-no-link">#随笔</a>
       
     </div>
   
@@ -382,8 +350,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>RL-7.1 DQN系列总结</div>
-      <div>http://neutrino.top/2024/08/22/RL-7-1/</div>
+      <div>jottings-3</div>
+      <div>http://neutrino.top/2024/08/22/jottings-3/</div>
     </div>
     <div class="license-meta">
       
@@ -427,18 +395,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/08/22/jottings-3/" title="jottings-3">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">jottings-3</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/08/22/RL-7/" title="RL-7 DQN改型">
-                        <span class="hidden-mobile">RL-7 DQN改型</span>
+                      <a href="/2024/08/22/RL-7-1/" title="RL-7.1 DQN系列总结">
+                        <span class="hidden-mobile">RL-7.1 DQN系列总结</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
