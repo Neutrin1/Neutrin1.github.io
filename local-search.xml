@@ -13,7 +13,7 @@
     
     <categories>
       
-      <category>强化学习</category>
+      <category>深度强化学习</category>
       
     </categories>
     
@@ -23,6 +23,8 @@
       <tag>仿真</tag>
       
       <tag>强化学习</tag>
+      
+      <tag>深度强化学习</tag>
       
     </tags>
     
