@@ -16,12 +16,12 @@
   <meta name="author" content="Neutrin1">
   <meta name="keywords" content="">
   
-    <meta name="description" content="#强化学习 #深度强化学习  1 简介在 DQN 之后，学术界涌现出了非常多的改进算法。本章将介绍其中两个非常著名的算法：Double DQN 和 Dueling DQN，这两个算法的实现非常简单，只需要在 DQN 的基础上稍加修改，它们能在一定程度上改善 DQN 的效果。如果读者想要了解更多、更详细的 DQN 改进方法，可以阅读Rainbow 模型的论文及其引用文献。 2 Double DQN普">
+    <meta name="description" content="1 简介在 DQN 之后，学术界涌现出了非常多的改进算法。本章将介绍其中两个非常著名的算法：Double DQN 和 Dueling DQN，这两个算法的实现非常简单，只需要在 DQN 的基础上稍加修改，它们能在一定程度上改善 DQN 的效果。如果读者想要了解更多、更详细的 DQN 改进方法，可以阅读Rainbow 模型的论文及其引用文献。 2 Double DQN普通的DQN算法通常会导致对Q值">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RL-7 DQN改型">
 <meta property="og:url" content="http://neutrino.top/2024/08/22/RL-7/index.html">
 <meta property="og:site_name" content="Hello🐈">
-<meta property="og:description" content="#强化学习 #深度强化学习  1 简介在 DQN 之后，学术界涌现出了非常多的改进算法。本章将介绍其中两个非常著名的算法：Double DQN 和 Dueling DQN，这两个算法的实现非常简单，只需要在 DQN 的基础上稍加修改，它们能在一定程度上改善 DQN 的效果。如果读者想要了解更多、更详细的 DQN 改进方法，可以阅读Rainbow 模型的论文及其引用文献。 2 Double DQN普">
+<meta property="og:description" content="1 简介在 DQN 之后，学术界涌现出了非常多的改进算法。本章将介绍其中两个非常著名的算法：Double DQN 和 Dueling DQN，这两个算法的实现非常简单，只需要在 DQN 的基础上稍加修改，它们能在一定程度上改善 DQN 的效果。如果读者想要了解更多、更详细的 DQN 改进方法，可以阅读Rainbow 模型的论文及其引用文献。 2 Double DQN普通的DQN算法通常会导致对Q值">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://neutrino.top/image/RL-71.png">
 <meta property="og:image" content="http://neutrino.top/image/RL-72.png">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://neutrino.top/image/RL-74.png">
 <meta property="og:image" content="http://neutrino.top/image/RL-75.png">
 <meta property="article:published_time" content="2024-08-22T07:35:37.000Z">
-<meta property="article:modified_time" content="2024-08-22T07:44:23.236Z">
+<meta property="article:modified_time" content="2024-09-02T13:56:57.030Z">
 <meta property="article:author" content="Neutrin1">
 <meta property="article:tag" content="仿真">
 <meta property="article:tag" content="强化学习">
@@ -303,8 +303,7 @@
             
               <div class="markdown-body">
                 
-                <p>#强化学习 #深度强化学习 </p>
-<h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h1><p>在 DQN 之后，学术界涌现出了非常多的改进算法。本章将介绍其中两个非常著名的算法：Double DQN 和 Dueling DQN，这两个算法的实现非常简单，只需要在 DQN 的基础上稍加修改，它们能在一定程度上改善 DQN 的效果。如果读者想要了解更多、更详细的 DQN 改进方法，可以阅读Rainbow 模型的论文及其引用文献。</p>
+                <h1 id="1-简介"><a href="#1-简介" class="headerlink" title="1 简介"></a>1 简介</h1><p>在 DQN 之后，学术界涌现出了非常多的改进算法。本章将介绍其中两个非常著名的算法：Double DQN 和 Dueling DQN，这两个算法的实现非常简单，只需要在 DQN 的基础上稍加修改，它们能在一定程度上改善 DQN 的效果。如果读者想要了解更多、更详细的 DQN 改进方法，可以阅读Rainbow 模型的论文及其引用文献。</p>
 <h1 id="2-Double-DQN"><a href="#2-Double-DQN" class="headerlink" title="2 Double DQN"></a>2 Double DQN</h1><p>普通的DQN算法通常会导致对Q值的过高估算，传统DQN算法的TD误差目标为：<br>$r+\gamma\max_{a^{\prime}}Q_{\omega^-}\left(s^{\prime},a^{\prime}\right)$<br>其中$\max_{a^{\prime}}Q_{\omega^-}\left(s^{\prime},a^{\prime}\right)$由目标网络计算得出，可改写：<br>$Q_{\omega^-}\left(s^\prime,\arg\max_{a^\prime}Q_{\omega^-}\left(s^\prime,a^\prime\right)\right)$<br>max操作可分为两部分：首先选取状态$s^{\prime}$下的最优动作$a^*&#x3D;\arg\max_{a^\prime}Q_{\omega^-}\left(s^\prime,a^\prime\right)$，接着计算该动作对应的价值$Q_{\omega^-}\left(s^{\prime},a^{<em>}\right)$。<br>当这两部分采用同一套Q网络进行计算时，每次得到的都是神经网络当前估算的所有动作价值中的最大值。但神经网络估算的Q本身会产生某些正&#x2F;负误差，在DQN的更新方式下神经网络会将正向误差积累。如，我们考虑一个特殊情形：在状态$s^{\prime}$下所有动作的值Q均为0，即$Q(s^{\prime},a_i)&#x3D;0,\forall i$,此时正确的更新目标应该为r+0&#x3D;r，但是由于神经网络拟合误差的存在，总有某个动作Q&gt;0,从而导致更新目标出现过高估计。Q(s,a)也会被过高估计。这样下去，误差会逐步积累，使过高估计的问题越来越严重。<br>解决方法：Doubel DQN算法提出利用两个独立训练的神经网估算$\max_{a’}Q_</em>(s’,a’)$，将原有的$\max_{a^{\prime}}Q_{\omega^{-}}\left(s^{\prime},a^{\prime}\right)$改为$Q_{\omega^-}\left(s^{\prime},\arg\max_{a^{\prime}}Q_\omega\left(s^{\prime},a^{\prime}\right)\right)$，即利用一套神经网络$Q_{\omega}$的输出选取价值最大的动作，使用该动作的价值时，用另一套神经网络$Q_{\omega}^{-}$计算该动作的价值，由于另一套神经网络的存在，这个动作最终使用的Q值不会存在很大的过高估计问题。</p>
 <p>传统的DQN算法中，本来就有两套Q函数的神经网络，训练网络和目标网络。不过$\max_{a^{\prime}}Q_{\omega^{-}}\left(s^{\prime},a^{\prime}\right)$的计算只用到了其中的目标网络，我们可以直接将训练网络作为Double DQN算法中的第一套神经网络，第二套神经网络用目标网络；其中，训练网络的参数为$\omega$目标网络的参数为$\omega^{-}$<br>Double DQN的优化目标：<br>$r+\gamma Q_{\omega^-}\left(s^{\prime},\underset{a^{\prime}}{\operatorname*{\arg\max}}Q_{\omega}\left(s^{\prime},a^{\prime}\right)\right)$</p>
 <h1 id="3-实现Double-DQN"><a href="#3-实现Double-DQN" class="headerlink" title="3 实现Double DQN"></a>3 实现Double DQN</h1><p>显然，DQN与Double DQN的差别只是在于计算状态$s^{\prime}$下Q值如何时选取动作。</p>
