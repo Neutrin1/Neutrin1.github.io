@@ -1,0 +1,783 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/haer.png">
+  <link rel="icon" href="/img/haer.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Neutrin1">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="1 Multi-Agent System 概述​	一个多智能体系统（multi-agent system，缩写M.A.S.），是由一个在一个环境中交互的多个智能体组成的计算系统。多智能体系统也能被用在解决分离的智能体以及单层系统难以解决的问题。智能可以由一些方法，函数，过程，搜索算法或加强学习来实现。尽管存在相当大的重叠，然而一个多智能体系统并不总是一个基于智能体的模型（ABM）表现一致。ABM的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Multi-Agent-System-1">
+<meta property="og:url" content="http://neutrino.top/2025/01/05/Multi-Agent-System-1/index.html">
+<meta property="og:site_name" content="Hello🐈">
+<meta property="og:description" content="1 Multi-Agent System 概述​	一个多智能体系统（multi-agent system，缩写M.A.S.），是由一个在一个环境中交互的多个智能体组成的计算系统。多智能体系统也能被用在解决分离的智能体以及单层系统难以解决的问题。智能可以由一些方法，函数，过程，搜索算法或加强学习来实现。尽管存在相当大的重叠，然而一个多智能体系统并不总是一个基于智能体的模型（ABM）表现一致。ABM的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://neutrino.top/image/mas1.png">
+<meta property="og:image" content="d:\Postgraduate\MyBlog\hexo-blog\source_posts\Multi-Agent-System-1\image-20250105213207817.png">
+<meta property="article:published_time" content="2025-01-05T11:59:06.000Z">
+<meta property="article:modified_time" content="2025-01-05T13:37:00.259Z">
+<meta property="article:author" content="Neutrin1">
+<meta property="article:tag" content="学习">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://neutrino.top/image/mas1.png">
+  
+  
+    <meta name="referrer" content="no-referrer-when-downgrade">
+  
+  
+  <title>Multi-Agent-System-1 - Hello🐈</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"neutrino.top","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"✨","loop":true,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":false,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong class="navbar-title">Neutrin1&#39;s little world</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/column/" target="_self">
+                <i class="iconfont icon-friends"></i>
+                <span>专栏</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/image/%E6%96%87%E7%AB%A0%E9%A1%B5%E8%83%8C%E6%99%AF.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Multi-Agent-System-1"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-01-05 19:59" pubdate>
+          2025年1月5日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.1k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          18 分钟
+        
+      </span>
+    
+
+    
+    
+      
+        <span id="busuanzi_container_page_pv" style="display: none">
+          <i class="iconfont icon-eye" aria-hidden="true"></i>
+          <span id="busuanzi_value_page_pv"></span> 次
+        </span>
+        
+      
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Multi-Agent-System-1</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="1-Multi-Agent-System-概述"><a href="#1-Multi-Agent-System-概述" class="headerlink" title="1 Multi-Agent System 概述"></a>1 Multi-Agent System 概述</h1><p>​	一个<strong>多智能体系统</strong>（multi-agent system，缩写M.A.S.），是由一个在一个环境中交互的多个智能体组成的计算系统。多智能体系统也能被用在解决分离的智能体以及单层系统难以解决的问题。智能可以由一些方法，函数，过程，搜索算法或加强学习来实现。尽管存在相当大的重叠，然而一个多智能体系统并不总是一个基于智能体的模型（ABM）表现一致。ABM的目标是寻找遵循简单规则的智能体（这些智能体不需要体现出太强的“智慧”）集体行为的解释，通常在自然系统又或者解决具体的工程问题。ABM的术语经常在学术界被运用，而MAS的术语经常在工程技术中运用。多主体系统的研究课题可以给予一个合适的视角去观察网络贸易，灾害应对以及社会结构建模。相比于使用单一机器人或载具，多智能体则具有较高的鲁棒性以及可拓展性，这使得其对于复杂环境具有较高抗干扰能力。</p>
+<p>​	MAS的目标是让若干个具备简单智能却便于管理控制的系统能通过相互协作实现复杂智能[1]，使得在降低系统建模复杂性的同时，提高系统的鲁棒性、可靠性、灵活性。<br>多智能体系统的主要具有以下的特点：<br>  （1）自主性。在多智能体系统中，每个智能体都能管理自身的行为并做到自主的合作或者竞争。<br>  （2）容错性。智能体可以共同形成合作的系统用以完成独立或者共同的目标，如果某几个智能体出现了故障，其他智能体将自主地适应新的环境并继续工作，不会使整个系统陷入故障状态。<br>  （3）灵活性和可扩展性。MAS 系统本身采用分布式设计，智能体具有高内聚低耦合的特性，使得系统表现出极强的可扩展性。<br>  （4）协作能力。多智能体系统是分布式系统，智能体之间可以通过合适的策略相互协作完成全局目标。<br>目前多智能体系统已在飞行器的编队、传感器网络、数据融合、多机械臂协同装备、并行计算、多机器人合作控制、交通车辆控制、网络的资源分配等领域广泛应用。	</p>
+<h1 id="2-代数图论"><a href="#2-代数图论" class="headerlink" title="2 代数图论"></a>2 代数图论</h1><p>​	在一致性问题的分析中图论是不可或缺的工具。对于一个多智能体系统而言，其个体间信息交换的网络拓扑结构通常用一个图来描述。下面简要介绍一下一致性问题中所要用到的图论和矩阵论的知识。</p>
+<h2 id="2-1-图的基本概念"><a href="#2-1-图的基本概念" class="headerlink" title="2.1 图的基本概念"></a>2.1 图的基本概念</h2><p>​	对于一个节点集$V&#x3D;{v_1,v_2,\dots,v_n}$和一个边集$E&#x3D;{e_1,e_2,\dots,e_n}$，如果$E$中的任意一条边$e_k$，在$V$中都有一个节点对$(v_i,v_j)$和它对应，就称由$V$和$E$构成了一个图，记为$G&#x3D;(V,E)$。<br>​	 用 $G &#x3D; (V, E)$ 来表示一个图，图中节点集 $V &#x3D; {v_1, v_2, \ldots, v_n}$ 为有限的非空集，$V$ 中有 $n$ 个元素，对每一个节点用整数 $i \in {1, 2, \ldots, n}$ 来标记，其中 $n$ 是图 $G$ 的阶。每一条边可以用一对节点 $(v_i, v_j)$ 来表示，其中 $v_i$ 是起点，$v_j$ 是终点。边集 $E \subseteq V^2$，图的边 $e_{ij} &#x3D; (v_i, v_j) \in E$ 表示节点 $j$ 可以向节点 $i$ 传递信息。在无向图中，由于节点对间的连边没有方向，因此 $(v_i, v_j) \in E \Leftrightarrow (v_j, v_i) \in E$。如果图 $G$ 中任意两个不同的节点都形成边，就称图 $G$ 是完全图。在 $n$ 阶有向图 $G$ 中，从节点 $v_i$ 出发的边的个数叫做 $v_i$ 的出度（out-degree），指向节点 $v_i$ 的边的个数叫做 $v_i$ 的入度（in-degree）。如果节点对 $(v_i, v_j) \in E$，那么 $v_j$ 就称为 $v_i$ 的一个邻接节点，节点 $v_i$ 的邻接成员用集合 $N_i &#x3D; {v_j \in V : (v_i, v_j) \in E}$ 表示。<br>​	如果有向图 $G$ 存在一条从 $v_i$ 到 $v_j$ 的路径时，称 $v_i$ 是父节点，$v_j$ 是子节点。当有向图中除去唯一一个节点（根节点），其余所有的节点都有一个父节点时，称该有向图具有一个有向树。当存在一个有向树包含有向图 $G$ 中所有节点时，则称该有向图 $G$ 有一个生成树（spanning tree）。有向图 $G$ 中的强路径指的是：存在一个有序的节点序列 ${v_0, v_1, \ldots, v_r}$，其中 $(v_{i-1}, v_i) \in E$，$\forall i \in {1, 2, \ldots, r}$，$r$ 为该有向路径的长度数。此外，只要 $(v_{i-1}, v_i) \in E$ 或者 $(v_i, v_{i-1}) \in E$，有序节点序列 ${v_0, v_1, \ldots, v_r}$ 就可以称为一条弱路径。 图 2.1 根据连通程度对有向图进行了分类。如果一个有向图中任意两个有序节点之间存在一条弱路径，就称其为弱连通图；反之，如果一个有向图中任意两个有序节点之间存在一条强路径，就称其为强连通图。如果强连通有向图是对称的，就称其为连通图或对称图。如果一个有向图不是弱连通的，就称为非连通图。图1简要表示了以上概念间的关系。 </p>
+<p><img src="/image/mas1.png"></p>
+<div align='center'>
+    <font size='10'>图 1</font>
+</div>
+
+<h2 id="2-2-矩阵理论"><a href="#2-2-矩阵理论" class="headerlink" title="2.2 矩阵理论"></a>2.2 矩阵理论</h2><p>代数图论的研究与线性代数紧密联系在一起，有向图（无向图是特殊情形）中边和节点的变化可以与矩阵对应起来，因此对矩阵的分析能直接反映图的部分特性，下面简要介绍一下与本文有关的矩阵理论\cite{ref47, ref146}。 用有向图 $G$ 的邻接矩阵 $A &#x3D; [a_{ij}]$ 来描述节点与边之间的关系。其中 $A$ 定义为： $$\begin{equation} a_{ij} &#x3D; \begin{cases} 1, &amp; (v_i, v_j) \in E \ 0, &amp; \text{其他} \end{cases}  \end{equation}$$</p>
+<p>显然，当图 $G$ 是无向图时，那么邻接矩阵 $A$ 是对称矩阵。 有向图 $G$ 的入度矩阵 $D &#x3D; [d_{ii}]$ 定义为：$d_{ii} &#x3D; \sum\limits_{j \neq i} a_{ij}$。显然，对角矩阵 $D$ 中的每个元素都等于相应节点的入度。<br>    通常，加权的邻接矩阵 $A &#x3D; [a_{ij}]$ 定义为： $\begin{equation} a_{ij} &#x3D; \begin{cases} w_{ij}, &amp; (v_i, v_j) \in E \ 0, &amp; \text{其他} \end{cases} \tag{2-2} \end{equation} $</p>
+<p>其中，$w_{ij}$ 是边 $(v_i, v_j)$ 的权值，节点 $v_i$ 的入度是指向 $v_i$ 的所有边的权值之和。显然，（2-1）的邻接矩阵是加权邻接矩阵的一种特殊情况。 $n$ 阶有向图 $G$ 的 Laplacian 矩阵 $L &#x3D; [l_{ij}]$ 是另外一种描述节点与边之间关系的矩阵。其中 $l_{ii} &#x3D; \sum_{j \neq i} a_{ij}$，且当 $i \neq j$ 时，$l_{ij} &#x3D; -a_{ij}$。因此 $L$ 满足：$l_{ij} \leq 0, i \neq j$ 和 $\sum_{j&#x3D;1}^n l_{ij} &#x3D; 0, i &#x3D; 1, \ldots, n$。 Laplacian 矩阵与度矩阵之间的关系可以表示为：$L &#x3D; D - A$。 如果把邻接矩阵中每一行对应节点的入度都归一化，得到归一化的邻接矩阵为：$ \bar{A} &#x3D; D^{-1} A $ 如果一个节点 $v_i$ 的入度为 0，则令 $d_{ii}^{-1} &#x3D; 0$。定义归一化的拉普拉斯矩阵为：$ \bar{L} &#x3D; D^{-1} L $ 如果存在一个矩阵 $P$，使得 $PAP^T$ 是一个下三角矩阵，就称方阵 $A$ 是可约简的： $ PAP^T &#x3D; \begin{bmatrix} A_{11} &amp; 0 \ A_{21} &amp; A_{22} \end{bmatrix} $ 其中，$A_{11}$ 和 $A_{22}$ 是方阵。 下面给出一个简单的有向图的例子：</p>
+<p><img src="D:\Postgraduate\MyBlog\hexo-blog\source_posts\Multi-Agent-System-1\image-20250105213207817.png" alt="image-20250105213207817"></p>
+<div align='center'>
+    <font size='10'>图 2</font>
+</div>
+
+<p>图2是一个有个节点的有向图。很明显的可以看出，图2是一个弱连通图。其相应的邻接矩阵入度矩阵和拉普拉斯矩阵分别为：</p>
+<p>$ A &#x3D; \begin{bmatrix} 1 &amp; 1 &amp; 1 \ 1 &amp; 1 &amp; 1 \ 1 &amp; 1 &amp; 1 \end{bmatrix} $ $ D &#x3D; \begin{bmatrix} 2 &amp; 0 &amp; 0 \ 0 &amp; 1 &amp; 0 \ 0 &amp; 0 &amp; 1 \end{bmatrix} $ $ L &#x3D; \begin{bmatrix} 2 &amp; -1 &amp; -1 \ -1 &amp; 1 &amp; -1 \ -1 &amp; -1 &amp; 1 \end{bmatrix} $ </p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AD%A6%E4%B9%A0/" class="category-chain-item">学习</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E5%AD%A6%E4%B9%A0/" class="print-no-link">#学习</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Multi-Agent-System-1</div>
+      <div>http://neutrino.top/2025/01/05/Multi-Agent-System-1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Neutrin1</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年1月5日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  <div>
+    <span id="timeDate">正在载入天数...</span>
+    <span id="times">载入时分秒...</span>
+    <script>
+    var now = new Date();
+    function createtime(){
+        var grt= new Date("2024/07/21 20:00:00");
+        now.setTime(now.getTime()+250);
+        days = (now - grt ) / 1000 / 60 / 60 / 24;
+        dnum = Math.floor(days);
+        hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum);
+        hnum = Math.floor(hours);
+        if(String(hnum).length ==1 ){
+            hnum = "0" + hnum;
+        }
+        minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+        mnum = Math.floor(minutes);
+        if(String(mnum).length ==1 ){
+                  mnum = "0" + mnum;
+        }
+        seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+        snum = Math.round(seconds);
+        if(String(snum).length ==1 ){
+                  snum = "0" + snum;
+        }
+        document.getElementById("timeDate").innerHTML = "🎶🐈本站已运行&nbsp"+dnum+"&nbsp天";  
+        document.getElementById("times").innerHTML = hnum + "&nbsp时&nbsp" + mnum + "&nbsp分&nbsp" + snum + "&nbsp秒";
+    }
+    setInterval("createtime()",250);
+    </script>
+  </div>
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+    <div class="statistics">
+  
+  
+
+  
+    
+      <span id="busuanzi_container_site_pv" style="display: none">
+        总访问量 
+        <span id="busuanzi_value_site_pv"></span>
+         次
+      </span>
+    
+    
+      <span id="busuanzi_container_site_uv" style="display: none">
+        总访客数 
+        <span id="busuanzi_value_site_uv"></span>
+         人
+      </span>
+    
+    
+  
+</div>
+
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+  <script defer src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+
+
+  
+<script src="/js/stars.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
