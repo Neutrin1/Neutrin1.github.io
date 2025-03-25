@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://neutrino.top/image/knn1.png">
 <meta property="article:published_time" content="2025-03-25T12:26:36.000Z">
-<meta property="article:modified_time" content="2025-03-25T13:08:12.811Z">
+<meta property="article:modified_time" content="2025-03-25T13:09:21.866Z">
 <meta property="article:author" content="Neutrin1">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -327,7 +327,7 @@
 <p>常用的切分方式是选择当前维度上的中位数作为切分点，这样可以保证构造出的kd树是平衡的。</p>
 <p>构造算法的数学描述如下：</p>
 <p>$$\text{BuildKdTree}(P, depth):$$</p>
-<p>$$\begin{cases}<br>\text{如果 } P \text{ 为空，返回 } \text{null}\<br>\text{axis} &#x3D; \text{depth} \bmod k\<br>\text{按 } \text{axis} \text{ 维度对 } P \text{ 中的点排序}\<br>\text{median} &#x3D; \text{在 } \text{axis} \text{ 维度上的中位数点}\<br>\text{将 } \text{median} \text{ 作为根节点}\<br>\text{root.left} &#x3D; \text{BuildKdTree}(P_{\text{left}}, \text{depth}+1)\<br>\text{root.right} &#x3D; \text{BuildKdTree}(P_{\text{right}}, \text{depth}+1)\<br>\text{返回 } \text{root}<br>\end{cases}$$</p>
+<p>$$<br>\begin{cases}<br>\text{如果 } P \text{ 为空，返回 } \text{null}\<br>\text{axis} &#x3D; \text{depth} \bmod k\<br>\text{按 } \text{axis} \text{ 维度对 } P \text{ 中的点排序}\<br>\text{median} &#x3D; \text{在 } \text{axis} \text{ 维度上的中位数点}\<br>\text{将 } \text{median} \text{ 作为根节点}\<br>\text{root.left} &#x3D; \text{BuildKdTree}(P_{\text{left}}, \text{depth}+1)\<br>\text{root.right} &#x3D; \text{BuildKdTree}(P_{\text{right}}, \text{depth}+1)\<br>\text{返回 } \text{root}<br>\end{cases}<br>$$</p>
 <p>其中，$P_{\text{left}}$ 是 $\text{axis}$ 维度上小于 $\text{median}$ 的点集，$P_{\text{right}}$ 是大于 $\text{median}$ 的点集。</p>
 <h2 id="3-3-kd树的最近邻搜索"><a href="#3-3-kd树的最近邻搜索" class="headerlink" title="3.3 kd树的最近邻搜索"></a>3.3 kd树的最近邻搜索</h2><p>kd树最核心的操作是搜索给定点的最近邻。算法步骤如下：</p>
 <ol>
@@ -339,7 +339,7 @@
 </ol>
 <p>最近邻搜索的数学表达为：</p>
 <p>$$\text{NearestNeighbor}(\text{node}, \text{target}, \text{best}):$$</p>
-<p>$$\begin{cases}<br>\text{如果 } \text{node} \text{ 为空，返回 } \text{best}\<br>d &#x3D; \text{Distance}(\text{target}, \text{node.point})\<br>\text{如果 } d &lt; \text{Distance}(\text{target}, \text{best}) \text{ 则 } \text{best} &#x3D; \text{node.point}\<br>\text{axis} &#x3D; \text{node} \text{ 的划分维度}\<br>\text{如果 } \text{target}[\text{axis}] &lt; \text{node.point}[\text{axis}]\<br>\quad \text{first} &#x3D; \text{node.left}\<br>\quad \text{second} &#x3D; \text{node.right}\<br>\text{否则}\<br>\quad \text{first} &#x3D; \text{node.right}\<br>\quad \text{second} &#x3D; \text{node.left}\<br>\text{best} &#x3D; \text{NearestNeighbor}(\text{first}, \text{target}, \text{best})\<br>\text{如果 } |\text{target}[\text{axis}] - \text{node.point}[\text{axis}]| &lt; \text{Distance}(\text{target}, \text{best})\<br>\quad \text{best} &#x3D; \text{NearestNeighbor}(\text{second}, \text{target}, \text{best})\<br>\text{返回 } \text{best}<br>\end{cases}$$</p>
+<p>$$<br>\begin{cases}<br>\text{如果 } \text{node} \text{ 为空，返回 } \text{best}\<br>d &#x3D; \text{Distance}(\text{target}, \text{node.point})\<br>\text{如果 } d &lt; \text{Distance}(\text{target}, \text{best}) \text{ 则 } \text{best} &#x3D; \text{node.point}\<br>\text{axis} &#x3D; \text{node} \text{ 的划分维度}\<br>\text{如果 } \text{target}[\text{axis}] &lt; \text{node.point}[\text{axis}]\<br>\quad \text{first} &#x3D; \text{node.left}\<br>\quad \text{second} &#x3D; \text{node.right}\<br>\text{否则}\<br>\quad \text{first} &#x3D; \text{node.right}\<br>\quad \text{second} &#x3D; \text{node.left}\<br>\text{best} &#x3D; \text{NearestNeighbor}(\text{first}, \text{target}, \text{best})\<br>\text{如果 } |\text{target}[\text{axis}] - \text{node.point}[\text{axis}]| &lt; \text{Distance}(\text{target}, \text{best})\<br>\quad \text{best} &#x3D; \text{NearestNeighbor}(\text{second}, \text{target}, \text{best})\<br>\text{返回 } \text{best}<br>\end{cases}<br>$$</p>
 <h2 id="3-4-kd树的复杂度分析"><a href="#3-4-kd树的复杂度分析" class="headerlink" title="3.4 kd树的复杂度分析"></a>3.4 kd树的复杂度分析</h2><ul>
 <li>构建kd树的时间复杂度：$O(n\log n)$，其中$n$是数据点的数量</li>
 <li>平衡kd树的空间复杂度：$O(n)$</li>
