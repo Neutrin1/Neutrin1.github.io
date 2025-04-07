@@ -16,26 +16,26 @@
   <meta name="author" content="Neutrin1">
   <meta name="keywords" content="">
   
-    <meta name="description" content="U-net网络：医学图像分割的里程碑1. 简介U-net是一种卷积神经网络架构，最早由Olaf Ronneberger、Philipp Fischer和Thomas Brox在2015年提出，用于生物医学图像分割。该网络因其U形结构而得名，已成为医学图像分割领域的基准模型。U-net在训练数据有限的情况下也能获得精确的分割结果，这使其在医学影像分析中特别有价值。 2. 网络结构U-net的架构由两">
+    <meta name="description" content="EfficientNet网络1. 简介EfficientNet是由Google研究团队于2019年提出的一种高效卷积神经网络架构。它通过系统地扩展网络宽度、深度和分辨率，在保持较低参数量和计算成本的同时，实现了卓越的性能表现。EfficientNet系列模型在ImageNet等多个图像分类基准测试中刷新了当时的最高精度记录。 2. 核心创新点2.1 复合缩放方法（Compound Scaling）">
 <meta property="og:type" content="article">
-<meta property="og:title" content="U-net网络">
-<meta property="og:url" content="http://neutrino.top/2025/03/28/U-net%E7%BD%91%E7%BB%9C/index.html">
+<meta property="og:title" content="EfficientNet网络">
+<meta property="og:url" content="http://neutrino.top/2025/04/07/EfficientNet%E7%BD%91%E7%BB%9C/index.html">
 <meta property="og:site_name" content="Hello🐈">
-<meta property="og:description" content="U-net网络：医学图像分割的里程碑1. 简介U-net是一种卷积神经网络架构，最早由Olaf Ronneberger、Philipp Fischer和Thomas Brox在2015年提出，用于生物医学图像分割。该网络因其U形结构而得名，已成为医学图像分割领域的基准模型。U-net在训练数据有限的情况下也能获得精确的分割结果，这使其在医学影像分析中特别有价值。 2. 网络结构U-net的架构由两">
+<meta property="og:description" content="EfficientNet网络1. 简介EfficientNet是由Google研究团队于2019年提出的一种高效卷积神经网络架构。它通过系统地扩展网络宽度、深度和分辨率，在保持较低参数量和计算成本的同时，实现了卓越的性能表现。EfficientNet系列模型在ImageNet等多个图像分类基准测试中刷新了当时的最高精度记录。 2. 核心创新点2.1 复合缩放方法（Compound Scaling）">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://neutrino.top/image/Unet.png">
-<meta property="article:published_time" content="2025-03-28T08:06:17.000Z">
-<meta property="article:modified_time" content="2025-04-07T07:01:47.656Z">
+<meta property="og:image" content="http://neutrino.top/image/EfficientNet.png">
+<meta property="article:published_time" content="2025-04-07T06:55:44.000Z">
+<meta property="article:modified_time" content="2025-04-07T07:07:25.683Z">
 <meta property="article:author" content="Neutrin1">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://neutrino.top/image/Unet.png">
+<meta name="twitter:image" content="http://neutrino.top/image/EfficientNet.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>U-net网络 - Hello🐈</title>
+  <title>EfficientNet网络 - Hello🐈</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -213,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="U-net网络"></span>
+            <span id="subtitle" data-typed-text="EfficientNet网络"></span>
           
         </div>
 
@@ -224,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-03-28 16:06" pubdate>
-          2025年3月28日 下午
+        <time datetime="2025-04-07 14:55" pubdate>
+          2025年4月7日 下午
         </time>
       </span>
     
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          691 字
         
       </span>
     
@@ -247,7 +247,7 @@
         
         
         
-          13 分钟
+          6 分钟
         
       </span>
     
@@ -292,98 +292,121 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">U-net网络</h1>
+            <h1 id="seo-header">EfficientNet网络</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="U-net网络：医学图像分割的里程碑"><a href="#U-net网络：医学图像分割的里程碑" class="headerlink" title="U-net网络：医学图像分割的里程碑"></a>U-net网络：医学图像分割的里程碑</h1><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>U-net是一种卷积神经网络架构，最早由Olaf Ronneberger、Philipp Fischer和Thomas Brox在2015年提出，用于生物医学图像分割。该网络因其U形结构而得名，已成为医学图像分割领域的基准模型。U-net在训练数据有限的情况下也能获得精确的分割结果，这使其在医学影像分析中特别有价值。</p>
-<h2 id="2-网络结构"><a href="#2-网络结构" class="headerlink" title="2. 网络结构"></a>2. 网络结构</h2><p>U-net的架构由两部分组成：收缩路径（编码器）和扩展路径（解码器），整体结构呈”U”形。<br><img src="/image/Unet.png"></p>
-<h3 id="2-1-收缩路径（下采样）"><a href="#2-1-收缩路径（下采样）" class="headerlink" title="2.1 收缩路径（下采样）"></a>2.1 收缩路径（下采样）</h3><p>收缩路径遵循典型卷积网络的架构，从左到右依次为：</p>
+                <h1 id="EfficientNet网络"><a href="#EfficientNet网络" class="headerlink" title="EfficientNet网络"></a>EfficientNet网络</h1><h2 id="1-简介"><a href="#1-简介" class="headerlink" title="1. 简介"></a>1. 简介</h2><p>EfficientNet是由Google研究团队于2019年提出的一种高效卷积神经网络架构。它通过系统地扩展网络宽度、深度和分辨率，在保持较低参数量和计算成本的同时，实现了卓越的性能表现。EfficientNet系列模型在ImageNet等多个图像分类基准测试中刷新了当时的最高精度记录。</p>
+<h2 id="2-核心创新点"><a href="#2-核心创新点" class="headerlink" title="2. 核心创新点"></a>2. 核心创新点</h2><h3 id="2-1-复合缩放方法（Compound-Scaling）"><a href="#2-1-复合缩放方法（Compound-Scaling）" class="headerlink" title="2.1 复合缩放方法（Compound Scaling）"></a>2.1 复合缩放方法（Compound Scaling）</h3><p>EfficientNet的关键创新是提出了复合缩放方法，即同时按照一定比例缩放网络的三个维度：</p>
 <ul>
-<li><strong>初始层</strong>：输入图像首先经过两次3×3卷积操作，每次卷积后接批归一化和ReLU激活函数</li>
-<li><strong>下采样块</strong>：共4个下采样块，每个包含：<ul>
-<li>2×2最大池化（步长为2）进行下采样，将特征图尺寸减半</li>
-<li>两次3×3卷积（无填充），每次卷积后接批归一化和ReLU</li>
-<li>每次下采样后特征通道数翻倍（64→128→256→512→1024）</li>
+<li>深度（Depth）：增加网络层数</li>
+<li>宽度（Width）：增加特征通道数</li>
+<li>分辨率（Resolution）：增加输入图像大小</li>
 </ul>
-</li>
-<li><strong>底部</strong>：位于网络最深处，包含两个3×3卷积层和ReLU激活函数，特征通道数为1024</li>
-</ul>
-<h3 id="2-2-扩展路径（上采样）"><a href="#2-2-扩展路径（上采样）" class="headerlink" title="2.2 扩展路径（上采样）"></a>2.2 扩展路径（上采样）</h3><p>扩展路径包含4个上采样块，每个块包含：</p>
-<ul>
-<li><strong>上采样操作</strong>：使用2×2转置卷积（步长为2）进行上采样，将特征图尺寸扩大一倍</li>
-<li><strong>特征融合</strong>：将上采样的特征与收缩路径对应层的特征图进行拼接（跳跃连接）<ul>
-<li>这些跳跃连接对于恢复分割过程中丢失的空间信息至关重要</li>
-</ul>
-</li>
-<li><strong>特征处理</strong>：拼接后进行两次3×3卷积操作，每次后接批归一化和ReLU</li>
-<li><strong>特征减半</strong>：每次上采样后特征通道数减半（1024→512→256→128→64）</li>
-</ul>
-<h3 id="2-3-最终输出层"><a href="#2-3-最终输出层" class="headerlink" title="2.3 最终输出层"></a>2.3 最终输出层</h3><ul>
-<li>网络最后使用1×1卷积层将特征图映射到所需的类别数量（C个通道）</li>
-<li>对于二分类任务，通常使用sigmoid激活函数</li>
-<li>对于多分类任务，使用softmax激活函数</li>
-<li>输出特征图尺寸与输入图像相同，实现像素级的精确分割</li>
-</ul>
-<h3 id="2-4-尺寸变化说明"><a href="#2-4-尺寸变化说明" class="headerlink" title="2.4 尺寸变化说明"></a>2.4 尺寸变化说明</h3><p>假设输入图像为572×572：</p>
+<p>不同于传统方法只关注单一维度的缩放，EfficientNet通过数学公式建立了三个维度之间的平衡关系：</p>
+<p>$$d &#x3D; \alpha^\phi, w &#x3D; \beta^\phi, r &#x3D; \gamma^\phi$$</p>
+<p>其中$\phi$是复合系数，而$\alpha, \beta, \gamma$是通过网格搜索确定的常数。</p>
+<h3 id="2-2-基础网络：EfficientNet-B0"><a href="#2-2-基础网络：EfficientNet-B0" class="headerlink" title="2.2 基础网络：EfficientNet-B0"></a>2.2 基础网络：EfficientNet-B0</h3><p>EfficientNet系列的基础模型B0是通过神经架构搜索（NAS）得到的，其核心构建模块是MBConv（Mobile Inverted Bottleneck Convolution）块，这一设计源自MobileNetV2。</p>
+<h2 id="3-网络结构"><a href="#3-网络结构" class="headerlink" title="3. 网络结构"></a>3. 网络结构</h2><p>EfficientNet的基本架构由以下组件构成：</p>
 <ol>
-<li>每次3×3卷积（无填充）会使特征图尺寸减少4个像素</li>
-<li>四次下采样后，特征图尺寸变为28×28</li>
-<li>上采样过程中恢复尺寸，最终输出为388×388</li>
-<li>这种设计使网络能够对边界区域进行更精确的分割</li>
+<li><strong>stem层</strong>：初始卷积层</li>
+<li><strong>多个MBConv块</strong>：主体特征提取部分</li>
+<li><strong>全局池化层</strong>：特征汇聚</li>
+<li><strong>全连接层</strong>：分类头部</li>
 </ol>
-<h2 id="3-U-net的创新点"><a href="#3-U-net的创新点" class="headerlink" title="3. U-net的创新点"></a>3. U-net的创新点</h2><p>U-net相比传统CNN有几个关键创新：</p>
-<ol>
-<li><strong>对称的U形结构</strong>：使网络能够同时捕获上下文和精确定位</li>
-<li><strong>跳跃连接</strong>：将编码器的特征直接传递给解码器，保留空间信息</li>
-<li><strong>无全连接层</strong>：保留空间信息，可用于任意尺寸的输入</li>
-<li><strong>数据增强策略</strong>：通过弹性形变等技术有效扩充训练样本</li>
+<h3 id="MBConv块结构"><a href="#MBConv块结构" class="headerlink" title="MBConv块结构"></a>MBConv块结构</h3><p><img src="/image/EfficientNet.png"><br>每个MBConv块包含：</p>
+<ul>
+<li>扩张点卷积（1×1卷积）</li>
+<li>深度可分离卷积（Depthwise Separable Convolution）</li>
+<li>压缩点卷积（1×1卷积）</li>
+<li>残差连接（当输入输出尺寸匹配时）</li>
+<li>SE注意力模块（Squeeze-and-Excitation）</li>
+</ul>
+<h2 id="4-EfficientNet系列模型"><a href="#4-EfficientNet系列模型" class="headerlink" title="4. EfficientNet系列模型"></a>4. EfficientNet系列模型</h2><p>从B0到B7系列模型通过应用不同的复合缩放系数$\phi$得到：</p>
+<table>
+<thead>
+<tr>
+<th>模型</th>
+<th>参数量</th>
+<th>Top-1准确率 (%)</th>
+<th>FLOPS</th>
+<th>缩放系数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>B0</td>
+<td>5.3M</td>
+<td>77.1</td>
+<td>0.39B</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>B1</td>
+<td>7.8M</td>
+<td>79.1</td>
+<td>0.70B</td>
+<td>1.1</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>9.2M</td>
+<td>80.1</td>
+<td>1.0B</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>B3</td>
+<td>12M</td>
+<td>81.6</td>
+<td>1.8B</td>
+<td>1.4</td>
+</tr>
+<tr>
+<td>B4</td>
+<td>19M</td>
+<td>82.9</td>
+<td>4.2B</td>
+<td>1.8</td>
+</tr>
+<tr>
+<td>B5</td>
+<td>30M</td>
+<td>83.6</td>
+<td>9.9B</td>
+<td>2.2</td>
+</tr>
+<tr>
+<td>B6</td>
+<td>43M</td>
+<td>84.0</td>
+<td>19B</td>
+<td>2.6</td>
+</tr>
+<tr>
+<td>B7</td>
+<td>66M</td>
+<td>84.3</td>
+<td>37B</td>
+<td>3.1</td>
+</tr>
+</tbody></table>
+<h2 id="5-性能与优势"><a href="#5-性能与优势" class="headerlink" title="5. 性能与优势"></a>5. 性能与优势</h2><ol>
+<li><strong>高效率</strong>：在相同精度下，EfficientNet比其他CNN架构使用更少的参数和计算资源</li>
+<li><strong>可扩展性</strong>：提供了从轻量级到大规模模型的一整套解决方案</li>
+<li><strong>迁移学习能力</strong>：在多个下游任务中表现优异</li>
 </ol>
-<h2 id="4-应用场景"><a href="#4-应用场景" class="headerlink" title="4. 应用场景"></a>4. 应用场景</h2><p>U-net在医学图像领域有广泛应用：</p>
-<ul>
-<li>细胞分割</li>
-<li>器官及病变区域分割</li>
-<li>血管分割</li>
-<li>肿瘤检测</li>
-<li>眼底图像分析</li>
+<h2 id="6-应用场景"><a href="#6-应用场景" class="headerlink" title="6. 应用场景"></a>6. 应用场景</h2><ul>
+<li>移动设备上的图像分类</li>
+<li>目标检测（如EfficientDet）</li>
+<li>语义分割</li>
+<li>迁移学习基础模型</li>
 </ul>
-<h2 id="5-U-net变种"><a href="#5-U-net变种" class="headerlink" title="5. U-net变种"></a>5. U-net变种</h2><p>随着技术发展，U-net架构衍生出多个变种：</p>
-<ul>
-<li><strong>3D U-net</strong>：扩展到三维数据处理</li>
-<li><strong>V-net</strong>：用于3D医学图像分割，使用残差连接</li>
-<li><strong>Attention U-net</strong>：引入注意力机制改善特征选择</li>
-<li><strong>TransUnet</strong>：结合Transformer和U-net的优势</li>
-</ul>
-<h2 id="6-代码实现"><a href="#6-代码实现" class="headerlink" title="6. 代码实现"></a>6. 代码实现</h2><p>以下是使用PyTorch实现U-net的简化版本：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">import</span> torch.nn <span class="hljs-keyword">as</span> nn<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">DoubleConv</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, in_channels, out_channels</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        <span class="hljs-variable language_">self</span>.double_conv = nn.Sequential(<br>            nn.Conv2d(in_channels, out_channels, kernel_size=<span class="hljs-number">3</span>, padding=<span class="hljs-number">1</span>),<br>            nn.BatchNorm2d(out_channels),<br>            nn.ReLU(inplace=<span class="hljs-literal">True</span>),<br>            nn.Conv2d(out_channels, out_channels, kernel_size=<span class="hljs-number">3</span>, padding=<span class="hljs-number">1</span>),<br>            nn.BatchNorm2d(out_channels),<br>            nn.ReLU(inplace=<span class="hljs-literal">True</span>)<br>        )<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.double_conv(x)<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">UNet</span>(nn.Module):<br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, n_channels, n_classes</span>):<br>        <span class="hljs-built_in">super</span>().__init__()<br>        <span class="hljs-comment"># 下采样部分</span><br>        <span class="hljs-variable language_">self</span>.inc = DoubleConv(n_channels, <span class="hljs-number">64</span>)<br>        <span class="hljs-variable language_">self</span>.down1 = nn.Sequential(nn.MaxPool2d(<span class="hljs-number">2</span>), DoubleConv(<span class="hljs-number">64</span>, <span class="hljs-number">128</span>))<br>        <span class="hljs-variable language_">self</span>.down2 = nn.Sequential(nn.MaxPool2d(<span class="hljs-number">2</span>), DoubleConv(<span class="hljs-number">128</span>, <span class="hljs-number">256</span>))<br>        <span class="hljs-variable language_">self</span>.down3 = nn.Sequential(nn.MaxPool2d(<span class="hljs-number">2</span>), DoubleConv(<span class="hljs-number">256</span>, <span class="hljs-number">512</span>))<br>        <span class="hljs-variable language_">self</span>.down4 = nn.Sequential(nn.MaxPool2d(<span class="hljs-number">2</span>), DoubleConv(<span class="hljs-number">512</span>, <span class="hljs-number">1024</span>))<br>        <br>        <span class="hljs-comment"># 上采样部分</span><br>        <span class="hljs-variable language_">self</span>.up1 = nn.ConvTranspose2d(<span class="hljs-number">1024</span>, <span class="hljs-number">512</span>, kernel_size=<span class="hljs-number">2</span>, stride=<span class="hljs-number">2</span>)<br>        <span class="hljs-variable language_">self</span>.conv1 = DoubleConv(<span class="hljs-number">1024</span>, <span class="hljs-number">512</span>)<br>        <span class="hljs-variable language_">self</span>.up2 = nn.ConvTranspose2d(<span class="hljs-number">512</span>, <span class="hljs-number">256</span>, kernel_size=<span class="hljs-number">2</span>, stride=<span class="hljs-number">2</span>)<br>        <span class="hljs-variable language_">self</span>.conv2 = DoubleConv(<span class="hljs-number">512</span>, <span class="hljs-number">256</span>)<br>        <span class="hljs-variable language_">self</span>.up3 = nn.ConvTranspose2d(<span class="hljs-number">256</span>, <span class="hljs-number">128</span>, kernel_size=<span class="hljs-number">2</span>, stride=<span class="hljs-number">2</span>)<br>        <span class="hljs-variable language_">self</span>.conv3 = DoubleConv(<span class="hljs-number">256</span>, <span class="hljs-number">128</span>)<br>        <span class="hljs-variable language_">self</span>.up4 = nn.ConvTranspose2d(<span class="hljs-number">128</span>, <span class="hljs-number">64</span>, kernel_size=<span class="hljs-number">2</span>, stride=<span class="hljs-number">2</span>)<br>        <span class="hljs-variable language_">self</span>.conv4 = DoubleConv(<span class="hljs-number">128</span>, <span class="hljs-number">64</span>)<br>        <span class="hljs-variable language_">self</span>.outc = nn.Conv2d(<span class="hljs-number">64</span>, n_classes, kernel_size=<span class="hljs-number">1</span>)<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">forward</span>(<span class="hljs-params">self, x</span>):<br>        <span class="hljs-comment"># 编码器路径</span><br>        x1 = <span class="hljs-variable language_">self</span>.inc(x)<br>        x2 = <span class="hljs-variable language_">self</span>.down1(x1)<br>        x3 = <span class="hljs-variable language_">self</span>.down2(x2)<br>        x4 = <span class="hljs-variable language_">self</span>.down3(x3)<br>        x5 = <span class="hljs-variable language_">self</span>.down4(x4)<br>        <br>        <span class="hljs-comment"># 解码器路径</span><br>        x = <span class="hljs-variable language_">self</span>.up1(x5)<br>        x = <span class="hljs-variable language_">self</span>.conv1(torch.cat([x4, x], dim=<span class="hljs-number">1</span>))<br>        x = <span class="hljs-variable language_">self</span>.up2(x)<br>        x = <span class="hljs-variable language_">self</span>.conv2(torch.cat([x3, x], dim=<span class="hljs-number">1</span>))<br>        x = <span class="hljs-variable language_">self</span>.up3(x)<br>        x = <span class="hljs-variable language_">self</span>.conv3(torch.cat([x2, x], dim=<span class="hljs-number">1</span>))<br>        x = <span class="hljs-variable language_">self</span>.up4(x)<br>        x = <span class="hljs-variable language_">self</span>.conv4(torch.cat([x1, x], dim=<span class="hljs-number">1</span>))<br>        <span class="hljs-keyword">return</span> <span class="hljs-variable language_">self</span>.outc(x)<br></code></pre></td></tr></table></figure>
+<h2 id="7-代码示例"><a href="#7-代码示例" class="headerlink" title="7. 代码示例"></a>7. 代码示例</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">from</span> torch <span class="hljs-keyword">import</span> nn<br><span class="hljs-keyword">from</span> torchvision.models <span class="hljs-keyword">import</span> efficientnet_b0<br><br><span class="hljs-comment"># 加载预训练的EfficientNet-B0模型</span><br>model = efficientnet_b0(pretrained=<span class="hljs-literal">True</span>)<br><br><span class="hljs-comment"># 修改分类头以适应自定义类别数</span><br>num_classes = <span class="hljs-number">10</span><br>model.classifier[<span class="hljs-number">1</span>] = nn.Linear(model.classifier[<span class="hljs-number">1</span>].in_features, num_classes)<br><br><span class="hljs-comment"># 模型推理</span><br>x = torch.randn(<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">224</span>, <span class="hljs-number">224</span>)<br><span class="hljs-keyword">with</span> torch.no_grad():<br>    output = model(x)<br><span class="hljs-built_in">print</span>(output.shape)  <span class="hljs-comment"># torch.Size([1, 10])</span><br></code></pre></td></tr></table></figure>
 
-<h2 id="7-训练技巧"><a href="#7-训练技巧" class="headerlink" title="7. 训练技巧"></a>7. 训练技巧</h2><p>成功训练U-net网络的几个关键点：</p>
-<ol>
-<li><strong>数据增强</strong>：旋转、缩放、弹性变形等</li>
-<li><strong>权重初始化</strong>：使用适当的初始化方法（如He初始化）</li>
-<li><strong>损失函数选择</strong>：常用Dice损失或交叉熵与Dice损失的组合</li>
-<li><strong>学习率策略</strong>：通常采用衰减学习率</li>
-<li><strong>批量归一化</strong>：帮助加速训练和提高稳定性</li>
-</ol>
-<h2 id="8-优缺点分析"><a href="#8-优缺点分析" class="headerlink" title="8. 优缺点分析"></a>8. 优缺点分析</h2><h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><ul>
-<li>在小数据集上表现优异</li>
-<li>结构简单，训练效率高</li>
-<li>可处理任意大小的输入</li>
-<li>分割精度高，特别适合医学图像</li>
-</ul>
-<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
-<li>对全局上下文信息获取有限</li>
-<li>池化操作可能导致细节信息损失</li>
-<li>在类别不平衡数据上需要特殊处理</li>
-<li>原始结构计算量较大</li>
-</ul>
-<h2 id="9-结论"><a href="#9-结论" class="headerlink" title="9. 结论"></a>9. 结论</h2><p>U-net凭借其简洁而强大的设计，已成为医学图像分割任务的基础架构。虽然已有许多改进版本，但其核心思想—结合多尺度特征和保留空间信息的能力—仍然是现代图像分割网络的基石。随着深度学习技术的不断发展，U-net及其变种将继续在医学图像分析领域发挥重要作用。</p>
-<h2 id="10-参考资料"><a href="#10-参考资料" class="headerlink" title="10. 参考资料"></a>10. 参考资料</h2><ol>
-<li>Ronneberger O, Fischer P, Brox T. U-net: Convolutional networks for biomedical image segmentation. MICCAI 2015.</li>
-<li>Zhou Z, et al. UNet++: A nested U-Net architecture for medical image segmentation. DLMIA 2018.</li>
-<li>Chen L C, et al. DeepLab: Semantic image segmentation with deep convolutional nets, atrous convolution, and fully connected CRFs. IEEE TPAMI 2017.</li>
-<li>Isensee F, et al. nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation. Nature Methods 2021.</li>
+<h2 id="8-参考文献"><a href="#8-参考文献" class="headerlink" title="8. 参考文献"></a>8. 参考文献</h2><ol>
+<li>Tan, M., &amp; Le, Q. (2019). EfficientNet: Rethinking Model Scaling for Convolutional Neural Networks. In International Conference on Machine Learning (ICML).</li>
+<li>Sandler, M., Howard, A., Zhu, M., Zhmoginov, A., &amp; Chen, L. C. (2018). MobileNetV2: Inverted Residuals and Linear Bottlenecks. In IEEE Conference on Computer Vision and Pattern Recognition (CVPR).</li>
 </ol>
 
                 
@@ -430,8 +453,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>U-net网络</div>
-      <div>http://neutrino.top/2025/03/28/U-net网络/</div>
+      <div>EfficientNet网络</div>
+      <div>http://neutrino.top/2025/04/07/EfficientNet网络/</div>
     </div>
     <div class="license-meta">
       
@@ -443,7 +466,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年3月28日</div>
+          <div>2025年4月7日</div>
         </div>
       
       
@@ -475,18 +498,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/04/07/EfficientNet%E7%BD%91%E7%BB%9C/" title="EfficientNet网络">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">EfficientNet网络</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/03/27/%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0/" title="迁移学习">
-                        <span class="hidden-mobile">迁移学习</span>
+                      <a href="/2025/03/28/U-net%E7%BD%91%E7%BB%9C/" title="U-net网络">
+                        <span class="hidden-mobile">U-net网络</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
