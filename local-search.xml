@@ -4,6 +4,44 @@
   
   
   <entry>
+    <title>Transformer</title>
+    <link href="/2025/04/29/Transformer/"/>
+    <url>/2025/04/29/Transformer/</url>
+    
+    <content type="html"><![CDATA[<p>Transformer是一种基于注意力机制的编码器-解码器模型；与CNN相比，视觉Transformer在多个基准测试中取得了令人印象深刻的性能改进。</p><h1 id="1-Transformr"><a href="#1-Transformr" class="headerlink" title="1. Transformr"></a>1. Transformr</h1><p>最初的Transformer首先应用于序列到序列自动回归的任务。与先前的序列转导模型相比，这种原始的Transformer继承了编码器-解码器结构，但通过使用multi-head attention机制和point-wise feed-forward网络，完全放弃了递归和卷积。图1展示了带有编码器-解码器架构的整体Transformer模型。具体而言，它由N个连续的编码器模块组成，每个编码器由两个子层组成。<br>1） MHSA层聚合编码器嵌入内的关系；<br>2） 逐位置FFN层提取特征表示。<br><img src="/image/transformer1.jpg"></p><center>图 1</center><p>在自然语言回归模型中，Transformer源于机器翻译任务。给定一个单词序列，Transformer将输入序列矢量化为单词嵌入，添加位置编码，并将生成的向量序列输入编码器。</p><h2 id="编码器："><a href="#编码器：" class="headerlink" title="编码器："></a>编码器：</h2><p>编码器由 N&#x3D;6 一组相同的层组成。每个图层都有两个子图层。第一个是多头自注意力机制，第二个是简单的、位置方向的全连接前馈网络。我们在两个子层中的每一个周围采用残差连接，然后进行层归一化。 即每个子层的输出为$LayerNorm⁢(x+Sublayer⁢(x))$ ，其中$Sublayer⁢(x)$是子层本身实现的函数。为了促进这些残差连接，模型中的所有子层以及嵌入层都会生成dimension$d_dmodel&#x3D;512$的输出。</p><h2 id="译码器："><a href="#译码器：" class="headerlink" title="译码器："></a>译码器：</h2><p>解码器也由 N&#x3D;6 一堆相同的层组成。除了每个编码器层中的两个子层之外，解码器还插入了第三个子层，该子层对编码器堆栈的输出执行多头注意。与编码器类似，我们在每个子层周围采用残差连接，然后进行层归一化。我们还修改了解码器堆栈中的 self-attention 子层，以防止 positions 关注后续位置。这种掩码，再加上输出嵌入向量偏移一个位置的事实，确保对 position i 的预测只能依赖于位置小于 i 的已知输出。</p><h2 id="注意力："><a href="#注意力：" class="headerlink" title="注意力："></a>注意力：</h2><p>注意力函数可以描述为将查询和一组键值对映射到输出，其中查询、键、值和输出都是向量。输出计算为值的加权和，其中分配给每个值的权重由具有相应键的查询的兼容性函数计算。</p><h3 id="缩放点积注意力"><a href="#缩放点积注意力" class="headerlink" title="缩放点积注意力"></a>缩放点积注意力</h3><p>输入包括 查询和键 dimension $d_k$ ，以及 dimension $d_v$ 的值。我们计算包含所有键的查询的点积，将每个键除以$\sqrt{d_k}$ ，并应用 softmax 函数来获取值的权重。结构如图2所示。<br>计算输出矩阵：$Attention(Q,K,V)&#x3D;softmax(\frac{QK^T}{\sqrt{d_k}})V$<br><img src="/image/transformer2.png"></p><center>图 2</center><h2 id="多头注意力"><a href="#多头注意力" class="headerlink" title="多头注意力"></a>多头注意力</h2><p>我们发现，将查询、键和值 h 分别使用不同的学习线性投影到 $d_k$ 和 $d_k$ $d_v$ 维度，而不是使用 $d_model$-dimensional keys、values 和 queries 执行单个注意力函数是有益的。然后，在查询、键和值的每个投影版本上，我们并行执行 attention 函数，产生 $d_v$-dimensional 输出值。这些值被连接起来并再次投影，从而得到最终值，如图3所示。</p><p><img src="/image/transformer3.png"></p><center>图 3</center>多头注意力允许模型共同关注来自不同位置的不同表示子空间的信息。对于单个注意力头，平均会抑制这种情况。<h1 id="2-Vision-Transformer"><a href="#2-Vision-Transformer" class="headerlink" title="2. Vision-Transformer"></a>2. Vision-Transformer</h1><p>Vision Transformer是一种将 Transformer 架构引入计算机视觉领域的模型，用于处理图像分类、目标检测、语义分割等视觉任务。它通过自注意力机制捕捉图像特征间的关系，突破了传统CNN在处理长距离依赖和全局信息时的局限。</p><p><img src="/image/transformer4.png"></p><center>图 4</center>## 图像分块将输入图像划分为多个固定大小的图像块（如 16×16），每个块展平为一维向量，形成序列，使 Transformer 能以处理序列的方式处理图像。<h2 id="线性嵌入"><a href="#线性嵌入" class="headerlink" title="线性嵌入"></a>线性嵌入</h2><p>通过可学习的线性变换（全连接层），将每个图像块向量映射为固定维度的嵌入向量，降低数据维度。</p><h2 id="位置编码"><a href="#位置编码" class="headerlink" title="位置编码"></a>位置编码</h2><p>引入可学习的一维位置编码或正弦 &#x2F; 余弦固定编码，弥补自注意力机制对顺序不敏感的缺陷，让模型感知图像块的空间位置信息。</p><h2 id="Transformer编码器"><a href="#Transformer编码器" class="headerlink" title="Transformer编码器"></a>Transformer编码器</h2><p>由多个 Transformer 块组成，每个块包含多头自注意力（捕捉不同尺度和语义的依赖关系）和前馈网络（对注意力输出进行非线性变换），通过残差连接和层归一化加速训练。</p><h2 id="分类头"><a href="#分类头" class="headerlink" title="分类头"></a>分类头</h2><p>提取 Transformer 输出中类别嵌入的特征，通过 MLP（多层感知机）映射到具体类别，完成图像分类任务。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>深度学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>深度学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>无线信道：传播和衰落</title>
+    <link href="/2025/04/28/%E6%97%A0%E7%BA%BF%E4%BF%A1%E9%81%93%EF%BC%9A%E4%BC%A0%E6%92%AD%E5%92%8C%E8%A1%B0%E8%90%BD/"/>
+    <url>/2025/04/28/%E6%97%A0%E7%BA%BF%E4%BF%A1%E9%81%93%EF%BC%9A%E4%BC%A0%E6%92%AD%E5%92%8C%E8%A1%B0%E8%90%BD/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>增肌第二周复盘</title>
     <link href="/2025/04/28/%E5%A2%9E%E8%82%8C%E7%AC%AC%E4%BA%8C%E5%91%A8%E5%A4%8D%E7%9B%98/"/>
     <url>/2025/04/28/%E5%A2%9E%E8%82%8C%E7%AC%AC%E4%BA%8C%E5%91%A8%E5%A4%8D%E7%9B%98/</url>
