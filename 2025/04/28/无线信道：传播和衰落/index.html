@@ -16,14 +16,17 @@
   <meta name="author" content="Neutrin1">
   <meta name="keywords" content="">
   
-    <meta property="og:type" content="article">
+    <meta name="description" content="无线信道的传播与衰落特性在无线通信系统中，信号在传播过程中会经历各种衰落现象，主要分为大尺度衰落和小尺度衰落两种类型。这两种衰落机制对无线通信系统的性能有着重要影响。 1. 大尺度衰落（Large-Scale Fading）大尺度衰落主要描述信号功率随传输距离变化的平均衰减特性，通常由路径损耗和阴影效应组成。 1.1 路径损耗（Path Loss）路径损耗表示信号在空间传播过程中功率的衰减。  自">
+<meta property="og:type" content="article">
 <meta property="og:title" content="无线信道：传播和衰落">
 <meta property="og:url" content="http://neutrino.top/2025/04/28/%E6%97%A0%E7%BA%BF%E4%BF%A1%E9%81%93%EF%BC%9A%E4%BC%A0%E6%92%AD%E5%92%8C%E8%A1%B0%E8%90%BD/index.html">
 <meta property="og:site_name" content="Hello🐈">
+<meta property="og:description" content="无线信道的传播与衰落特性在无线通信系统中，信号在传播过程中会经历各种衰落现象，主要分为大尺度衰落和小尺度衰落两种类型。这两种衰落机制对无线通信系统的性能有着重要影响。 1. 大尺度衰落（Large-Scale Fading）大尺度衰落主要描述信号功率随传输距离变化的平均衰减特性，通常由路径损耗和阴影效应组成。 1.1 路径损耗（Path Loss）路径损耗表示信号在空间传播过程中功率的衰减。  自">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-28T11:08:55.000Z">
-<meta property="article:modified_time" content="2025-04-28T11:08:55.219Z">
+<meta property="article:modified_time" content="2025-04-29T04:08:49.630Z">
 <meta property="article:author" content="Neutrin1">
+<meta property="article:tag" content="无线通信">
 <meta name="twitter:card" content="summary_large_image">
   
   
@@ -231,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          931 字
         
       </span>
     
@@ -242,7 +245,7 @@
         
         
         
-          1 分钟
+          8 分钟
         
       </span>
     
@@ -292,7 +295,88 @@
             
               <div class="markdown-body">
                 
-                
+                <h1 id="无线信道的传播与衰落特性"><a href="#无线信道的传播与衰落特性" class="headerlink" title="无线信道的传播与衰落特性"></a>无线信道的传播与衰落特性</h1><p>在无线通信系统中，信号在传播过程中会经历各种衰落现象，主要分为大尺度衰落和小尺度衰落两种类型。这两种衰落机制对无线通信系统的性能有着重要影响。</p>
+<h2 id="1-大尺度衰落（Large-Scale-Fading）"><a href="#1-大尺度衰落（Large-Scale-Fading）" class="headerlink" title="1. 大尺度衰落（Large-Scale Fading）"></a>1. 大尺度衰落（Large-Scale Fading）</h2><p>大尺度衰落主要描述信号功率随传输距离变化的平均衰减特性，通常由路径损耗和阴影效应组成。</p>
+<h3 id="1-1-路径损耗（Path-Loss）"><a href="#1-1-路径损耗（Path-Loss）" class="headerlink" title="1.1 路径损耗（Path Loss）"></a>1.1 路径损耗（Path Loss）</h3><p>路径损耗表示信号在空间传播过程中功率的衰减。</p>
+<ul>
+<li><p><strong>自由空间路径损耗模型</strong>：<br>  $$L_{FS}(d) &#x3D; \left(\frac{4\pi d}{\lambda}\right)^2 &#x3D; \left(\frac{4\pi fd}{c}\right)^2$$</p>
+<p>  其中：</p>
+<ul>
+<li>$d$ 是发射机与接收机之间的距离</li>
+<li>$\lambda$ 是波长</li>
+<li>$f$ 是频率</li>
+<li>$c$ 是光速</li>
+</ul>
+</li>
+<li><p><strong>对数距离路径损耗模型</strong>：<br>  $$PL(d) &#x3D; PL(d_0) + 10n\log_{10}\left(\frac{d}{d_0}\right) + X_\sigma$$</p>
+<p>  其中：</p>
+<ul>
+<li>$PL(d_0)$ 是参考距离 $d_0$ 处的路径损耗</li>
+<li>$n$ 是路径损耗指数，取决于环境特性</li>
+<li>$X_\sigma$ 是均值为零、标准差为 $\sigma$ 的高斯随机变量，表示阴影衰落</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-阴影效应（Shadowing）"><a href="#1-2-阴影效应（Shadowing）" class="headerlink" title="1.2 阴影效应（Shadowing）"></a>1.2 阴影效应（Shadowing）</h3><p>阴影效应是由于信号传播路径上的大型障碍物（如建筑物、山丘等）引起的信号强度变化。</p>
+<ul>
+<li><p><strong>对数正态阴影模型</strong>：<br>  $$P_r(d) &#x3D; P_r(d_0) - 10n\log_{10}\left(\frac{d}{d_0}\right) + X_\sigma$$</p>
+<p>  其中 $X_\sigma$ 是具有均值为0、标准差为 $\sigma$ 的高斯随机变量（单位为dB）。</p>
+</li>
+</ul>
+<h2 id="2-小尺度衰落（Small-Scale-Fading）"><a href="#2-小尺度衰落（Small-Scale-Fading）" class="headerlink" title="2. 小尺度衰落（Small-Scale Fading）"></a>2. 小尺度衰落（Small-Scale Fading）</h2><p>小尺度衰落描述信号在短距离或短时间内的快速波动，主要由多径传播引起。</p>
+<h3 id="2-1-小尺度衰落的分类"><a href="#2-1-小尺度衰落的分类" class="headerlink" title="2.1 小尺度衰落的分类"></a>2.1 小尺度衰落的分类</h3><h4 id="2-1-1-基于时间扩展的分类"><a href="#2-1-1-基于时间扩展的分类" class="headerlink" title="2.1.1 基于时间扩展的分类"></a>2.1.1 基于时间扩展的分类</h4><ul>
+<li><p><strong>平坦衰落</strong>：当信号带宽小于信道相干带宽时发生<br>  $$B_s &lt; B_c$$</p>
+</li>
+<li><p><strong>频率选择性衰落</strong>：当信号带宽大于信道相干带宽时发生<br>  $$B_s &gt; B_c$$</p>
+</li>
+</ul>
+<h4 id="2-1-2-基于多普勒扩展的分类"><a href="#2-1-2-基于多普勒扩展的分类" class="headerlink" title="2.1.2 基于多普勒扩展的分类"></a>2.1.2 基于多普勒扩展的分类</h4><ul>
+<li><p><strong>快衰落</strong>：当符号周期大于信道相干时间时发生<br>  $$T_s &gt; T_c$$</p>
+</li>
+<li><p><strong>慢衰落</strong>：当符号周期小于信道相干时间时发生<br>  $$T_s &lt; T_c$$</p>
+</li>
+</ul>
+<h3 id="2-2-小尺度衰落的统计模型"><a href="#2-2-小尺度衰落的统计模型" class="headerlink" title="2.2 小尺度衰落的统计模型"></a>2.2 小尺度衰落的统计模型</h3><h4 id="2-2-1-瑞利衰落（Rayleigh-Fading）"><a href="#2-2-1-瑞利衰落（Rayleigh-Fading）" class="headerlink" title="2.2.1 瑞利衰落（Rayleigh Fading）"></a>2.2.1 瑞利衰落（Rayleigh Fading）</h4><p>无视距环境中的衰落模型，接收信号包络服从瑞利分布：</p>
+<p>$$p(r) &#x3D; \frac{r}{\sigma^2}e^{-\frac{r^2}{2\sigma^2}}, r \geq 0$$</p>
+<p>其中，$\sigma^2$ 是多径分量的均方功率。</p>
+<h4 id="2-2-2-莱斯衰落（Rician-Fading）"><a href="#2-2-2-莱斯衰落（Rician-Fading）" class="headerlink" title="2.2.2 莱斯衰落（Rician Fading）"></a>2.2.2 莱斯衰落（Rician Fading）</h4><p>有视距环境中的衰落模型，接收信号包络服从莱斯分布：</p>
+<p>$$p(r) &#x3D; \frac{r}{\sigma^2}e^{-\frac{r^2+A^2}{2\sigma^2}}I_0\left(\frac{Ar}{\sigma^2}\right), r \geq 0, A \geq 0$$</p>
+<p>其中：</p>
+<ul>
+<li>$A$ 表示视距路径分量的幅度</li>
+<li>$I_0(\cdot)$ 是零阶第一类修正贝塞尔函数</li>
+<li>$K &#x3D; \frac{A^2}{2\sigma^2}$ 是莱斯因子，表示视距分量与散射分量功率比</li>
+</ul>
+<h3 id="2-3-多径时延扩展参数"><a href="#2-3-多径时延扩展参数" class="headerlink" title="2.3 多径时延扩展参数"></a>2.3 多径时延扩展参数</h3><ul>
+<li><p><strong>均方根时延扩展</strong>（RMS Delay Spread）：<br>  $$\sigma_\tau &#x3D; \sqrt{\overline{\tau^2} - (\overline{\tau})^2}$$</p>
+<p>  其中：</p>
+<ul>
+<li>$\overline{\tau} &#x3D; \frac{\sum_i P(\tau_i)\tau_i}{\sum_i P(\tau_i)}$ 是平均时延</li>
+<li>$\overline{\tau^2} &#x3D; \frac{\sum_i P(\tau_i)\tau_i^2}{\sum_i P(\tau_i)}$ 是二阶矩</li>
+<li>$P(\tau_i)$ 是时延为 $\tau_i$ 的路径功率</li>
+</ul>
+</li>
+<li><p><strong>相干带宽</strong>（Coherence Bandwidth）：<br>  $$B_c \approx \frac{1}{5\sigma_\tau}$$</p>
+</li>
+</ul>
+<h2 id="3-多普勒频移和频率扩展"><a href="#3-多普勒频移和频率扩展" class="headerlink" title="3. 多普勒频移和频率扩展"></a>3. 多普勒频移和频率扩展</h2><p>由于发射机、接收机或散射体的相对运动引起的频率偏移：</p>
+<ul>
+<li><p><strong>多普勒频移</strong>：<br>  $$f_d &#x3D; \frac{v}{\lambda}\cos\theta &#x3D; \frac{vf_c}{c}\cos\theta$$</p>
+<p>  其中：</p>
+<ul>
+<li>$v$ 是相对运动速度</li>
+<li>$\lambda$ 是波长</li>
+<li>$f_c$ 是载波频率</li>
+<li>$\theta$ 是入射角</li>
+<li>$c$ 是光速</li>
+</ul>
+</li>
+<li><p><strong>最大多普勒频移</strong>：<br>  $$f_m &#x3D; \frac{v}{\lambda} &#x3D; \frac{vf_c}{c}$$</p>
+</li>
+<li><p><strong>相干时间</strong>：<br>  $$T_c \approx \frac{0.423}{f_m}$$</p>
+</li>
+</ul>
+
                 
               </div>
             
@@ -300,6 +384,34 @@
             <div>
               <div class="post-metas my-3">
   
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E6%97%A0%E7%BA%BF%E9%80%9A%E4%BF%A1/" class="category-chain-item">无线通信</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%97%A0%E7%BA%BF%E9%80%9A%E4%BF%A1/" class="print-no-link">#无线通信</a>
+      
+    </div>
   
 </div>
 
