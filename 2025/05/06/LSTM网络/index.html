@@ -25,7 +25,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://neutrino.top/image/LSTM1.jpg">
 <meta property="article:published_time" content="2025-05-06T06:06:46.000Z">
-<meta property="article:modified_time" content="2025-05-06T06:16:33.559Z">
+<meta property="article:modified_time" content="2025-05-06T06:21:44.206Z">
 <meta property="article:author" content="Neutrin1">
 <meta property="article:tag" content="深度学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -236,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          868 字
+          899 字
         
       </span>
     
@@ -319,9 +319,19 @@
 <li>异常检测</li>
 </ul>
 <h2 id="简化的LSTM公式"><a href="#简化的LSTM公式" class="headerlink" title="简化的LSTM公式"></a>简化的LSTM公式</h2><p>LSTM的核心计算可以简化为以下几个步骤：</p>
-<p>遗忘门：$$f_t &#x3D; σ(W_f·[h_{t-1}, x_t] + b_f)$$<br>输入门：$$i_t &#x3D; σ(W_i·[h_{t-1}, x_t] + b_i)$$<br>候选记忆：$$C̃<em>t &#x3D; tanh(W_C·[h</em>{t-1}, x_t] + b_C)$$<br>记忆更新：$$C_t &#x3D; f_t * C_{t-1} + i_t * C̃<em>t$$<br>输出门：$$o_t &#x3D; σ(W_o·[h</em>{t-1}, x_t] + b_o)$$<br>隐藏状态：$$h_t &#x3D; o_t * tanh(C_t)$$</p>
-<p>其中，σ是sigmoid函数，*表示元素乘法，W和b是可学习的参数。</p>
-<p>虽然公式看起来复杂，但LSTM的本质就是通过这些”门”来控制信息的流动，从而实现长期记忆的能力。</p>
+<p>遗忘门：$$ f_t &#x3D; σ(W_f·[h_{t-1}, x_t] + b_f) $$</p>
+<p>输入门：$$ i_t &#x3D; σ(W_i·[h_{t-1}, x_t] + b_i) $$</p>
+<p>候选记忆：$$ \tilde{C}<em>t &#x3D; tanh(W_C·[h</em>{t-1}, x_t] + b_C) $$</p>
+<p>记忆更新：$$ C_t &#x3D; f_t * C_{t-1} + i_t * C̃_t $$</p>
+<p>输出门：$$ o_t &#x3D; σ(W_o·[h_{t-1}, x_t] + b_o) $$</p>
+<p>隐藏状态：$$ h_t &#x3D; o_t * tanh(C_t) $$</p>
+<p>σ是sigmoid函数，将值压缩到0-1之间</p>
+<p>$tanh$是双曲正切函数，将值压缩到-1到1之间</p>
+<p>表示元素乘法（Hadamard积）</p>
+<p>$W$和$b$是可学习的权重和偏置参数</p>
+<p>$h_{t-1}$是前一时间步的隐藏状态</p>
+<p>$x_t$是当前时间步的输入</p>
+<p>$C_{t-1}$是前一时间步的细胞状态</p>
 
                 
               </div>
