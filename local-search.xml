@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>LSTM网络</title>
+    <link href="/2025/05/06/LSTM%E7%BD%91%E7%BB%9C/"/>
+    <url>/2025/05/06/LSTM%E7%BD%91%E7%BB%9C/</url>
+    
+    <content type="html"><![CDATA[<h1 id="LSTM网络"><a href="#LSTM网络" class="headerlink" title="LSTM网络"></a>LSTM网络</h1><h2 id="什么是LSTM？"><a href="#什么是LSTM？" class="headerlink" title="什么是LSTM？"></a>什么是LSTM？</h2><p>LSTM（Long Short-Term Memory，长短期记忆网络）是一种特殊的循环神经网络（RNN）结构，由Hochreiter和Schmidhuber在1997年提出，专门设计用来解决传统RNN中的长期依赖问题。简单来说，它能够”记住”长序列中的重要信息，并”遗忘”不重要的信息，从而在处理长序列数据时表现出色。</p><h2 id="LSTM的核心思想"><a href="#LSTM的核心思想" class="headerlink" title="LSTM的核心思想"></a>LSTM的核心思想</h2><p>传统RNN在处理长序列时会遇到梯度消失或梯度爆炸问题，导致无法有效学习长距离依赖关系。LSTM通过引入精心设计的内部结构解决了这一问题。</p><p>想象一下，当你阅读一本小说时，你的大脑会选择性地记住重要情节，而对一些细枝末节则可能会逐渐淡忘。LSTM网络的工作原理与此类似，它通过精心设计的”门”结构来控制信息的流动：</p><p>遗忘门（Forget Gate）：决定哪些旧信息需要丢弃。这个门会输出一个0到1之间的值，0表示”完全遗忘”，1表示”完全保留”。<br>输入门（Input Gate）：决定哪些新信息需要存储到细胞状态中。由两部分组成：sigmoid层决定更新哪些值，tanh层创建新的候选值。<br>细胞状态（Cell State）：贯穿整个网络的记忆通道，允许信息在序列中长期传递。<br>输出门（Output Gate）：决定哪些信息需要输出。根据细胞状态过滤信息，确定下一个隐藏状态。<br>结构图如下所示。<br><img src="/image/LSTM1.jpg"></p><h2 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h2><p>遗忘阶段：LSTM首先决定从上一状态中丢弃哪些信息。遗忘门接收前一时刻的隐藏状态和当前输入，输出一个0到1之间的向量。</p><p>记忆阶段：接着，LSTM决定要在当前细胞状态中存储哪些新信息。这包括两个步骤：<br>输入门决定更新哪些值<br>创建新的候选值，可能会被添加到细胞状态中</p><p>更新阶段：旧的细胞状态与遗忘门相乘，然后加上输入门与候选值的乘积，完成细胞状态的更新。</p><p>输出阶段：最后，LSTM决定输出什么。输出基于细胞状态，但会经过过滤。先运行sigmoid层确定细胞状态的哪些部分会输出，然后将细胞状态通过tanh处理并与sigmoid输出相乘。</p><h2 id="LSTM的优势"><a href="#LSTM的优势" class="headerlink" title="LSTM的优势"></a>LSTM的优势</h2><p>与传统RNN相比，LSTM具有以下优点：</p><ul><li>能够学习长期依赖关系，避免梯度消失问题</li><li>可以有效处理时序数据中的长距离关系</li><li>对噪声有较强的鲁棒性</li></ul><h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>LSTM广泛应用于：</p><ul><li>自然语言处理（文本生成、机器翻译）</li><li>语音识别</li><li>时间序列预测</li><li>异常检测</li></ul><h2 id="简化的LSTM公式"><a href="#简化的LSTM公式" class="headerlink" title="简化的LSTM公式"></a>简化的LSTM公式</h2><p>LSTM的核心计算可以简化为以下几个步骤：</p><p>遗忘门：$$f_t &#x3D; σ(W_f·[h_{t-1}, x_t] + b_f)$$<br>输入门：$$i_t &#x3D; σ(W_i·[h_{t-1}, x_t] + b_i)$$<br>候选记忆：$$C̃<em>t &#x3D; tanh(W_C·[h</em>{t-1}, x_t] + b_C)$$<br>记忆更新：$$C_t &#x3D; f_t * C_{t-1} + i_t * C̃<em>t$$<br>输出门：$$o_t &#x3D; σ(W_o·[h</em>{t-1}, x_t] + b_o)$$<br>隐藏状态：$$h_t &#x3D; o_t * tanh(C_t)$$</p><p>其中，σ是sigmoid函数，*表示元素乘法，W和b是可学习的参数。</p><p>虽然公式看起来复杂，但LSTM的本质就是通过这些”门”来控制信息的流动，从而实现长期记忆的能力。</p>]]></content>
+    
+    
+    <categories>
+      
+      <category>机器学习</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>深度学习</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>开源仓库3——基于卷积神经网络的猫狗大战代码</title>
     <link href="/2025/05/05/%E5%BC%80%E6%BA%90%E4%BB%93%E5%BA%933%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E7%8C%AB%E7%8B%97%E5%A4%A7%E6%88%98%E4%BB%A3%E7%A0%81/"/>
     <url>/2025/05/05/%E5%BC%80%E6%BA%90%E4%BB%93%E5%BA%933%E2%80%94%E2%80%94%E5%9F%BA%E4%BA%8E%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%9A%84%E7%8C%AB%E7%8B%97%E5%A4%A7%E6%88%98%E4%BB%A3%E7%A0%81/</url>
