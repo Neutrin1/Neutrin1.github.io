@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>开源仓库4——CBIS-DDSM数据集预处理方法</title>
+    <link href="/2025/05/08/%E5%BC%80%E6%BA%90%E4%BB%93%E5%BA%934%E2%80%94%E2%80%94CBIS-DDSM%E6%95%B0%E6%8D%AE%E9%9B%86%E9%A2%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/"/>
+    <url>/2025/05/08/%E5%BC%80%E6%BA%90%E4%BB%93%E5%BA%934%E2%80%94%E2%80%94CBIS-DDSM%E6%95%B0%E6%8D%AE%E9%9B%86%E9%A2%84%E5%A4%84%E7%90%86%E6%96%B9%E6%B3%95/</url>
+    
+    <content type="html"><![CDATA[<p>发布了一个关于公开乳腺癌数据集 CBIS-DDSM 的数据处理方法。<br>项目地址：<a href="https://github.com/Neutrin1/CBIS-DDSM-Preprocess">CBIS-DDSM-Preprocess</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>数据科学</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>计算机视觉</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>LSTM网络</title>
     <link href="/2025/05/06/LSTM%E7%BD%91%E7%BB%9C/"/>
     <url>/2025/05/06/LSTM%E7%BD%91%E7%BB%9C/</url>
