@@ -16,15 +16,15 @@
   <meta name="author" content="Neutrin1">
   <meta name="keywords" content="">
   
-    <meta name="description" content="title: 逻辑回归与最大熵模型date: 2025-05-08 17:17:05tags: 机器学习category: 机器学习逻辑回归与最大熵模型逻辑回归和最大熵模型是机器学习中两种重要的分类模型。它们在数学本质上是等价的，但由于推导方式不同，常被用于不同的场景。本文将详细介绍逻辑回归与最大熵模型的原理、公式以及它们之间的关系。  1. 逻辑回归1.1 什么是逻辑回归？逻辑回归（Logis">
+    <meta name="description" content="逻辑回归与最大熵模型逻辑回归和最大熵模型是机器学习中两种重要的分类模型。它们在数学本质上是等价的，但由于推导方式不同，常被用于不同的场景。本文将详细介绍逻辑回归与最大熵模型的原理、公式以及它们之间的关系。  1. 逻辑回归1.1 什么是逻辑回归？逻辑回归（Logistic Regression）是一种广泛应用的线性分类模型，尽管名字中带有“回归”，但它实际上是用于分类任务的。逻辑回归通过学习一个线">
 <meta property="og:type" content="article">
 <meta property="og:title" content="逻辑回归与最大熵模型">
 <meta property="og:url" content="http://neutrino.top/2025/05/08/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92%E4%B8%8E%E6%9C%80%E5%A4%A7%E7%86%B5%E6%A8%A1%E5%9E%8B/index.html">
 <meta property="og:site_name" content="Hello🐈">
-<meta property="og:description" content="title: 逻辑回归与最大熵模型date: 2025-05-08 17:17:05tags: 机器学习category: 机器学习逻辑回归与最大熵模型逻辑回归和最大熵模型是机器学习中两种重要的分类模型。它们在数学本质上是等价的，但由于推导方式不同，常被用于不同的场景。本文将详细介绍逻辑回归与最大熵模型的原理、公式以及它们之间的关系。  1. 逻辑回归1.1 什么是逻辑回归？逻辑回归（Logis">
+<meta property="og:description" content="逻辑回归与最大熵模型逻辑回归和最大熵模型是机器学习中两种重要的分类模型。它们在数学本质上是等价的，但由于推导方式不同，常被用于不同的场景。本文将详细介绍逻辑回归与最大熵模型的原理、公式以及它们之间的关系。  1. 逻辑回归1.1 什么是逻辑回归？逻辑回归（Logistic Regression）是一种广泛应用的线性分类模型，尽管名字中带有“回归”，但它实际上是用于分类任务的。逻辑回归通过学习一个线">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-05-08T09:17:05.000Z">
-<meta property="article:modified_time" content="2025-05-08T09:25:29.142Z">
+<meta property="article:modified_time" content="2025-05-08T09:27:08.364Z">
 <meta property="article:author" content="Neutrin1">
 <meta property="article:tag" content="机器学习">
 <meta name="twitter:card" content="summary_large_image">
@@ -234,7 +234,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.3k 字
+          1.2k 字
         
       </span>
     
@@ -295,8 +295,7 @@
             
               <div class="markdown-body">
                 
-                <hr>
-<h2 id="title-逻辑回归与最大熵模型date-2025-05-08-17-17-05tags-机器学习category-机器学习"><a href="#title-逻辑回归与最大熵模型date-2025-05-08-17-17-05tags-机器学习category-机器学习" class="headerlink" title="title: 逻辑回归与最大熵模型date: 2025-05-08 17:17:05tags: 机器学习category: 机器学习"></a>title: 逻辑回归与最大熵模型<br>date: 2025-05-08 17:17:05<br>tags: 机器学习<br>category: 机器学习</h2><h1 id="逻辑回归与最大熵模型"><a href="#逻辑回归与最大熵模型" class="headerlink" title="逻辑回归与最大熵模型"></a>逻辑回归与最大熵模型</h1><p>逻辑回归和最大熵模型是机器学习中两种重要的分类模型。它们在数学本质上是等价的，但由于推导方式不同，常被用于不同的场景。本文将详细介绍逻辑回归与最大熵模型的原理、公式以及它们之间的关系。</p>
+                <h1 id="逻辑回归与最大熵模型"><a href="#逻辑回归与最大熵模型" class="headerlink" title="逻辑回归与最大熵模型"></a>逻辑回归与最大熵模型</h1><p>逻辑回归和最大熵模型是机器学习中两种重要的分类模型。它们在数学本质上是等价的，但由于推导方式不同，常被用于不同的场景。本文将详细介绍逻辑回归与最大熵模型的原理、公式以及它们之间的关系。</p>
 <hr>
 <h2 id="1-逻辑回归"><a href="#1-逻辑回归" class="headerlink" title="1. 逻辑回归"></a>1. 逻辑回归</h2><h3 id="1-1-什么是逻辑回归？"><a href="#1-1-什么是逻辑回归？" class="headerlink" title="1.1 什么是逻辑回归？"></a>1.1 什么是逻辑回归？</h3><p>逻辑回归（Logistic Regression）是一种广泛应用的线性分类模型，尽管名字中带有“回归”，但它实际上是用于分类任务的。逻辑回归通过学习一个线性决策边界，预测样本属于某个类别的概率。</p>
 <p>逻辑回归的核心思想是将线性回归的输出通过<strong>Sigmoid函数</strong>映射到0到1之间，从而得到概率值。</p>
